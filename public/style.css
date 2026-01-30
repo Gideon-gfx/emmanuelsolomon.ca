@@ -386,8 +386,6 @@ html, body {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
     align-items: center;
-    max-height: 400px;
-    overflow: hidden;
 }
 img, 
 .image{
@@ -455,7 +453,7 @@ img,
 }
 img, .image2{
     width: 100%;
-    height: 400px;
+    height: 350px;
     object-fit: cover;
 }
 .text2{
@@ -468,7 +466,7 @@ img, .image2{
 }
 .text2 h2{
     font-family: 'Playfair Display', serif;
-    font-size: 35px;
+    font-size: 45px;
     font-weight: 100;
 }
 .text2 hr{
