@@ -944,3 +944,15 @@ html, body {
         justify-content: center;
     }
 }
+
+/* Footer Background Styling */
+body {
+    background-color: #1a1a1a;
+}
+
+.copyright,
+.location,
+.policies,
+.footer-social {
+    background-color: #1a1a1a;
+}
