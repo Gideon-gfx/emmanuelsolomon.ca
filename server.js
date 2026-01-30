@@ -1,19 +1,3 @@
-// Initiatives and dropdown item routes
-app.get('/initiatives', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'initiatives.html'));
-});
-
-app.get('/bikkurimstudios', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'bikkurimstudios.html'));
-});
-
-app.get('/bivo', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'bivo.html'));
-});
-
-app.get('/lagossistema', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'lagossistema.html'));
-});
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -22,9 +6,8 @@ const { log } = require('console');
 
 console.log('ENV CHECK'), process.env.PORT;
 
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // 1. Static Middleware: Tells Express to look in /public for CSS, Images, and JS
 app.use(express.static(path.join(__dirname, 'public')));
@@ -121,6 +104,14 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+});
+
+server.on('error', (err) => {
+    if (err && err.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use. Try stopping other servers or set PORT environment variable.`);
+        process.exit(1);
+    }
+    throw err;
 });

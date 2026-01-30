@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazing Grace - Score</title>
+    <link rel="stylesheet" href="../score.css">
+    <link rel="stylesheet" href="../cookie.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="body">
+        <nav class="nav-holder">
+            <div class="Owner"><a href="/" title="Home">Emmanuel O. Solomon</a></div>
+            <div class="middle-links" id="navLinks">
+                <a href="/">Home</a>
+            </div>
+            <div class="social-links">
+                <a title="facebook" rel="noopener" href="https://www.facebook.com/share/17pbyZngMH/" target="_blank">FB</a>
+                <a title="instagram" rel="noopener" href="https://www.instagram.com/emmanuelsolomontenore" target="_blank">IG</a>
+                <a title="youtube" rel="noopener" href="https://youtube.com/@emmanuelsolomonsings" target="_blank">YT</a>
+                <a title="linkedin" rel="noopener" href="https://www.linkedin.com/in/emmanuel-solomontenore" target="_blank">IN</a>
+            </div>
+            <form class="searchbar" action="#" method="get" style="margin-left:20px;">
+                <input type="text" placeholder="Search..." name="search">
+                <button type="submit">Go</button>
+            </form>
+        </nav>
+        <main style="max-width:900px;margin:auto;padding:30px 10px;">
+            <h1 class="bio">Amazing Grace</h1>
+            <div class="score-preview">
+                <img src="../images/IMG_3093.PNG" alt="Amazing Grace Score" style="max-width:300px;width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            </div>
+            <audio controls style="margin:20px 0;width:100%;max-width:400px;">
+                <source src="../audio/amazing-grace.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="lyrics" style="margin:20px 0;">
+                <h3>Lyrics</h3>
+                <pre style="background:#f8f8f8;padding:10px;border-radius:6px;">Amazing grace! (how sweet the sound)
+That saved a wretch like me!
+I once was lost, but now am found,
+Was blind, but now I see.</pre>
+            </div>
+            <form id="addToCartForm" style="margin:30px 0;max-width:350px;">
+                <label for="quantity">Quantity (min 25):</label>
+                <input type="number" id="quantity" name="quantity" min="25" value="25" style="width:80px;margin-left:10px;">
+                <span style="margin-left:10px;">$3.10 CAD per copy</span>
+                <button type="submit" style="margin-left:20px;" class="btn btn-primary">Add to Cart</button>
+            </form>
+        </main>
+        <div class="red4">
+            <div class="copyright">&copy; 2026 Emmanuel O. Solomon. All rights reserved.</div>
+            <div class="location">Ottawa, Canada & Lagos, Nigeria</div>
+        </div>
+    </div>
+    <script src="../index.js"></script>
+    <script>
+    document.getElementById('addToCartForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const qty = Math.max(25, parseInt(document.getElementById('quantity').value, 10));
+        // Add to cart logic (to be implemented)
+        alert('Added ' + qty + ' copies of Amazing Grace to cart.');
+        // Redirect or update cart UI as needed
+    });
+    </script>
+</body>
+</html>
