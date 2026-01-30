@@ -351,7 +351,9 @@ html, body {
     font-size: 14px;
     align-items: flex-start;
     height: fit-content;
-    transform: translateY(50px);
+    transform: translateY(40px);
+    margin-left: auto;
+    margin-right: 0;
 }
 .but{
     background-color: linear-gradient(to bottom, rgb(200, 7, 7), rgb(150, 5, 5), rgb(100, 3, 3));
