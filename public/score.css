@@ -604,41 +604,72 @@ html, body {
     }
 }
 
-/* Very Large Screens */
+/* Very Large Screens - keep desktop-like design */
 @media only screen and (min-width: 1400px) {
+    html, body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     .body {
         max-width: 1400px;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
     }
     .nav-holder {
-        margin-left: 80px;
-        margin-right: 80px;
-        width: calc(100% - 160px);
-    }
-    .topic {
-        font-size: 52px;
-    }
-    .subtopic {
-        font-size: 30px;
+        max-width: 1400px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 50px;
+        padding-right: 50px;
+        box-sizing: border-box;
     }
     .page-holder {
-        padding: 30px 80px;
-        margin: 40px 0;
+        padding: 30px 50px;
+        margin: 40px auto;
+        max-width: 1400px;
     }
     .page-holder p {
-        font-size: 18px;
+        font-size: 17px;
+    }
+    .topic {
+        font-size: 48px;
+    }
+    .subtopic {
+        font-size: 26px;
     }
     .books {
         gap: 30px;
+        justify-content: center;
     }
     .books img {
-        max-width: 350px;
+        max-width: 320px;
     }
     .red4 {
-        padding: 45px 80px;
+        width: 100%;
+        max-width: none;
+        padding: 45px 60px;
     }
-    .searchbar input {
-        max-width: 500px;
+    .middle-links3 {
+        max-width: 1400px;
+        margin: 0 auto 20px auto;
+    }
+}
+
+/* Ultra Wide Screens (1800px+) - same as desktop */
+@media only screen and (min-width: 1800px) {
+    .body {
+        max-width: 1400px;
+    }
+    .nav-holder {
+        max-width: 1400px;
+    }
+    .page-holder {
+        max-width: 1400px;
+    }
+    .middle-links3 {
+        max-width: 1400px;
     }
 }
