@@ -35,7 +35,7 @@ html, body {
     .combo {
         display: grid !important;
         grid-template-columns: 1fr !important;
-        min-height: auto;
+
         max-height: none;
         gap: 10px;
         overflow: visible;
@@ -43,7 +43,7 @@ html, body {
     .combo2 {
         display: grid !important;
         grid-template-columns: 1fr !important;
-        min-height: auto;
+
         max-height: none;
         gap: 10px;
     }
@@ -61,7 +61,7 @@ html, body {
     }
     .text, .text2 {
         padding: 20px;
-        min-height: auto;
+
         justify-content: flex-start;
     }
     .red2, .red3 {
@@ -93,7 +93,7 @@ html, body {
     }
     .combo, .combo2 {
         gap: 15px;
-        min-height: auto;
+
         max-height: none;
         grid-template-columns: 1fr;
     }
@@ -383,38 +383,49 @@ html, body {
     font-weight: 100;
     font-size: 15px;
 }
-.combo{
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 40px;
+/* Default: stack for large screens */
+.combo, .combo2 {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-}
-.image{
+    gap: 30px;
     width: 100%;
+    box-sizing: border-box;
+}
+/* Image styling for stacked layout */
+.image, .image2 {
+    width: 100%;
+    max-width: 700px;
     height: 350px;
     overflow: hidden;
-    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
 }
-.image img{
+.image img, .image2 img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    max-width: 100%;
+    display: block;
+    border-radius: 10px;
 }
-.text{
+/* Text styling for stacked layout */
+.text, .text2 {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 40px;
+    padding: 40px 20px 30px 20px;
+    max-width: 700px;
+    margin: 0 auto;
 }
-.text h2{
+.text h2, .text2 h2 {
     font-family: 'Playfair Display', serif;
     font-size: 45px;
     font-weight: 100;
 }
-.text hr{
+.text hr, .text2 hr {
     width: 100px;
     height: 2px;
     display: inline-block;
@@ -422,13 +433,13 @@ html, body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.text p{
+.text p, .text2 p {
     font-family: 'Playfair Display', serif;
     font-size: 16px;
     font-weight: 100;
     margin-top: 20px;
 }
-.text button{
+.text button, .text2 button {
     background: rgb(200, 7, 7);
     color: #fff;
     border: 1px solid rgb(31, 31, 31);
@@ -437,8 +448,9 @@ html, body {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 20px;
 }
-.text button:hover{
+.text button:hover, .text2 button:hover {
     background-color: rgb(150, 5, 5);
     color: #fff;
     text-decoration: underline;
@@ -981,11 +993,23 @@ html, body {
     .text p, .text2 p {
         font-size: 14px;
     }
-    .red, .red2, .red3, .red4 {
-        padding: 20px 15px;
-        font-size: 13px;
-        line-height: 1.6;
-        margin-top: 0;
+    .red, .red2, .red3 {
+        width: 100%;
+        background: rgb(200, 7, 7);
+        border-radius: 18px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+        margin: 60px 0 60px 0;
+        padding: 50px 0 50px 0;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        min-height: 0;
+    }
+    .red .combo, .red3 .combo, .red2 .combo2 {
+        background: transparent;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
     }
     .middle-links2 {
         flex-direction: column;
@@ -1061,9 +1085,10 @@ html, body {
     .text2 h2 {
         font-size: 24px;
     }
-    .red, .red2, .red3, .red4 {
+    .red, .red2, .red3 {
         padding: 25px 20px;
         margin-top: 0;
+        border-radius: 14px;
     }
     .searchbar input[type="text"] {
         width: 350px;
@@ -1131,9 +1156,10 @@ html, body {
     .text p, .text2 p {
         font-size: 18px;
     }
-    .red, .red2, .red3, .red4 {
-        padding: 45px 60px;
+    .red, .red2, .red3 {
+        padding: 70px 0 70px 0;
         font-size: 17px;
+        border-radius: 24px;
     }
     .searchbar input[type="text"] {
         width: 700px;
