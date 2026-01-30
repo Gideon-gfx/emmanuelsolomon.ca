@@ -1156,3 +1156,27 @@ html, body {
         max-height: 600px;
     }
 }
+
+/* Alternate image left, right, left for combo sections on large screens */
+@media only screen and (min-width: 769px) {
+  .combo.left, .combo.restack.left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+  }
+  .combo2.right, .combo2.restack.right {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 40px;
+  }
+}
+
+/* Mobile: stack vertically */
+@media only screen and (max-width: 768px) {
+  .combo.left, .combo2.right, .combo.restack.left, .combo2.restack.right {
+    flex-direction: column !important;
+    gap: 20px;
+  }
+}
