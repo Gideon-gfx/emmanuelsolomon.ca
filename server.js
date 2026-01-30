@@ -4,15 +4,15 @@ app.get('/initiatives', (req, res) => {
 });
 
 app.get('/bikkurimstudios', (req, res) => {
-    res.send('<!DOCTYPE html><html><head><title>Bikkurimstudios</title></head><body><h1>Bikkurimstudios</h1><p>Coming soon: Details about Bikkurimstudios.</p></body></html>');
+    res.sendFile(path.join(__dirname, 'public', 'bikkurimstudios.html'));
 });
 
 app.get('/bivo', (req, res) => {
-    res.send('<!DOCTYPE html><html><head><title>BiVo</title></head><body><h1>BiVo</h1><p>Coming soon: Details about BiVo.</p></body></html>');
+    res.sendFile(path.join(__dirname, 'public', 'bivo.html'));
 });
 
 app.get('/lagossistema', (req, res) => {
-    res.send('<!DOCTYPE html><html><head><title>Lagossistema</title></head><body><h1>Lagossistema</h1><p>Coming soon: Details about Lagossistema.</p></body></html>');
+    res.sendFile(path.join(__dirname, 'public', 'lagossistema.html'));
 });
 require('dotenv').config();
 const express = require('express');
