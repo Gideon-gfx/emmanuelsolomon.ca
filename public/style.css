@@ -993,21 +993,6 @@ html, body {
     .text p, .text2 p {
         font-size: 14px;
     }
-    .red, .red2, .red3 {
-        width: 100%;
-        background: rgb(200, 7, 7);
-        border-radius: 18px;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-        margin: 0 0 60px 0;
-        padding: 50px 0 50px 0;
-        display: flex;
-        justify-content: center;
-        align-items: stretch;
-        min-height: 0;
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
-    }
     .middle-links2 {
         flex-direction: column;
         gap: 10px;
@@ -1082,11 +1067,6 @@ html, body {
     .text2 h2 {
         font-size: 24px;
     }
-    .red, .red2, .red3 {
-        padding: 25px 20px;
-        margin-top: 0;
-        border-radius: 14px;
-    }
     .searchbar input[type="text"] {
         width: 350px;
     }
@@ -1152,11 +1132,6 @@ html, body {
     }
     .text p, .text2 p {
         font-size: 18px;
-    }
-    .red, .red2, .red3 {
-        padding: 70px 0 70px 0;
-        font-size: 17px;
-        border-radius: 24px;
     }
     .searchbar input[type="text"] {
         width: 700px;
