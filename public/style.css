@@ -353,7 +353,9 @@ html, body {
     align-items: flex-start;
     height: fit-content;
     margin-top: 40px;
-    justify-self: end;
+    position: relative;
+    top: 40px;
+    float: right;
 }
 .but{
     background-color: linear-gradient(to bottom, rgb(200, 7, 7), rgb(150, 5, 5), rgb(100, 3, 3));
@@ -1095,8 +1097,12 @@ img, .image2{
         margin-right: 80px;
     }
     .inline {
-        padding: 60px 80px;
+        padding: 60px 20px 60px 80px;
         gap: 60px;
+    }
+    .se {
+        margin-top: 40px;
+        top: 40px;
     }
     .combo, .combo2 {
         gap: 60px;
