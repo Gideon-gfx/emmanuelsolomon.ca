@@ -200,14 +200,14 @@ html, body {
 
 .hamburger span {
     display: block;
-    width: 15px;
-    height: 1px;
-    background-color: #fff;
+    width: 25px;
+    height: 2px;
+    background-color: #000;
     margin: 5px 0;
-    transition: all 0.3s ease-in-out; /* Smooth animation */
+    transition: all 0.3s ease-in-out;
 }
 .hamburger span:hover{
-  background-color:  rgb(200, 7, 7);
+  background-color: rgb(200, 7, 7);
 }
   .middle-links3 {
     display: flex;
@@ -576,6 +576,7 @@ html, body {
     .middle-links3 {
       flex-direction: column;
       align-items: center;
+      gap: 10px;
     }
     .dropdown-item a{
       color: #000;

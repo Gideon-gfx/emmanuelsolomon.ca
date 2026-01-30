@@ -800,6 +800,7 @@ img, .image2{
     .middle-links3 {
         flex-direction: column;
         align-items: center;
+        gap: 10px;
     }
     .middle-links a {
         color: #000;
