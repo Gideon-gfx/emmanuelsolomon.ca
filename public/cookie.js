@@ -5,7 +5,7 @@ const CookieManager = {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         const expires = "expires=" + date.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
+        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Strict;Secure";
     },
 
     // Get a cookie value
@@ -28,7 +28,8 @@ const CookieManager = {
 
     // Check if cookies are accepted
     hasConsent: function() {
-        return this.get('cookieConsent') === 'accepted';
+        const consent = this.get('cookieConsent');
+        return consent === 'accepted' || consent === 'declined';
     },
 
     // Accept cookies
@@ -68,7 +69,8 @@ const CookieManager = {
     // Initialize cookie consent
     init: function() {
         const consent = this.get('cookieConsent');
-        if (!consent) {
+        // Only show banner if no consent decision has been made
+        if (consent !== 'accepted' && consent !== 'declined') {
             // Wait for DOM to be ready
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', () => this.showBanner());
