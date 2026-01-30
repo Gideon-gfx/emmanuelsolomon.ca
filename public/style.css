@@ -1180,3 +1180,17 @@ html, body {
     gap: 20px;
   }
 }
+
+.red-demarcation {
+  width: 100vw;
+  height: 30px;
+  background: rgb(200, 7, 7);
+  margin: 40px 0;
+  border: none;
+  display: block;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
