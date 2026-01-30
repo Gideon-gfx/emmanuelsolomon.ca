@@ -197,7 +197,10 @@ html, body {
 
 /* --- HAMBURGER STYLING --- */
 .hamburger {
-    display: none;   
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;   
 }
 
 .hamburger span {
