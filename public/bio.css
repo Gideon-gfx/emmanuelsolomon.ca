@@ -946,3 +946,96 @@ html, body {
         justify-content: center;
     }
 }
+
+/* Phone screens */
+@media only screen and (max-width: 480px) {
+    .body {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .nav-holder {
+        margin-left: 10px;
+        margin-right: 10px;
+        width: calc(100% - 20px);
+    }
+    .bio {
+        font-size: 28px;
+        margin-left: 10px;
+    }
+    .ptext {
+        font-size: 13px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .first-text p {
+        width: auto;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .page-holder {
+        margin: 10px 5px;
+        padding: 10px;
+    }
+    .red4 {
+        margin-left: -10px;
+        width: calc(100% + 10px);
+        padding: 20px 15px;
+    }
+    .red4 .searchbar input[type="text"] {
+        width: 180px;
+    }
+    .red4 .middle-links3 {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .red4 .middle-links3 a {
+        font-size: 14px;
+    }
+    .red4 .copyright, .red4 .location {
+        font-size: 12px;
+    }
+}
+
+/* Very Large Screens */
+@media only screen and (min-width: 1400px) {
+    .body {
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .nav-holder {
+        margin-left: 80px;
+        margin-right: 80px;
+        width: calc(100% - 160px);
+    }
+    .bio {
+        font-size: 56px;
+        margin-left: 80px;
+    }
+    .ptext {
+        font-size: 18px;
+    }
+    .first-text p {
+        font-size: 17px;
+        width: 800px;
+        margin-left: 80px;
+    }
+    .with {
+        gap: 60px;
+    }
+    .image-section img {
+        max-width: 450px;
+    }
+    .page-holder {
+        margin: 40px 80px;
+        padding: 30px;
+    }
+    .red4 {
+        margin-left: -80px;
+        width: calc(100% + 80px);
+        padding: 45px 80px;
+    }
+    .red4 .searchbar input[type="text"] {
+        width: 700px;
+    }
+}

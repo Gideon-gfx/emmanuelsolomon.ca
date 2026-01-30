@@ -908,21 +908,37 @@ img, .image2{
         height: 50vh;
         min-height: 300px;
     }
+    .nav-holder {
+        margin-left: 15px;
+        margin-right: 15px;
+        padding-bottom: 10px;
+    }
     .Owner {
         font-size: 14px;
     }
     .work {
         font-size: 11px;
     }
+    .inline {
+        grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 15px;
+    }
+    .se {
+        transform: translateY(0);
+        padding: 15px;
+    }
     .combo, .combo2 {
+        display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 0;
         max-height: none;
         overflow: visible;
     }
     .combo .text, .combo2 .text2 {
         order: 1;
         margin-bottom: 0;
+        padding: 20px 15px;
     }
     .combo .image, .combo2 .image2 {
         order: 2;
@@ -942,13 +958,185 @@ img, .image2{
         padding: 15px;
         margin-bottom: 0;
     }
-    .text h2, .text2 h2 {
+    .text h2 {
+        font-size: 22px;
+    }
+    .text2 h2 {
         font-size: 20px;
     }
-    .red, .red2, .red3 {
-        padding: 15px;
-        font-size: 12px;
-        line-height: 1.5;
+    .text p, .text2 p {
+        font-size: 14px;
+    }
+    .red, .red2, .red3, .red4 {
+        padding: 20px 15px;
+        font-size: 13px;
+        line-height: 1.6;
         margin-top: 0;
+    }
+    .middle-links2 {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .middle-links2 a {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+    .middle-links3 {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .middle-links3 a {
+        font-size: 14px;
+    }
+    .copyright {
+        font-size: 14px;
+    }
+    .location {
+        font-size: 14px;
+    }
+    .policies {
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12px;
+    }
+    .searchbar input[type="text"] {
+        width: 200px;
+        font-size: 14px;
+    }
+    .footer-social a svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* iPad / Tablet Portrait */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .nav-holder {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .inline {
+        grid-template-columns: 1fr;
+        padding: 25px;
+        gap: 20px;
+    }
+    .se {
+        transform: translateY(20px);
+    }
+    .combo, .combo2 {
+        display: flex;
+        flex-direction: column;
+        max-height: none;
+        overflow: visible;
+        gap: 0;
+    }
+    .combo .text, .combo2 .text2 {
+        order: 1;
+        padding: 25px 20px;
+    }
+    .combo .image, .combo2 .image2 {
+        order: 2;
+    }
+    .combo img, .combo2 img {
+        max-height: 350px;
+        object-fit: cover;
+    }
+    .text h2 {
+        font-size: 28px;
+    }
+    .text2 h2 {
+        font-size: 24px;
+    }
+    .red, .red2, .red3, .red4 {
+        padding: 25px 20px;
+        margin-top: 0;
+    }
+    .searchbar input[type="text"] {
+        width: 350px;
+    }
+}
+
+/* iPad Landscape / Small Laptops */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .nav-holder {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    .inline {
+        padding: 35px;
+    }
+    .combo, .combo2 {
+        gap: 25px;
+    }
+    .text, .text2 {
+        padding: 30px;
+    }
+    .text h2 {
+        font-size: 36px;
+    }
+    .text2 h2 {
+        font-size: 28px;
+    }
+}
+
+/* Very Large Screens (1400px+) */
+@media only screen and (min-width: 1400px) {
+    .body {
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .bg-image {
+        height: 85vh;
+    }
+    .nav-holder {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .inline {
+        padding: 60px 80px;
+        gap: 60px;
+    }
+    .combo, .combo2 {
+        gap: 60px;
+        max-height: 500px;
+    }
+    .text, .text2 {
+        padding: 50px;
+    }
+    .text h2 {
+        font-size: 52px;
+    }
+    .text2 h2 {
+        font-size: 40px;
+    }
+    .text p, .text2 p {
+        font-size: 18px;
+    }
+    .red, .red2, .red3, .red4 {
+        padding: 45px 60px;
+        font-size: 17px;
+    }
+    .searchbar input[type="text"] {
+        width: 700px;
+    }
+}
+
+/* Ultra Wide Screens (1800px+) */
+@media only screen and (min-width: 1800px) {
+    .body {
+        max-width: 1600px;
+    }
+    .bg-image {
+        height: 90vh;
+    }
+    .text h2 {
+        font-size: 60px;
+    }
+    .text2 h2 {
+        font-size: 48px;
+    }
+    .combo, .combo2 {
+        max-height: 600px;
     }
 }

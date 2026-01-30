@@ -528,4 +528,83 @@ html, body {
       font-size: 12px;
     }
   }
-  
+
+/* Phone screens */
+@media only screen and (max-width: 480px) {
+    .body {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .nav-holder {
+        margin-left: 10px;
+        margin-right: 10px;
+        width: calc(100% - 20px);
+    }
+    .topic {
+        font-size: 24px;
+    }
+    .subtopic {
+        font-size: 16px;
+    }
+    .page-holder {
+        padding: 10px;
+        margin: 10px 5px;
+    }
+    .page-holder p {
+        font-size: 13px;
+    }
+    .books img {
+        max-width: 200px;
+    }
+    .red4 {
+        padding: 15px 10px;
+    }
+    .red4 .middle-links3 {
+        gap: 8px;
+    }
+    .red4 .middle-links3 a {
+        font-size: 13px;
+    }
+    .searchbar input {
+        max-width: 150px;
+    }
+}
+
+/* Very Large Screens */
+@media only screen and (min-width: 1400px) {
+    .body {
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .nav-holder {
+        margin-left: 80px;
+        margin-right: 80px;
+        width: calc(100% - 160px);
+    }
+    .topic {
+        font-size: 52px;
+    }
+    .subtopic {
+        font-size: 30px;
+    }
+    .page-holder {
+        padding: 30px 80px;
+        margin: 40px 0;
+    }
+    .page-holder p {
+        font-size: 18px;
+    }
+    .books {
+        gap: 30px;
+    }
+    .books img {
+        max-width: 350px;
+    }
+    .red4 {
+        padding: 45px 80px;
+    }
+    .searchbar input {
+        max-width: 500px;
+    }
+}
