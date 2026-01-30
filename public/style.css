@@ -382,8 +382,8 @@ html, body {
     font-size: 15px;
 }
 .combo1{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
     gap: 40px;
     align-items: center;
 }
