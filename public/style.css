@@ -33,14 +33,16 @@ html, body {
         display: none;
     }
     .combo {
-        grid-template-columns: 1fr;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
         min-height: auto;
         max-height: none;
         gap: 10px;
         overflow: visible;
     }
     .combo2 {
-        grid-template-columns: 1fr;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
         min-height: auto;
         max-height: none;
         gap: 10px;
@@ -382,8 +384,8 @@ html, body {
     font-size: 15px;
 }
 .combo{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
     gap: 40px;
     align-items: center;
 }
