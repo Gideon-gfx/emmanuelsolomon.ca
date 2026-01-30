@@ -280,6 +280,8 @@ html, body {
     font-size: 15px;
     font-family: 'Playfair Display', serif;
     font-weight: 100;
+    margin-left: -50px;
+    width: calc(100% + 50px);
 }
 
 .red4 .copyright {
@@ -943,16 +945,4 @@ html, body {
         width: 100%;
         justify-content: center;
     }
-}
-
-/* Footer Background Styling */
-body {
-    background-color: #1a1a1a;
-}
-
-.copyright,
-.location,
-.policies,
-.footer-social {
-    background-color: #1a1a1a;
 }
