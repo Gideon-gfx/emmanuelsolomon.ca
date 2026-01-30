@@ -27,6 +27,10 @@ app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'contact.html'));
 });
 
+app.get('/gallery', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'gallery.html'));
+});
+
 // Use path.resolve to handle the spaces in "Emmanuel's website" better
 const publicPath = path.resolve(__dirname, 'public');
 
