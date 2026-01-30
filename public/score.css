@@ -348,6 +348,15 @@ html, body {
     margin-left: 15px;
     margin-right: 15px;
   }
+  .nav-holder {
+    padding: 10px 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  .nav-holder .Owner {
+    flex-shrink: 0;
+    margin-right: 40px;
+  }
   .page-holder{
     margin: 15px 5px;
     padding: 10px;
@@ -361,6 +370,15 @@ html, body {
   }
   .books{
     gap: 15px;
+  }
+  .social-links a:nth-child(4) {
+    display: none;
+  }
+  .social-links2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }
 
