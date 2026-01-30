@@ -998,18 +998,15 @@ html, body {
         background: rgb(200, 7, 7);
         border-radius: 18px;
         box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-        margin: 60px 0 60px 0;
+        margin: 0 0 60px 0;
         padding: 50px 0 50px 0;
         display: flex;
         justify-content: center;
         align-items: stretch;
         min-height: 0;
-    }
-    .red .combo, .red3 .combo, .red2 .combo2 {
-        background: transparent;
-        width: 100%;
         max-width: 900px;
-        margin: 0 auto;
+        margin-left: auto;
+        margin-right: auto;
     }
     .middle-links2 {
         flex-direction: column;
