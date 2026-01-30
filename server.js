@@ -48,6 +48,13 @@ app.get('/testimonial', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'testimonial.html'));
 });
 
+app.get('/testimonials', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'testimonial.html'));
+});
+
+app.get('/research', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'research.html'));
+});
 
 app.get('/collaborate', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'collaborate.html'));
@@ -60,6 +67,14 @@ app.get('/recordings', (req, res) => {
 
 app.get('/mailing', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'mailing.html'));
+});
+
+app.get('/terms', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
+app.get('/privacy', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
 });
 
 // 3. Helper function to check if a file exists before sending
@@ -83,7 +98,7 @@ app.get('*', (req, res) => {
     if (!tryPath.endsWith('.html') && sendIfExists(res, tryPath + '.html')) return;
     
     // If nothing else works, go to home instead of an error page
-    res.sendFile(path.join(__dirname, 'public', 'home.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 /* 1. Prevent the whole page from leaking out */
 html, body {
+    width: 100%;
     max-width: 100%;
     overflow-x: hidden;
 }
@@ -15,13 +16,15 @@ html, body {
 .nav-holder{
     display: flex;
     margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
     gap: 5px;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
     top: 0;
     left: 0;
-    width: 100%;
+    width: calc(100% - 100px);
     background-color: transparent;
     z-index: 100;
     transition: background-color 0.3s ease;
@@ -92,7 +95,10 @@ html, body {
     text-decoration: underline;
     background: none;
 }
-
+.social-links {
+    display: flex;
+    align-items: center;
+}
 .social-links a{
     margin-left: 15px;
     margin-right: 15px;
@@ -112,6 +118,45 @@ html, body {
     font-size: 40px;
     font-weight: 100;
     color: rgb(200, 7, 7);
+}
+
+/* --- CONTACT PAGE INTRO TEXT --- */
+.uptext {
+    max-width: 800px;
+    margin: 40px auto 20px;
+    padding: 20px 40px;
+    font-family: "Playfair Display", serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #555;
+    text-align: center;
+    background: rgba(200, 7, 7, 0.05);
+    border-left: 4px solid rgb(200, 7, 7);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* --- CONTACT HEADER SECTION --- */
+.text {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 400;
+    color: rgb(200, 7, 7);
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.text p {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: #666;
+    font-weight: 300;
+    line-height: 1.6;
 }
 .b-head{
     margin-top: 60px;
@@ -172,7 +217,8 @@ html, body {
     height: 100%;
     display: flex;
     gap: 60px;
-    margin-left: 300px;
+    margin-left: 0;
+    justify-content: center;
   }
   .middle-links3 a{
     color: #fff;
@@ -211,12 +257,13 @@ html, body {
 
 /* --- FORM STYLING --- */
 .contact-container {
-    max-width: 600px;
-    margin: 100px auto;
-    padding: 40px;
-    /* background: rgba(255, 255, 255, 0.03); Subtle backdrop */
-    border-radius: 8px;
-    /* backdrop-filter: blur(5px); */
+    max-width: 700px;
+    margin: 80px auto;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(200, 7, 7, 0.1);
 }
 
 .input-group {
@@ -232,27 +279,40 @@ html, body {
 
 .input-group input, .input-group textarea, .input-group select {
     width: 100%;
-    padding: 15px;
+    padding: 15px 15px 15px 0;
     border: none;
-    border-bottom: 2px solid #ccc; /* Clean underline style */
+    border-bottom: 2px solid #ddd;
     background: transparent;
-    color: #000; /* Assuming a dark background, change to #000 if white */
+    color: #333;
     font-family: 'Playfair Display', serif;
+    font-size: 16px;
     transition: all 0.4s ease;
 }
 
-.input-group input:focus, .input-group textarea:focus {
+.input-group select {
+    padding: 15px 0;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 5px center;
+}
+
+.input-group input:focus, .input-group textarea:focus, .input-group select:focus {
     border-bottom-color: rgb(200, 7, 7);
     outline: none;
+    background: rgba(200, 7, 7, 0.02);
 }
 
 .input-group label {
     position: absolute;
-    left: 15px;
+    left: 0;
     top: 15px;
     color: #999;
+    font-size: 16px;
     transition: 0.3s ease-all;
     pointer-events: none;
+    font-weight: 300;
 }
 
 /* Label Animation */
@@ -272,18 +332,28 @@ html, body {
     overflow: hidden;
     background: rgb(200, 7, 7);
     color: white;
-    padding: 15px 30px;
+    padding: 16px 40px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-family: 'Playfair Display', serif;
     font-size: 18px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .submit-btn:hover {
+    background: rgb(150, 5, 5);
     letter-spacing: 2px;
-    box-shadow: 0 5px 15px rgba(200, 7, 7, 0.4);
+    box-shadow: 0 6px 20px rgba(200, 7, 7, 0.5);
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(200, 7, 7, 0.4);
 }
 
 /* Button Loading Spinner */
@@ -302,7 +372,46 @@ html, body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* --- FORM SUCCESS/ERROR MESSAGES --- */
+.form-status {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    text-align: center;
+    display: none;
+}
+
+.form-status.success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    display: block;
+}
+
+.form-status.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    display: block;
+}
   
+@media only screen and (max-width: 768px) {
+    .body {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    .contact-form {
+        max-width: 100%;
+        padding: 15px;
+    }
+    .contact-form input, .contact-form textarea {
+        font-size: 14px;
+    }
+}
+
 @media only screen and (max-width: 996px) {
 
   body{
@@ -324,8 +433,7 @@ html, body {
 
     .hamburger { 
       display: block;
-      margin-left: 300px;
-      top: 0;
+      position: relative;
       padding: 0;
       margin-top: 25px;
       width: 30px;
@@ -363,13 +471,15 @@ html, body {
         top: 70px;
         left: 0;
         width: 100%;
-        height: 50vh;
+        height: auto;
         color: #000;
         line-break: strict;
         background: #fff;
         flex-direction: column;
-        text-align: end;
+        align-items: center;
+        text-align: center;
         padding: 20px 0;
+        z-index: 999;
     }
     .middle-links a{
       text-decoration: none;
@@ -378,6 +488,25 @@ html, body {
       font-size: 20px;
     }
     .middle-links.active { display: flex; }
+    .middle-links .dropdown-menu,
+    .middle-links3 .dropdown-menu {
+        position: static;
+        float: none;
+        transform: none;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        margin: 5px 0 0;
+        padding: 0;
+    }
+    .middle-links .dropdown-menu.show,
+    .middle-links3 .dropdown-menu.show {
+        display: block;
+    }
+    .middle-links3 {
+        flex-direction: column;
+        align-items: center;
+    }
     .dropdown-item a{
       color: #000;
     }
@@ -411,7 +540,11 @@ html, body {
 }
 
 
-    .social-links svg{ display: none;}
+    .social-links{ display: flex; justify-content: center; flex-wrap: wrap; }
+    .social-links a{ margin-left: 3px; margin-right: 3px; }
+    .social-links svg{ display: inline-flex; width: 16px; height: 16px; }
+    .social-links2{ display: flex; justify-content: center; flex-wrap: wrap; }
+    .social-links2 a{ margin-left: 5px; margin-right: 5px; }
     .social-links2 svg{ display: inline-flex;
       top: 0;
       padding: 0;
@@ -497,7 +630,9 @@ html, body {
     }
     .middle-links3{
       display: block;
-      width: 100px
+      width: 100%;
+      margin-left: 0;
+      text-align: center;
     }
     .middle-links3 .dropdown-menu .dropdown-item a{
       color: #000;
@@ -547,9 +682,29 @@ html, body {
         display: block;
         margin-top: 30px;
     }
+    .text h2 {
+        font-size: 36px;
+    }
+    .text p {
+        font-size: 15px;
+        padding: 0 20px;
+    }
     .uptext{
         font-family: "Playfair Display", serif;
-        margin-left: 30px;
-        padding: 30px;
-        }
+        margin: 20px 15px;
+        padding: 20px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .contact-container {
+        margin: 40px 20px;
+        padding: 30px 25px;
+    }
+    .input-group {
+        margin-bottom: 25px;
+    }
+    .submit-btn {
+        padding: 14px 30px;
+        font-size: 16px;
+    }
 }
