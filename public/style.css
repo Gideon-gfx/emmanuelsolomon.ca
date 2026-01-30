@@ -381,7 +381,7 @@ html, body {
 }
 .combo{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;  /* two equal columns */
     gap: 40px;
     align-items: center;
     max-height: 400px;
