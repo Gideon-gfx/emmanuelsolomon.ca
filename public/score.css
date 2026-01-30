@@ -455,7 +455,16 @@ html, body {
     .middle-links3 {
       flex-direction: column;
       align-items: center;
-      gap: 15px;
+      gap: 10px;
+      width: 100%;
+      text-align: center;
+    }
+    .middle-links3 hr {
+      display: none;
+    }
+    .middle-links3 .nav-item {
+      width: 100%;
+      text-align: center;
     }
     .dropdown-item a{
       color: #000;
@@ -591,13 +600,39 @@ html, body {
         max-width: 200px;
     }
     .red4 {
-        padding: 15px 10px;
+        padding: 20px 15px;
     }
     .red4 .middle-links3 {
+        flex-direction: column;
+        align-items: center;
         gap: 8px;
+        width: 100%;
     }
     .red4 .middle-links3 a {
-        font-size: 13px;
+        font-size: 14px;
+        display: block;
+        padding: 5px 0;
+    }
+    .red4 .middle-links3 hr {
+        display: none;
+    }
+    .red4 .copyright {
+        font-size: 12px;
+        margin-top: 15px;
+    }
+    .red4 .location {
+        font-size: 11px;
+    }
+    .red4 .policies {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .red4 .policies hr {
+        display: none;
+    }
+    .red4 .footer-social {
+        gap: 12px;
+        margin-top: 15px;
     }
     .searchbar input {
         max-width: 150px;
