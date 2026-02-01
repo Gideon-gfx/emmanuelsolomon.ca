@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Upload New Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body { padding: 50px; background-color: #f8f9fa; }
+        .container { max-width: 800px; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .form-label { font-weight: bold; }
+        .preview-image { max-width: 200px; margin-top: 10px; display: none; border: 1px solid #ddd; }
+        /* Hide main content initially */
+        #adminContent { display: none; }
+        #loginOverlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.85); z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .login-box {
+            background: white; padding: 40px; border-radius: 10px;
+            width: 100%; max-width: 400px; text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Overlay -->
+<div id="loginOverlay">
+    <div class="login-box">
+        <h3 class="mb-4">Admin Login</h3>
+        <p class="text-muted mb-3">Please enter the admin password</p>
+        <div class="mb-3">
+            <input type="password" id="loginPassword" class="form-control" placeholder="Password" onkeyup="if(event.key==='Enter') attemptLogin()">
+        </div>
+        <button class="btn btn-primary w-100" onclick="attemptLogin()">Login</button>
+        <p id="loginError" class="text-danger mt-3" style="display:none;">Incorrect Password</p>
+    </div>
+</div>
+
+<div class="container" id="adminContent">
+    <h2 class="mb-4 text-center">Website Admin Dashboard</h2>
+    
+    <div class="mb-4 p-3 bg-light border rounded text-center d-none">
+        <label for="adminAuth" class="form-label text-danger fw-bold">Session Password *</label>
+        <input type="password" class="form-control d-inline-block w-50" id="adminAuth" placeholder="Enter Admin Password">
+    </div>
+
+    <div id="alertBox" class="alert d-none"></div>
+
+    <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+             <button class="nav-link active" id="scores-tab" data-bs-toggle="tab" data-bs-target="#scores" type="button" role="tab">New Score/Product</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="content-tab" data-bs-toggle="tab" data-bs-target="#content" type="button" role="tab">Edit Text Content</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab">Update Gallery</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab" onclick="loadSalesData()">Sales & Subscribers</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="adminTabsContent">
+        
+        <!-- Tab 4: Sales & Subscribers -->
+        <div class="tab-pane fade" id="sales" role="tabpanel">
+            <h4 class="mb-3">Recent Sales/Downloads</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="salesTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Item/File</th>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="5" class="text-center">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="mt-5 mb-3">Subscribers</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="subscribersTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Interests</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="4" class="text-center">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab 1: Scores -->
+        <div class="tab-pane fade show active" id="scores" role="tabpanel">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="product">
+                
+                <h4 class="mb-3">Upload New Score</h4>
+                <!-- Meta Data -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title *</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Amazing Grace">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price (£) *</label>
+                            <input type="number" step="0.01" class="form-control" id="price" name="price" value="3.10">
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="lyrics" class="form-label">Lyrics (Optional)</label>
+                    <textarea class="form-control" id="lyrics" name="lyrics" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="youtube" class="form-label">YouTube Embed Link (Optional)</label>
+                    <input type="url" class="form-control" id="youtube" name="youtube">
+                </div>
+                <hr>
+                <!-- Files -->
+                <div class="mb-3">
+                    <label for="coverImage" class="form-label">Cover Image *</label>
+                    <input class="form-control" type="file" id="coverImage" name="coverImage" accept="image/*" onchange="previewFile()">
+                    <img id="imgPreview" class="preview-image">
+                </div>
+                <div class="mb-3">
+                    <label for="scorePdf" class="form-label">Score PDF</label>
+                    <input class="form-control" type="file" id="scorePdf" name="scorePdf" accept=".pdf">
+                </div>
+                <div class="mb-3">
+                    <label for="audioFile" class="form-label">Audio Sample (MP3)</label>
+                    <input class="form-control" type="file" id="audioFile" name="audioFile" accept="audio/*">
+                </div>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">Upload Product</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Tab 2: Content Editor -->
+        <div class="tab-pane fade" id="content" role="tabpanel">
+            <h4 class="mb-3">Edit Site Text</h4>
+            <div class="mb-3">
+                <label class="form-label">Select Section:</label>
+                <select id="contentSelector" class="form-select" onchange="loadContent()">
+                    <option value="" disabled selected>Choose a section...</option>
+                    <option value="biography">Biography Page</option>
+                    <option value="home_welcome">Home Page Welcome</option>
+                    <option value="research">Research Page</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">HTML Content (Be careful not to break tags!)</label>
+                <textarea id="htmlEditor" class="form-control font-monospace" rows="15"></textarea>
+            </div>
+            
+            <div class="d-grid gap-2">
+                <button onclick="saveContent()" class="btn btn-success">Save Text Changes</button>
+            </div>
+        </div>
+
+        <!-- Tab 3: Gallery -->
+        <div class="tab-pane fade" id="gallery" role="tabpanel">
+            <h4 class="mb-3">Upload to Gallery</h4>
+            <form id="galleryForm">
+                <input type="hidden" name="type" value="gallery">
+                <div class="mb-3">
+                    <label class="form-label">Select Images (Multiple allowed)</label>
+                    <input class="form-control" type="file" name="galleryImage" multiple accept="image/*" required>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-info text-white">Upload Images</button>
+                </div>
+            </form>
+            <div class="mt-4">
+                <p>Note: Images upload immediately to the gallery page. To delete images, you currently need to contact the developer.</p>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="mt-4 text-center">
+        <a href="/">Back to Home</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Login Overlay Logic
+    function attemptLogin() {
+        const input = document.getElementById('loginPassword').value;
+        if(input.trim().length > 0) {
+            document.getElementById('adminAuth').value = input;
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+        } else {
+            document.getElementById('loginError').style.display = 'block';
+        }
+    }
+
+    function getPassword() {
+        return document.getElementById('adminAuth').value;
+    }
+
+    function showMsg(msg, isError) {
+        const box = document.getElementById('alertBox');
+        box.className = isError ? 'alert alert-danger' : 'alert alert-success';
+        box.innerText = msg;
+        box.classList.remove('d-none');
+        window.scrollTo(0, 0);
+    }
+
+    // --- Tab 1: Products ---
+    function previewFile() {
+        const preview = document.getElementById('imgPreview');
+        const file = document.getElementById('coverImage').files[0];
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+        }
+        if (file) reader.readAsDataURL(file);
+    }
+
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const pwd = getPassword();
+        if(!pwd) return showMsg('Please enter the Admin Password at the top.', true);
+
+        const formData = new FormData(this);
+        formData.append('password', pwd);
+
+        try {
+            const r = await fetch('/api/admin/upload-product', { method: 'POST', body: formData });
+            const res = await r.json();
+            if(r.ok) {
+                showMsg('Product Uploaded Successfully!', false);
+                this.reset();
+                document.getElementById('imgPreview').style.display = 'none';
+            } else {
+                showMsg(res.error || 'Failed', true);
+            }
+        } catch(e) { showMsg(e.message, true); }
+    });
+
+    // --- Tab 2: Content ---
+    let currentContentData = {};
+    
+    // Load initial
+    fetch('/content.json').then(r => r.json()).then(d => currentContentData = d).catch(e => console.warn(e));
+
+    function loadContent() {
+        const key = document.getElementById('contentSelector').value;
+        if(key && currentContentData[key]) {
+            document.getElementById('htmlEditor').value = currentContentData[key];
+        }
+    }
+
+    async function saveContent() {
+        const pwd = getPassword();
+        if(!pwd) return showMsg('Please enter the Admin Password at the top.', true);
+
+        const key = document.getElementById('contentSelector').value;
+        const html = document.getElementById('htmlEditor').value;
+        if(!key) return;
+
+        const formData = new FormData();
+        formData.append('password', pwd);
+        formData.append('type', 'content');
+        formData.append('section', key);
+        formData.append('html', html);
+
+        try {
+            const r = await fetch('/api/admin/upload-product', { method: 'POST', body: formData });
+            if(r.ok) {
+                showMsg('Text updated! Refresh the website to see changes.', false);
+                // Update local cache
+                currentContentData[key] = html;
+            } else {
+                showMsg('Failed to update text', true);
+            }
+        } catch(e) { showMsg(e.message, true); }
+    }
+
+    // --- Tab 3: Gallery ---
+    document.getElementById('galleryForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const pwd = getPassword();
+        if(!pwd) return showMsg('Please enter the Admin Password at the top.', true);
+
+        const formData = new FormData(this);
+        formData.append('password', pwd);
+        
+        try {
+            const r = await fetch('/api/admin/upload-product', { method: 'POST', body: formData });
+            if(r.ok) {
+                showMsg('Gallery updated!', false);
+                this.reset();
+            } else {
+                showMsg('Upload failed', true);
+            }
+        } catch(e) { showMsg(e.message, true); }
+    });
+
+    async function loadSalesData() {
+        const pwd = getPassword();
+        if(!pwd) {
+            // Warn if no password, though the API might be public currently
+            const salesBody = document.querySelector('#salesTable tbody');
+            const subBody = document.querySelector('#subscribersTable tbody');
+            const msg = '<tr><td colspan="5" class="text-danger text-center">Please enter Admin Password above to view data.</td></tr>';
+            if(salesBody) salesBody.innerHTML = msg;
+            if(subBody) subBody.innerHTML = msg;
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/admin/data'); 
+            const data = await res.json();
+            
+            // Render Downloads
+            const salesBody = document.querySelector('#salesTable tbody');
+            if(!data.downloads || data.downloads.length === 0) {
+                salesBody.innerHTML = '<tr><td colspan="5" class="text-center">No downloads/sales found.</td></tr>';
+            } else {
+                // Reverse to show newest first
+                const rev = [...data.downloads].reverse();
+                salesBody.innerHTML = rev.map(d => `
+                    <tr>
+                        <td>${d.date ? new Date(d.date).toLocaleString() : '-'}</td>
+                        <td>${d.file || 'Unknown'}</td>
+                        <td>${d.userName || '-'}</td>
+                        <td>${d.userEmail || '-'}</td>
+                        <td>${d.amount || 'Free'}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Subscribers
+            const subBody = document.querySelector('#subscribersTable tbody');
+            if(!data.subscribers || data.subscribers.length === 0) {
+                subBody.innerHTML = '<tr><td colspan="4" class="text-center">No subscribers found.</td></tr>';
+            } else {
+                const rev = [...data.subscribers].reverse();
+                subBody.innerHTML = rev.map(s => `
+                    <tr>
+                        <td>${s.date ? new Date(s.date).toLocaleString() : '-'}</td>
+                        <td>${s.firstName} ${s.lastName || ''}</td>
+                        <td>${s.email}</td>
+                        <td>${s.interests || 'All'}</td>
+                    </tr>
+                `).join('');
+            }
+
+        } catch(e) {
+            console.error(e);
+            showMsg('Failed to load sales data', true);
+        }
+    }
+
+</script>
+
+</body>
+</html>

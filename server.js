@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const { log } = require('console');
 const crypto = require('crypto');
+const multer = require('multer');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 console.log('ENV CHECK'), process.env.PORT;
@@ -267,6 +268,126 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+
+// Admin Upload Configuration
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        let folder = 'public/uploads';
+        if (file.fieldname === 'coverImage') folder = 'public/images';
+        else if (file.fieldname === 'scorePdf') folder = 'public/scores';
+        else if (file.fieldname === 'audioFile') folder = 'public/audio';
+        else if (file.fieldname === 'galleryImage') folder = 'public/gallery-images';
+        
+        if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true });
+        cb(null, folder);
+    },
+    filename: (req, file, cb) => {
+        const safeName = file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_');
+        cb(null, safeName);
+    }
+});
+const upload = multer({ storage });
+
+// Admin Upload Route
+app.post('/api/admin/upload-product', upload.fields([
+    { name: 'coverImage', maxCount: 1 },
+    { name: 'scorePdf', maxCount: 1 },
+    { name: 'audioFile', maxCount: 1 },
+    { name: 'galleryImage', maxCount: 10 }
+]), (req, res) => {
+    try {
+        const { password, type } = req.body;
+        
+        // Simple auth check
+        if (password !== 'EmmanuelMusic2024!' && password !== process.env.ADMIN_PASSWORD) {
+            return res.status(403).json({ error: 'Invalid admin password' });
+        }
+
+        // Handle Site Content Update (Text)
+        if (type === 'content') {
+            const { section, html } = req.body;
+            const contentPath = path.join(__dirname, 'public', 'content.json');
+            let content = {};
+            if (fs.existsSync(contentPath)) {
+                content = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
+            }
+            content[section] = html;
+            fs.writeFileSync(contentPath, JSON.stringify(content, null, 2));
+            return res.json({ message: 'Content updated successfully' });
+        }
+
+        // Handle Gallery Upload
+        if (type === 'gallery') {
+            if (!req.files['galleryImage']) return res.status(400).json({ error: 'No images uploaded' });
+            return res.json({ message: 'Gallery images uploaded successfully' });
+        }
+        
+        // Handle Product Upload (existing logic below)
+        const { title, price, description, lyrics, youtube } = req.body;
+        
+        if (!type || type === 'product') {
+            if (!title || !req.files['coverImage']) {
+                return res.status(400).json({ error: 'Title and Cover Image are required' });
+            }
+
+            const id = title.replace(/[^a-zA-Z0-9]/g, '');
+            const catalogPath = path.join(__dirname, 'public', 'books.json');
+            
+            let catalog = [];
+            if (fs.existsSync(catalogPath)) {
+                catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
+            }
+
+            const newProduct = {
+                id,
+                title,
+                price: Number(price),
+                description: description || '',
+                lyrics: lyrics || '',
+                youtube: youtube || '',
+                image: '/images/' + req.files['coverImage'][0].filename,
+                file: req.files['scorePdf'] ? '/scores/' + req.files['scorePdf'][0].filename : '',
+                audio: req.files['audioFile'] ? '/audio/' + req.files['audioFile'][0].filename : ''
+            };
+
+            const idx = catalog.findIndex(p => p.id === id);
+            if (idx !== -1) {
+                if (!newProduct.file && catalog[idx].file) newProduct.file = catalog[idx].file;
+                if (!newProduct.audio && catalog[idx].audio) newProduct.audio = catalog[idx].audio;
+                catalog[idx] = newProduct;
+            } else {
+                catalog.push(newProduct);
+            }
+
+            fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2));
+
+            return res.json({ message: 'Product saved successfully', id });
+        }
+    } catch (err) {
+        console.error('Upload Error:', err);
+        res.status(500).json({ error: 'Failed to save product' });
+    }
+});
+
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+// Admin Data Endpoint
+app.get('/api/admin/data', (req, res) => {
+    try {
+        const downloadsPath = path.join(__dirname, 'downloads.json');
+        const subscribersPath = path.join(__dirname, 'subscribers.json');
+
+        const downloads = fs.existsSync(downloadsPath) ? JSON.parse(fs.readFileSync(downloadsPath, 'utf8')) : [];
+        const subscribers = fs.existsSync(subscribersPath) ? JSON.parse(fs.readFileSync(subscribersPath, 'utf8')) : [];
+
+        res.json({ downloads, subscribers });
+    } catch (err) {
+        console.error('Error fetching admin data:', err);
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+});
 
 // 5. Subscription Endpoint
 app.post('/subscribe', (req, res) => {
