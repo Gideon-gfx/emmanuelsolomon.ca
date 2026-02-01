@@ -47,7 +47,7 @@ function validateForm() {
   y = x[currentTab].querySelectorAll("input, select, textarea");
 
   for (i = 0; i < y.length; i++) {
-    if (y[i].hasAttribute("required") && y[i].value == "") {
+    if (!y[i].checkValidity()) {
       y[i].classList.add("is-invalid");
       valid = false;
     } else {
