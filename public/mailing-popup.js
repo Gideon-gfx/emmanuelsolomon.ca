@@ -65,6 +65,7 @@
     .mp-title {
         font-size: 2rem;
         margin-bottom: 0.5rem;
+        color: #d00000; /* Red Text */
     }
     .mp-text {
         color: #666;
@@ -82,7 +83,7 @@
         font-size: 1rem;
     }
     .mp-btn {
-        background-color: #111;
+        background-color: #d00000; /* Red Button */
         color: #fff;
         border: none;
         border-radius: 5px;
@@ -90,10 +91,21 @@
         font-size: 1rem;
         cursor: pointer;
         width: 100%;
-        transition: background 0.3s;
+        transition: background 0.3s, opacity 0.3s;
     }
     .mp-btn:hover {
-        background-color: #5a1a7a;
+        background-color: #a00000;
+        opacity: 0.9;
+    }
+    /* Small screen adjustments */
+    @media (max-width: 600px) {
+        .mp-title {
+            font-size: 1.5rem;
+        }
+        .mp-text {
+            font-size: 0.9rem;
+            padding: 0 10px; /* Text break padding */
+        }
     }
     .mp-success {
         display: none;

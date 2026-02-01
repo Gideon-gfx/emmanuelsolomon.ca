@@ -42,11 +42,6 @@
 <div class="container" id="adminContent">
     <h2 class="mb-4 text-center">Website Admin Dashboard</h2>
     
-    <div class="mb-4 p-3 bg-light border rounded text-center d-none">
-        <label for="adminAuth" class="form-label text-danger fw-bold">Session Password *</label>
-        <input type="password" class="form-control d-inline-block w-50" id="adminAuth" placeholder="Enter Admin Password">
-    </div>
-
     <div id="alertBox" class="alert d-none"></div>
 
     <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
@@ -120,22 +115,22 @@
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="price" class="form-label">Price (£) *</label>
-                            <input type="number" step="0.01" class="form-control" id="price" name="price" value="3.10">
+                            <label for="price" class="form-label">Price ($) *</label>
+                            <input type="number" step="0.01" class="form-control" id="price" name="price" placeholder="Leave blank to keep existing">
                         </div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Leave blank to keep existing"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="lyrics" class="form-label">Lyrics (Optional)</label>
-                    <textarea class="form-control" id="lyrics" name="lyrics" rows="3"></textarea>
+                    <textarea class="form-control" id="lyrics" name="lyrics" rows="3" placeholder="Leave blank to keep existing"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="youtube" class="form-label">YouTube Embed Link (Optional)</label>
-                    <input type="url" class="form-control" id="youtube" name="youtube">
+                    <label for="youtube" class="form-label">YouTube Embed Link</label>
+                    <input type="url" class="form-control" id="youtube" name="youtube" placeholder="Leave blank to keep existing">
                 </div>
                 <hr>
                 <!-- Files -->
@@ -150,7 +145,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="audioFile" class="form-label">Audio Sample (MP3)</label>
-                    <input class="form-control" type="file" id="audioFile" name="audioFile" accept="audio/*">
+                    <input class="form-control" type="file" id="audioFile" name="audioFile" accept=".mp3,audio/*">
                 </div>
                 <div class="d-grid gap-2 mt-4">
                     <button type="submit" class="btn btn-primary">Upload Product</button>
@@ -209,10 +204,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // Login Overlay Logic
+    let sessionPassword = '';
+
     function attemptLogin() {
         const input = document.getElementById('loginPassword').value;
         if(input.trim().length > 0) {
-            document.getElementById('adminAuth').value = input;
+            sessionPassword = input.trim();
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('adminContent').style.display = 'block';
         } else {
@@ -221,7 +218,7 @@
     }
 
     function getPassword() {
-        return document.getElementById('adminAuth').value;
+        return sessionPassword;
     }
 
     function showMsg(msg, isError) {
@@ -247,14 +244,27 @@
     document.getElementById('uploadForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const pwd = getPassword();
-        if(!pwd) return showMsg('Please enter the Admin Password at the top.', true);
+        if(!pwd) {
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('adminContent').style.display = 'none';
+            return;
+        }
 
         const formData = new FormData(this);
         formData.append('password', pwd);
 
         try {
             const r = await fetch('/api/admin/upload-product', { method: 'POST', body: formData });
-            const res = await r.json();
+            
+            // Handle non-JSON response (e.g. server crash)
+            const text = await r.text();
+            let res;
+            try {
+                res = JSON.parse(text);
+            } catch(e) { 
+                throw new Error('Server returned invalid response: ' + text.substring(0, 100)); 
+            }
+
             if(r.ok) {
                 showMsg('Product Uploaded Successfully!', false);
                 this.reset();
@@ -262,7 +272,10 @@
             } else {
                 showMsg(res.error || 'Failed', true);
             }
-        } catch(e) { showMsg(e.message, true); }
+        } catch(e) { 
+            console.error(e);
+            showMsg(e.message, true); 
+        }
     });
 
     // --- Tab 2: Content ---
@@ -280,7 +293,11 @@
 
     async function saveContent() {
         const pwd = getPassword();
-        if(!pwd) return showMsg('Please enter the Admin Password at the top.', true);
+        if(!pwd) {
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('adminContent').style.display = 'none';
+            return;
+        }
 
         const key = document.getElementById('contentSelector').value;
         const html = document.getElementById('htmlEditor').value;
@@ -308,7 +325,11 @@
     document.getElementById('galleryForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const pwd = getPassword();
-        if(!pwd) return showMsg('Please enter the Admin Password at the top.', true);
+        if(!pwd) {
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('adminContent').style.display = 'none';
+            return;
+        }
 
         const formData = new FormData(this);
         formData.append('password', pwd);

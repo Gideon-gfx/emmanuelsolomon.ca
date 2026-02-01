@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="bio.css">
     <link rel="stylesheet" href="cookie.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
@@ -88,39 +88,16 @@
                  </div>
             </div>
             <div class="col-lg-8">
-                <h1 class="display-4 fw-bold mb-3">Biography</h1>
-                <h4 class="text-muted fw-light mb-4 text-uppercase ls-1">Tenor, Composer, Researcher, Educator & Arts Executive</h4>
+                <h1 class="display-4 fw-bold mb-3 text-danger">Biography</h1>
+                <h4 class="text-danger fw-light mb-4 text-uppercase ls-1">Tenor| Composer| Researcher| Educator| Arts Executive</h4>
                 <p class="lead">Emmanuel Solomon is a versatile and acclaimed tenor, composer, and arts administrator known for his compelling vocal artistry and dedication to music as a tool for social development.</p>
             </div>
         </div>
 
         <div class="row g-5">
-            <div class="col-lg-8" data-aos="fade-up">
+            <div class="col-lg-8" id="bioContent">
                 <div class="prose">
-                    <p>With a career that bridges North America, Europe, Asia and West Africa, he currently serves as the Executive Director of Bikkurim Studios Inc., a performing arts organization that fosters the appreciation of arts education and performance in Ottawa Ontario Canada.</p>
-                    
-                    <h5 class="mt-4">Performance Highlights</h5>
-                    <p>A captivating performer, Emmanuel's recent highlights include his debut at the National Arts Centre (NAC) in Ottawa for the Black History Month Opening Ceremony and the Moonment to Remember Symphonic Concert with the Conservatory of China Orchestra. He has appeared as a soloist and lead role in major oratorio and opera works such as Handel's Messiah, Bach's Magnificat, Strauss' Die Fledermaus, Purcell's Dido and Aeneas, Charbrier's L'étoile with Dal Opera, Cosi Fan Tutte with LROW, Donizetti's L'elisir d'amore, Rossini's La Cenerentola, Sullivan's Patience, Beethoven's 9th (Choral)Symphony, and the Resounding concert at the Rebecca Cohn Auditorium.</p>
-                    <p>Emmanuel has given several recitals including the renowned Evenings @ the Government House, guest orchestral appearances with the SNS, NSYO, OrKidstra and the NAC orchestra. His performance repertoire spans opera, oratorio, art song, gospels & CCMs, often featuring intercultural collaborations like the Afro-Lieder Intercultural Concert.</p>
-
-                    <h5 class="mt-4">Advocacy & Education</h5>
-                    <p>Beyond the stage, Emmanuel is a passionate advocate for music education and social change. He has served as a Teaching Artist and Choral Director for Orkidstra, an El Sistema-inspired program in Ottawa, and is currently launching the Lagos Sistema (LA SISTEMA SDR) program to provide accessible music education to children in Nigeria.</p>
-                    
-                    <p>His commitment to the arts has been recognized with the FGS Award from the Province of Nova Scotia, the Queen Elizabeth II's Platinum Jubilee Medal, awarded by his honour, the Former (33rd) Lt. Governor of Nova Scotia, Arthur J. Leblanc, and the Measha Breuggergosman Classical Innovation Award, awarded by her right honorable Former Governor-General of Canada, Michaëlle Jean. Amongst several other recognitions and honorary awards, he is a recipient of the Atlantic Barbershop Harmony Award, J. & A. Campbell Prize and Golden Key Honours for Academic Excellence.</p>
-                    
-                    <h5 class="mt-4">Academic & Research</h5>
-                    <p>His co-authored research on music and development, "The Soundtrack of Poverty and Development: Music, Emotions and Representations of the Global South," that explores the ethical implications of music in humanitarian fundraising has been published by Springer Link. Emmanuel holds degrees in Vocal Performance from Dalhousie University and the MUSON Diploma School of Music, and currently working on a doctoral research based on enhanced pedagogical and performance practice using modern technology at the Department of Critical Studies in Improvisation in Ontario Canada.</p>
-
-                    <p class="mt-4 fst-italic">Currently based between Canada and Nigeria, Emmanuel is marking his first return to Lagos after almost a decade of living overseas with a highly anticipated homecoming recital in Lagos at the MUSON Centre in May 2026 as he hopes to continue to drive the expansion of Bikkurim Studios' educational initiatives globally.</p>
-
-                    <div class="mt-4 p-4 bg-light rounded border">
-                        <button class="btn btn-outline-dark btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#shortBioCollapse" aria-expanded="false" aria-controls="shortBioCollapse">
-                            View Short Biography (150 Words) ▼
-                        </button>
-                        <div class="collapse" id="shortBioCollapse">
-                            <p class="small mb-0">Emmanuel Solomon is a Nigerian-Canadian tenor and arts executive celebrated for his "rich, emotive quality" and leadership in music education. As the Executive Director of Bikkurim Studios Inc. and a Teaching Artist with Orkidstra, he is dedicated to using music for social impact. His performance credits include solo engagements at the National Arts Centre, the Rebecca Cohn Auditorium, and with Dal Opera. A recipient of the Queen Elizabeth II Platinum Jubilee Medal and the Measha Breuggergosman Classical Innovation Award, Emmanuel is also a published researcher on the intersection of music and international development. He holds degrees from Dalhousie University and the MUSON Diploma School of Music. This season, he launches the Lagos Sistema educational initiative and returns to the stage for a homecoming recital in Lagos in May 2026.</p>
-                        </div>
-                    </div>
+                    <p>Loading biography...</p>
                 </div>
             </div>
             <div class="col-lg-4" data-aos="fade-left">
@@ -189,13 +166,20 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="cookie.js"></script>
     <script src="mailing-popup.js"></script>
     <script src="bio.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       AOS.init();
+      document.addEventListener('DOMContentLoaded', () => {
+        fetch('/content.json').then(r => r.json()).then(data => {
+            if(data.biography) {
+                document.getElementById('bioContent').innerHTML = `<div class="prose">${data.biography}</div>`;
+            }
+        });
+      });
     </script>
 </body>
 </html>

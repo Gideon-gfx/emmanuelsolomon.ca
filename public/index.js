@@ -52,15 +52,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     // Close mobile menu when a nav link is clicked (mobile)
-    document.getElementById('navLinks')?.addEventListener('click', function(e){
-        if(e.target && e.target.tagName === 'A'){
-            const nav = document.getElementById('navLinks');
-            const btn = document.getElementById('hamburgerBtn');
-            if(nav && nav.classList.contains('active')){
-                nav.classList.remove('active');
-                if(btn) btn.classList.remove('active');
-                document.body.classList.remove('menu-open');
+    const navLinksContainer = document.getElementById('navLinks');
+    if (navLinksContainer) {
+        navLinksContainer.addEventListener('click', function(e){
+            // Only close if it's an anchor tag AND NOT a dropdown toggle
+            if(e.target && e.target.tagName === 'A' && !e.target.classList.contains('dropdown-toggle')){
+                const nav = document.getElementById('navLinks');
+                const btn = document.getElementById('hamburgerBtn');
+                if(nav && nav.classList.contains('active')){
+                    nav.classList.remove('active');
+                    if(btn) btn.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
             }
-        }
-    });
+        });
+    }
 });

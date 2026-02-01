@@ -159,7 +159,12 @@ body.bivo {
 }
 body.bivo .nav-holder a{color:#000 !important;font-family:'Playfair Display', serif !important;font-size:18px !important}
 body.bivo .Owner{font-family:'Playfair Display', serif !important;font-size:20px !important;color:#000}
-body.bivo .middle-links{display:flex;align-items:center;gap:10px;margin-left:20px;margin-right:20px;font-family:'Playfair Display', serif;font-size:18px;font-weight:500}
+@media (min-width: 997px) {
+    body.bivo .middle-links{display:flex;align-items:center;gap:10px;margin-left:20px;margin-right:20px;font-family:'Playfair Display', serif;font-size:18px;font-weight:500}
+}
+@media (max-width: 996px) {
+    body.bivo .middle-links{font-family:'Playfair Display', serif;font-size:18px;font-weight:500}
+}
 body.bivo .social-links a svg{fill:#000 !important;width:14px;height:14px}
 /* Hamburger icon should be dark on BiVo page to match header */
 body.bivo .hamburger span{background:#000 !important}

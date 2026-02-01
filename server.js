@@ -332,8 +332,8 @@ app.post('/api/admin/upload-product', upload.fields([
         const { title, price, description, lyrics, youtube } = req.body;
         
         if (!type || type === 'product') {
-            if (!title || !req.files['coverImage']) {
-                return res.status(400).json({ error: 'Title and Cover Image are required' });
+            if (!title) {
+                return res.status(400).json({ error: 'Title is required' });
             }
 
             const id = title.replace(/[^a-zA-Z0-9]/g, '');
@@ -344,23 +344,39 @@ app.post('/api/admin/upload-product', upload.fields([
                 catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
             }
 
+            const existingIdx = catalog.findIndex(p => p.id === id);
+            const isNew = existingIdx === -1;
+
+            if (isNew && !req.files['coverImage']) {
+               return res.status(400).json({ error: 'Cover Image is required for new products' });
+            }
+
+            // Prepare image path: use uploaded if available, else keep existing if editing
+            let imagePath = '';
+            if (req.files['coverImage']) {
+                imagePath = '/images/' + req.files['coverImage'][0].filename;
+            } else if (!isNew) {
+                imagePath = catalog[existingIdx].image;
+            }
+
             const newProduct = {
                 id,
                 title,
-                price: Number(price),
-                description: description || '',
-                lyrics: lyrics || '',
-                youtube: youtube || '',
-                image: '/images/' + req.files['coverImage'][0].filename,
+                price: price ? Number(price) : (isNew ? 0 : catalog[existingIdx].price),
+                description: description || (isNew ? '' : catalog[existingIdx].description),
+                lyrics: lyrics || (isNew ? '' : catalog[existingIdx].lyrics),
+                youtube: youtube || (isNew ? '' : catalog[existingIdx].youtube),
+                image: imagePath,
                 file: req.files['scorePdf'] ? '/scores/' + req.files['scorePdf'][0].filename : '',
                 audio: req.files['audioFile'] ? '/audio/' + req.files['audioFile'][0].filename : ''
             };
 
-            const idx = catalog.findIndex(p => p.id === id);
-            if (idx !== -1) {
-                if (!newProduct.file && catalog[idx].file) newProduct.file = catalog[idx].file;
-                if (!newProduct.audio && catalog[idx].audio) newProduct.audio = catalog[idx].audio;
-                catalog[idx] = newProduct;
+            if (!isNew) {
+                // Preserve existing files if not overwritten
+                if (!newProduct.file && catalog[existingIdx].file) newProduct.file = catalog[existingIdx].file;
+                if (!newProduct.audio && catalog[existingIdx].audio) newProduct.audio = catalog[existingIdx].audio;
+                
+                catalog[existingIdx] = newProduct;
             } else {
                 catalog.push(newProduct);
             }

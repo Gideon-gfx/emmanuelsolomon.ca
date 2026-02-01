@@ -123,7 +123,7 @@ async function renderProductPage() {
 
       <!-- Get Music button (opens modal) -->
       <div style="margin:16px 0;">
-        <button id="getMusicBtn" class="btn btn-outline-primary">Get Music</button>
+        <button id="getMusicBtn" class="btn btn-danger" style="background-color: rgb(200, 7, 7) !important; border-color: rgb(200, 7, 7) !important; color: #fff;">Get Music</button>
       </div>
 
       <!-- Share section -->
@@ -159,8 +159,8 @@ async function renderProductPage() {
             <div style="margin-top:12px">Price per copy: $${product.price.toFixed(2)} CAD</div>
           </div>
           <div class="modal-footer">
-            <button id="addToCartModal" class="btn btn-secondary">Add to Cart</button>
-            <button id="buyNow" class="btn btn-primary">Buy Now</button>
+            <!-- <button id="addToCartModal" class="btn btn-secondary">Add to Cart</button> -->
+            <button id="buyNow" class="btn btn-primary" style="background-color: rgb(200, 7, 7) !important; border-color: rgb(200, 7, 7) !important;">Buy Now</button>
           </div>
         </div>
       </div>

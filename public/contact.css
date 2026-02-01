@@ -59,11 +59,13 @@ html, body {
       color: rgb(200, 7, 7);
     }
     
+    @media (min-width: 997px) {
     .nav-item.dropdown:hover .dropdown-menu {
         display: block;
         margin-top: 0px;
         border-radius: 0;
         margin-right: 20px;
+    }
     }
 .dropdown-menu a{
     font-family: 'Playfair Display', serif;
