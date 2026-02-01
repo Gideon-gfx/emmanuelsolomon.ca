@@ -5,7 +5,13 @@ const fs = require('fs');
 const { log } = require('console');
 const crypto = require('crypto');
 const multer = require('multer');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+let stripe;
+if (process.env.STRIPE_SECRET_KEY) {
+    stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+} else {
+    console.warn("WARNING: STRIPE_SECRET_KEY is missing. Payment features will not work.");
+}
 
 console.log('ENV CHECK'), process.env.PORT;
 
