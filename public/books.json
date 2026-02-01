@@ -1,0 +1,35 @@
+[
+  {
+    "id": "PartingGlass",
+    "title": "The Parting Glass",
+    "file": "/scores/PartingGlass.pdf",
+    "audio": "/audio/parting-glass.mp3",
+    "youtube": "https://www.youtube.com/embed/VIDEO_ID_PARTING",
+    "description": "A reflective arrangement of the traditional farewell song.",
+    "image": "/images/IMG_3088.PNG",
+    "price": 3.10,
+    "lyrics": "[Lyrics to be added by composer]"
+  },
+  {
+    "id": "PianoQuintet",
+    "title": "Piano Quintet in E major",
+    "file": "/scores/PianoQuintet.pdf",
+    "audio": "",
+    "youtube": "https://www.youtube.com/embed/VIDEO_ID_PIANOQUINTET",
+    "description": "An extended chamber work for piano and strings.",
+    "image": "/images/IMG_3091.PNG",
+    "price": 3.10,
+    "lyrics": "[No lyrics]"
+  },
+  {
+    "id": "AmazingGrace",
+    "title": "Amazing Grace",
+    "file": "/scores/AmazingGrace.pdf",
+    "audio": "/audio/amazing-grace.mp3",
+    "youtube": "https://www.youtube.com/embed/VIDEO_ID_AMAZINGGRACE",
+    "description": "A contemporary arrangement of the classic hymn arranged by Emmanuel O. Solomon.",
+    "image": "/images/IMG_3093.PNG",
+    "price": 3.10,
+    "lyrics": "Amazing grace! (how sweet the sound)\nThat saved a wretch like me!\nI once was lost, but now am found,\nWas blind, but now I see."
+  }
+]

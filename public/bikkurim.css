@@ -1,0 +1,46 @@
+/* Modern Bikkurim page styles — elegant hero, readable content.
+   Header/footer intentionally not overridden so they remain identical
+   to other pages (e.g. contact page). */
+
+:root{
+  --bikkurim-purple: #5a1a7a;
+  --bikkurim-accent: #c1121f;
+  --bikkurim-muted: #f6f5f7;
+  --content-max: 1100px;
+}
+
+.bikkurim main{max-width:var(--content-max);margin:0 auto;padding:48px 20px;font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;color:#222}
+
+/* Hero */
+.bikkurim-hero{display:block;padding:64px 20px 56px;background:linear-gradient(180deg, rgba(90,26,122,0.06), rgba(255,255,255,0));border-radius:10px}
+.hero-inner{display:flex;gap:34px;align-items:center;max-width:var(--content-max);margin:0 auto}
+.hero-logo img{width:220px;height:auto;border-radius:8px;box-shadow:0 14px 40px rgba(90,26,122,0.12);object-fit:contain}
+.hero-content{flex:1}
+.hero-content h1{font-family:'Playfair Display',serif;font-size:2.4rem;margin:0 0 10px;color:var(--bikkurim-purple);line-height:1.05}
+.hero-content .lead{font-size:1.05rem;color:#333;margin:0 0 12px}
+.hero-content p{margin:0 0 12px;color:#444}
+.hero-ctas{display:flex;gap:12px;margin-top:14px}
+.btn.primary{background:var(--bikkurim-purple);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;border:1px solid var(--bikkurim-purple);color:var(--bikkurim-purple);padding:9px 14px;border-radius:8px;text-decoration:none}
+
+/* Content */
+.bikkurim-content{margin:36px auto;padding:0 8px;color:#222;line-height:1.7}
+.bikkurim-content h2{font-family:'Playfair Display',serif;color:var(--bikkurim-purple);font-size:1.6rem;margin-bottom:8px}
+.bikkurim-content p{margin-bottom:14px}
+
+/* Small helpers */
+.wide-card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 6px 22px rgba(12,20,30,0.06);margin:18px 0}
+.muted{color:#666}
+
+@media (max-width:900px){
+  .hero-inner{flex-direction:column;text-align:center}
+  .hero-logo img{width:160px}
+  .hero-content h1{font-size:1.6rem}
+  .hero-ctas{justify-content:center}
+}
+
+/* Accessibility: focus states for CTAs */
+.btn.primary:focus,.btn.ghost:focus{outline:3px solid rgba(197,28,125,0.14);outline-offset:3px}
+
+/* Ensure we do NOT override the shared footer/header styles (red4/nav-holder) */
+/* Do not include .bikkurim .red4 here so footer inherits global site styles */

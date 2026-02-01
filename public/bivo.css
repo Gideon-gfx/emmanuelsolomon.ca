@@ -1,0 +1,166 @@
+/* BiVo page styles - modern hero layout */
+.bivo-hero{padding:0;background:transparent;color:var(--text, #111)}
+.bivo-hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;align-items:stretch;gap:0;border-radius:6px;overflow:hidden}
+.bivo-left{background:#2f5766;color:#fff;padding:68px 48px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.bivo-left h1{font-size:48px;margin:0 0 10px;font-weight:400;font-family:'Playfair Display', serif}
+.bivo-left .lead{color:rgba(255,255,255,0.9);font-weight:400;margin-bottom:6px;line-height:1.35;font-size:18px}
+.bivo-left p{margin:8px 0;color:rgba(255,255,255,0.9)}
+.bivo-right{background:#4b1f28;display:flex;align-items:center;justify-content:center;padding:36px}
+.bivo-logo-wrap{max-width:320px;width:100%;display:flex;align-items:center;justify-content:center}
+.bivo-logo{width:100%;max-width:320px;height:auto;border-radius:4px;box-shadow:0 18px 36px rgba(0,0,0,0.18);border:0;background:transparent;padding:0}
+.btn-primary{display:inline-block;padding:10px 16px;background:#b67f56;color:#fff;border-radius:8px;text-decoration:none;margin-right:8px}
+.btn-outline{display:inline-block;padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);color:#fff;text-decoration:none}
+.cta-wrap{margin-top:14px}
+
+@media (max-width:900px){
+    .bivo-hero-inner{grid-template-columns:1fr;}
+    .bivo-left{padding:32px}
+    .bivo-right{padding:20px}
+    .bivo-left h1{font-size:32px}
+}
+
+/* BiVo-specific vars and small UI tweaks */
+body.bivo{ --accent: #b67f56; --primary-red: #b67f56; --primary-red-dark: #8d4f30; }
+.whatsapp-contact img{ width:56px; height:auto; border-radius:6px; display:inline-block; transition: transform .18s ease; margin-left:8px }
+.whatsapp-contact img:hover{ transform: translateY(-3px) }
+.bivo-event .whatsapp-contact{ display:inline-block; margin-top:8px }
+
+/* Ensure event section on BiVo uses neutral background (no red) */
+.bivo-event{ background: #f7f5f2; color:#111; padding:36px 0; }
+.bivo-event h2{ color:#111 }
+.bivo-event ol{ color:#222 }
+.bivo-event a{ color: var(--accent) }
+
+/* Event card specific styling */
+.event-card .event-inner{ background:#fff;border-radius:8px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,0.06); }
+.event-card .event-media{ min-height:220px; overflow:hidden; border-radius:8px }
+.event-card .event-body h2{ margin:0 0 6px }
+.event-card .muted{ color:#6b6b6b; font-weight:500 }
+@media (max-width:900px){ .event-card .event-inner{ flex-direction:column } .event-card .event-media{ width:100%; min-height:240px } }
+
+@media (max-width:900px){
+    .bivo-hero-inner{flex-direction:column;align-items:flex-start}
+    .bivo-media{width:100%;flex:0 0 auto}
+    .bivo-logo{max-width:220px}
+}
+
+/* small accessibility/tone adjustments */
+.btn-primary:focus, .btn-outline:focus{outline:3px solid rgba(255,255,255,0.08);outline-offset:3px}
+
+/* Ensure header/footer match Bikkurim page styling */
+.nav-holder{display:flex;gap:5px;justify-content:space-between;align-items:center;padding-bottom:20px;margin-left:50px;margin-right:50px;background-color:transparent}
+body:not(.home) .nav-holder a,
+body:not(.home) .nav-holder .Owner,
+body:not(.home) .nav-holder .middle-links a,
+body:not(.home) .nav-holder .middle-links .dropdown-item{color:#000 !important}
+/* Footer uses site-wide `.red4` styling (inherit from global styles for parity with Bikkurim) */
+/* no overrides here so the Bikkurim footer style is used */
+
+/* Explicit header/footer parity overrides to match Bikkurim page visuals */
+/* On BiVo page: use Bikkurim header/footer parity (black links like Bikkurim) */
+
+/* Brown button for audition */
+.btn-brown {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #8d4f30;
+    color: #fff !important;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    margin-right: 8px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    transition: background 0.18s;
+}
+.btn-brown:hover, .btn-brown:focus {
+    background: #b67f56;
+    color: #fff !important;
+}
+
+/* Ensure BiVo footer uses global red, not brown */
+body.bivo .red4 {
+    background-color: var(--primary-red, rgb(160,6,6)) !important;
+}
+body.bivo {
+    --primary-red: rgb(160,6,6) !important;
+    --primary-red-dark: rgb(120,4,4) !important;
+}
+
+/* --- BiVo About & Audition Modern Sections --- */
+.bivo-about-section, .bivo-audition-section {
+    width: 100%;
+    background: #f7f5f2;
+    padding: 56px 0 36px 0;
+    margin-bottom: 0;
+}
+.bivo-about-inner, .bivo-audition-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 48px;
+    align-items: center;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    padding: 0 0 0 0;
+    overflow: hidden;
+}
+.bivo-about-text, .bivo-audition-text {
+    padding: 48px 40px;
+}
+.bivo-about-text h2, .bivo-audition-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 18px;
+    color: #2f5766;
+    font-family: 'Playfair Display', serif;
+}
+.bivo-about-text ul, .bivo-audition-text ol {
+    margin: 18px 0 0 18px;
+    font-size: 1.1rem;
+    color: #222;
+}
+.bivo-about-image, .bivo-audition-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eaeaea;
+    min-height: 320px;
+}
+.bivo-about-image img, .bivo-audition-image img {
+    max-width: 340px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+    background: #fff;
+}
+.bivo-audition-text .cta-wrap {
+    margin-top: 22px;
+}
+
+@media (max-width: 900px) {
+    .bivo-about-inner, .bivo-audition-inner {
+        grid-template-columns: 1fr;
+        gap: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .bivo-about-text, .bivo-audition-text {
+        padding: 32px 16px;
+    }
+    .bivo-about-image, .bivo-audition-image {
+        min-height: 180px;
+        padding: 12px 0;
+    }
+    .bivo-about-image img, .bivo-audition-image img {
+        max-width: 220px;
+    }
+}
+body.bivo .nav-holder a{color:#000 !important;font-family:'Playfair Display', serif !important;font-size:18px !important}
+body.bivo .Owner{font-family:'Playfair Display', serif !important;font-size:20px !important;color:#000}
+body.bivo .middle-links{display:flex;align-items:center;gap:10px;margin-left:20px;margin-right:20px;font-family:'Playfair Display', serif;font-size:18px;font-weight:500}
+body.bivo .social-links a svg{fill:#000 !important;width:14px;height:14px}
+/* Hamburger icon should be dark on BiVo page to match header */
+body.bivo .hamburger span{background:#000 !important}
+/* Footer link visibility: inherit site defaults (no BiVo-specific overrides) */

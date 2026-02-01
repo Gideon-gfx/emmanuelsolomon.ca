@@ -71,6 +71,8 @@ const CookieManager = {
         const consent = this.get('cookieConsent');
         // Only show banner if no consent decision has been made
         if (consent !== 'accepted' && consent !== 'declined') {
+            // Don't show the banner on the home page by default
+            if (document.body && document.body.classList && document.body.classList.contains('home')) return;
             // Wait for DOM to be ready
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', () => this.showBanner());
@@ -85,6 +87,7 @@ const CookieManager = {
 function createCookieBanner() {
     const bannerHTML = `
     <div id="cookieConsentBanner" class="cookie-banner">
+        <button class="cookie-close" aria-label="Close cookie banner">&times;</button>
         <div class="cookie-content">
             <div class="cookie-text">
                 <h4>🍪 We use cookies</h4>
@@ -107,4 +110,11 @@ function createCookieBanner() {
 document.addEventListener('DOMContentLoaded', function() {
     createCookieBanner();
     CookieManager.init();
+});
+
+// Allow dismiss with a small close button
+document.addEventListener('click', function(e){
+    if(e.target && e.target.classList && e.target.classList.contains('cookie-close')){
+        CookieManager.declineCookies();
+    }
 });

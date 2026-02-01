@@ -1,0 +1,14 @@
+[
+  {"title":"Home","path":"/","excerpt":"Home page"},
+  {"title":"Scores","path":"/scores","excerpt":"Scores and repertoire"},
+  {"title":"Repertoire","path":"/recordings","excerpt":"Recordings and repertoire"},
+  {"title":"Biography","path":"/biography","excerpt":"About Emmanuel O. Solomon"},
+  {"title":"Contact","path":"/contact","excerpt":"Contact form and info"},
+  {"title":"Mailing Lists","path":"/mailing","excerpt":"Join our mailing lists"},
+  {"title":"Research & Publications","path":"/research","excerpt":"Research and publications"},
+  {"title":"Collaborate","path":"/collaborate","excerpt":"Collaborations and commissions"},
+  {"title":"Gallery","path":"/gallery","excerpt":"Photo gallery"},
+  {"title":"Amazing Grace (score)","path":"/scores/product.html?id=AmazingGrace","excerpt":"Amazing Grace score"},
+  {"title":"The Parting Glass (score)","path":"/scores/product.html?id=PartingGlass","excerpt":"The Parting Glass score"},
+  {"title":"Piano Quintet in E major (score)","path":"/scores/product.html?id=PianoQuintet","excerpt":"Piano Quintet score"}
+]

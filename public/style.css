@@ -1,7 +1,57 @@
+@media only screen and (max-width: 996px) {
+    .nav-holder .social-links a svg {
+        width: 32px !important;
+        height: 32px !important;
+    }
+}
+@media only screen and (max-width: 996px) {
+    .nav-holder .hamburger {
+        padding: 0 !important;
+        min-width: unset !important;
+        min-height: unset !important;
+        box-sizing: border-box !important;
+    }
+    .nav-holder .hamburger span {
+        width: 25px !important;
+        height: 2px !important;
+        margin: 5px 0 !important;
+        border-radius: 2px !important;
+        background-color: #000 !important;
+        display: block !important;
+    }
+    .nav-holder .social-links a svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+    .nav-holder .social-links a {
+        display: inline-flex;
+    }
+    .nav-holder .social-links a.hide-mobile {
+        display: none !important;
+    }
+}
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @keyframes slideUnderline {
     from { text-underline-offset: 0; }
     to { text-underline-offset: 5px; }
+}
+
+/* Make explicit layout classes stack on small screens */
+@media only screen and (max-width: 768px) {
+    .layout-text-left, .layout-img-left {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px;
+    }
+    .layout-text-left .text, .layout-img-left .text, .layout-text-left .text2, .layout-img-left .text2,
+    .layout-text-left .image, .layout-img-left .image, .layout-text-left .image2, .layout-img-left .image2 {
+        flex: none;
+        width: 100%;
+    }
+    .layout-text-left .text, .layout-img-left .text, .layout-text-left .text2, .layout-img-left .text2 {
+        text-align: center;
+        padding: 20px;
+    }
 }
 html, body {
     width: 100%;
@@ -50,7 +100,11 @@ html, body {
     .combo .text {
         order: 1;
     }
+        gap: 0; /* eliminate gap to red demarcation */
     .combo .image {
+    .red-demarcation {
+        margin: 0; /* no gap between sections and the red line */
+    }
         order: 2;
     }
     .combo2 .text2 {
@@ -206,7 +260,57 @@ html, body {
     background-color: transparent;
     z-index: 100;
     transition: background-color 0.3s ease;
+}
 
+@media only screen and (max-width: 996px) {
+    .nav-holder {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+}
+
+/* Keep header background transparent; only change text color on non-home pages */
+body:not(.home) .nav-holder {
+    background-color: transparent !important;
+}
+
+/* Make header text and icons black on non-home pages */
+body:not(.home) .nav-holder a,
+body:not(.home) .nav-holder .Owner,
+body:not(.home) .nav-holder .work,
+body:not(.home) .nav-holder .middle-links a,
+body:not(.home) .nav-holder .middle-links .dropdown-item {
+    color: #000 !important;
+}
+
+/* Social icon fills */
+body:not(.home) .nav-holder .social-links svg,
+body:not(.home) .nav-holder .social-links svg path {
+    fill: #000 !important;
+}
+
+/* Small tweak: dropdown caret and toggles inherit color */
+body:not(.home) .nav-holder .dropdown-toggle { color: #000 !important; }
+
+/* Hover state: make nav links and social icons red on non-home pages */
+body:not(.home) .nav-holder a:hover,
+body:not(.home) .nav-holder .dropdown-toggle:hover,
+body:not(.home) .middle-links a:hover,
+body:not(.home) .middle-links .dropdown-item:hover,
+body:not(.home) .middle-links3 a:hover,
+body:not(.home) .red4 a:hover {
+    color: #9f0f12 !important;
+    text-decoration-color: #9f0f12 !important;
+}
+
+body:not(.home) .nav-holder .social-links a:hover svg,
+body:not(.home) .nav-holder .social-links a:hover svg path,
+body:not(.home) .red4 .social-links.footer-social a:hover svg path {
+    fill: #9f0f12 !important;
 }
 .nav-holder a{
     text-decoration: none;
@@ -539,6 +643,30 @@ html, body {
     font-family: 'Playfair Display', serif;
     font-weight: 100;
     font-size: 15px;
+    /* Force full viewport width regardless of parent container */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+/* Remove the previous media query compensations as the 100vw width handles it globally */
+@media only screen and (max-width: 768px) {
+    .red4 {
+        /* Reset any specific mobile adjustments if needed, but 100vw usually works fine */
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .red4 {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
 
 .middle-links3 {
@@ -594,7 +722,7 @@ html, body {
     color: #fff;
 }
 .red4 .accordion-button:not(.collapsed){
-    background: rgb(200,7,7);
+    background: rgb(200, 7, 7);
     color: #fff;
 }
 .red4 .accordion-body{
@@ -633,6 +761,18 @@ html, body {
 .searchbar button:hover{
     background-color: rgb(150, 5, 5);
 }
+
+/* Center the "Designed by" credit in the footer across pages */
+.red4 .designer {
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin-top: 14px;
+    color: #f0eaea;
+    font-size: 14px;
+}
+.red4 .designer a { color: #fff; text-decoration: underline; }
+.red4 .designer a:hover { color: #ffe5e5; }
 
 /* Terms and Privacy Policy Page Styling */
 .terms-content {
@@ -766,11 +906,17 @@ html, body {
 
 .hamburger span {
     display: block;
-    width: 25px;
-    height: 2px;
+    width: 36px;
+    height: 4px;
     background-color: #fff;
-    margin: 5px 0;
+    margin: 7px 0;
+    border-radius: 2px;
     transition: all 0.3s ease-in-out;
+}
+
+/* Make hamburger bars black on non-home pages (overrides white default) */
+body:not(.home) .hamburger span {
+    background-color: #000 !important;
 }
 
 @media only screen and (max-width: 996px) {
@@ -793,7 +939,7 @@ html, body {
     }
 
     .middle-links {
-        display: none;
+        display: none !important;
         position: absolute;
         top: 70px;
         left: 0;
@@ -805,8 +951,11 @@ html, body {
         z-index: 100;
     }
     .middle-links.active {
-        display: flex;
+        display: flex !important;
     }
+
+/* prevent scrolling when mobile menu open */
+body.menu-open { overflow: hidden; }
     .middle-links .dropdown-menu,
     .middle-links3 .dropdown-menu {
         position: static;
@@ -1183,9 +1332,9 @@ html, body {
 
 .red-demarcation {
   width: 100vw;
-  height: 30px;
+  height: 60px;
   background: rgb(200, 7, 7);
-  margin: 40px 0;
+  margin: 0px 0;
   border: none;
   display: block;
   position: relative;
@@ -1194,3 +1343,77 @@ html, body {
   transform: translateX(-50%);
   z-index: 1;
 }
+
+/* Explicit layout classes to enforce alternating sections on desktop */
+@media only screen and (min-width: 769px) {
+    .layout-text-left {
+        display: flex;
+        flex-direction: row; /* text left, image right */
+        align-items: center;
+        gap: 40px;
+    }
+    .layout-img-left {
+        display: flex;
+        flex-direction: row-reverse; /* image left, text right */
+        align-items: center;
+        gap: 40px;
+    }
+    .layout-text-left .text, .layout-img-left .text, .layout-img-left .text2, .layout-text-left .text2 {
+        flex: 1 1 50%;
+    }
+    .layout-text-left .image, .layout-img-left .image, .layout-text-left .image2, .layout-img-left .image2 {
+        flex: 1 1 50%;
+    }
+}
+
+    /* Global button gradient: grey top -> red bottom; hover reverses colors */
+    button, input[type="submit"], input[type="button"], .text button, .text2 button, .but, .submit-btn, .btn {
+        background-image: linear-gradient(180deg,#d8d8d8 0%, rgb(200,7,7) 100%);
+        color: #fff;
+        border: 1px solid rgba(0,0,0,0.08);
+        transition: background-image 220ms ease, transform 120ms ease;
+    }
+    button:hover, input[type="submit"]:hover, input[type="button"]:hover, .text button:hover, .text2 button:hover, .but:hover, .submit-btn:hover, .btn:hover {
+        background-image: linear-gradient(180deg, rgb(200,7,7) 0%, #d8d8d8 100%);
+        color: #fff;
+    }
+    /* keep button padding/appearance consistent */
+    button, input[type="submit"], input[type="button"], .submit-btn {
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+
+    /* Force square image edges site-wide (override previous border-radius rules) */
+    img, .image img, .image2 img, .combo img, .combo2 img, .image, .image2 {
+        border-radius: 0 !important;
+    }
+
+/* --- Site-wide red adjustments and temporary BiVo ad styles --- */
+:root{
+    --primary-red: rgb(160,6,6);
+    --primary-red-dark: rgb(120,4,4);
+    --primary-red-hex: #9f0f12;
+}
+
+/* Ensure legacy classes and components use a slightly darker red */
+.red, .red2, .red3, .red4, .red-demarcation { background-color: var(--primary-red) !important; }
+.text hr, .text2 hr { border-color: var(--primary-red) !important; }
+.text button, .text2 button, .searchbar button, .but, .submit-btn { background: var(--primary-red) !important; }
+.text button:hover, .text2 button:hover, .searchbar button:hover, .but:hover, .submit-btn:hover { background: var(--primary-red-dark) !important; }
+.Owner a:hover, .middle-links a:hover, .dropdown-menu a:hover, .nav-holder a:hover { color: var(--primary-red) !important; }
+.red4 .accordion-button:not(.collapsed){ background: var(--primary-red) !important; }
+.terms-content h1, .terms-content a { color: var(--primary-red) !important; }
+
+/* Small homepage ad/banner for the BiVo audition (temporary) */
+.home-ad { display:flex; justify-content:center; margin:18px 0; }
+.home-ad .ad-banner { display:block; width:min(920px,94%); border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,0.12); background:#fff; border-left:6px solid var(--primary-red); }
+.home-ad .ad-banner img{ display:block; width:100%; height:auto; }
+.home-ad .ad-banner .ad-copy{ padding:14px 18px; font-family:'Playfair Display', serif; font-size:18px; color:#222; }
+@media only screen and (max-width:768px){ .home-ad .ad-banner .ad-copy{ font-size:14px; } }
+
+/* Minor: darken inline red demarcation fallback */
+.red-demarcation { background: var(--primary-red) !important; }
+
+

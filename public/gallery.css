@@ -1,0 +1,113 @@
+/* Modern responsive gallery grid + lightbox */
+:root{
+    --gap: 12px;
+    --bg: #0b0b0b;
+    --card-bg: #0f0f0f;
+    --accent: #e4e4e4;
+}
+
+.gallery-header{padding:36px 16px 8px;text-align:left}
+.gallery-header h1{margin:0 0 6px;font-size:2.4rem;letter-spacing:2px}
+.gallery-header .lead{margin:0;color:var(--accent);opacity:.95;font-size:0.98rem}
+
+.view-projects-cta{display:inline-block;padding:8px 12px;border-radius:6px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent);font-size:13px;margin-top:10px}
+
+.gallery-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap:var(--gap);
+    padding:18px;
+}
+.gallery-item{
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.06));
+    box-shadow:0 6px 18px rgba(3,8,15,0.45);
+    aspect-ratio: 4 / 3;
+    display:block;
+}
+.gallery-item img,
+.gallery-item video{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    transition:transform .35s cubic-bezier(.2,.9,.3,1),filter .35s;
+    transform-origin:center center;
+}
+.gallery-item:hover img{
+    transform:scale(1.06);
+    filter:brightness(1.02) saturate(1.06);
+}
+
+/* subtle overlay on hover like the reference site */
+.gallery-item::after{
+    content:'';
+    position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.28));
+    opacity:0;transition:opacity .25s ease;display:block;border-radius:8px
+}
+.gallery-item:hover::after{opacity:1}
+.gallery-item .overlay-icon{position:absolute;right:12px;bottom:12px;color:#fff;font-size:20px;opacity:0;transition:opacity .2s}
+.gallery-item:hover .overlay-icon{opacity:1}
+
+/* Lightbox */
+.lightbox{
+    position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(0,0,0,0.8);z-index:9999;padding:24px;
+}
+.lightbox .lb-content{max-width:100%;max-height:85vh;display:flex;align-items:center;justify-content:center}
+.lightbox img,.lightbox video{max-width:100%;max-height:85vh;border-radius:6px;box-shadow:0 12px 40px rgba(0,0,0,0.6);}
+.lb-close{position:absolute;top:18px;right:22px;background:transparent;color:#fff;border:0;font-size:36px;line-height:1;cursor:pointer}
+.lb-caption{position:absolute;left:24px;right:24px;bottom:22px;color:#fff;opacity:0.9;text-align:center;font-size:14px}
+
+@media (max-width:600px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:12px}
+    .gallery-header h1{font-size:1.6rem}
+}
+
+@media (min-width:1200px){
+    .gallery-grid{grid-template-columns: repeat(4, 1fr);}
+}
+
+@media (min-width:1600px){
+    .gallery-grid{grid-template-columns: repeat(5, 1fr);}
+}
+
+/* Shuffled-card presentation */
+.gallery-item.shuffled{
+    transform-origin: center center;
+    transition: transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .3s ease, filter .25s ease;
+    will-change: transform, box-shadow;
+    transform-style: preserve-3d;
+}
+.gallery-item .overlay-well{
+    position:absolute;inset:0;border-radius:8px;pointer-events:none;transition:box-shadow .25s ease,background .25s ease;box-shadow:inset 0 0 0 0 rgba(0,0,0,0);
+}
+.gallery-item.shuffled:hover{
+    transform: translate3d(0,0,40px) rotate(0deg) scale(1.06);
+    z-index:200 !important;
+    box-shadow:0 30px 60px rgba(2,8,20,0.65);
+    cursor:pointer;
+}
+.gallery-item.shuffled:hover .overlay-well{
+    box-shadow: inset 0 0 0 6px rgba(255,255,255,0.02);
+    background: rgba(255,255,255,0.02);
+}
+.gallery-item .overlay-icon{opacity:0;transition:opacity .18s ease}
+.gallery-item.shuffled:hover .overlay-icon{opacity:1}
+
+/* Disable pointer cursor by default; enable on hover via JS/class */
+.gallery-item{cursor:default}
+
+/* Scattered/overlap helpers */
+.gallery-grid{
+    perspective: 1200px;
+}
+.gallery-item.shuffled.large img{ transform: scale(1.02); }
+.gallery-item.shuffled.small{ opacity: 0.98; filter: saturate(.98); }
+
+/* Slight vignette and modern card border */
+.gallery-item{
+    border: 1px solid rgba(255,255,255,0.04);
+}
