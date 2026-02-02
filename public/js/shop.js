@@ -211,7 +211,12 @@ async function renderProductPage() {
         });
         
         if (!r.ok) {
-            throw new Error(`Server returned error: ${r.statusText}`);
+            let errorMsg = r.statusText;
+            try {
+                const errData = await r.json();
+                if(errData.error) errorMsg = errData.error;
+            } catch(e) {}
+            throw new Error(errorMsg);
         }
 
         const data = await r.json();
