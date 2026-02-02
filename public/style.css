@@ -495,14 +495,15 @@ img, .image{
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 100px;
+    padding: 0 100px;
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 0;
 }
 .text h2{
     font-family: 'Playfair Display', serif;
     font-size: 45px;
     font-weight: 100;
+    margin-top: 0;
 }
 .text hr{
     width: 100px;
@@ -555,14 +556,15 @@ img, .image{
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 100px;
+    padding: 0 100px;
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 0;
 }
 .text2 h2{
     font-family: 'Playfair Display', serif;
     font-size: 35px;
     font-weight: 100;
+    margin-top: 0;
 }
 .text2 hr{
     width: 100px;
@@ -591,7 +593,7 @@ img, .image{
     color: #fff;
     text-decoration: underline;
 }
-}
+
 .combo2{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -614,12 +616,13 @@ img, .image{
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 40px;
+    padding: 0 40px;
 }
 .text2 h2{
     font-family: 'Playfair Display', serif;
     font-size: 45px;
     font-weight: 100;
+    margin-top: 0;
 }
 .text2 hr{
     width: 100px;
@@ -1033,7 +1036,7 @@ body:not(.home) .hamburger span {
         width: calc(100% - 20px);
     }
     .text, .text2 {
-        padding: 20px;
+        padding: 0 20px;
         display: block;
         margin-top: 0;
     }
@@ -1164,7 +1167,7 @@ body:not(.home) .hamburger span {
         margin-top: 0;
     }
     .text, .text2 {
-        padding: 15px;
+        padding: 0 15px;
         margin-bottom: 0;
     }
     .text h2 {
@@ -1368,7 +1371,7 @@ body:not(.home) .hamburger span {
   width: 100vw;
   height: 60px;
   background: rgb(200, 7, 7);
-  margin: 0px 0;
+  margin: 0;
   border: none;
   display: block;
   position: relative;
