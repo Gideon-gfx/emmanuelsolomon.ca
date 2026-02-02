@@ -97,6 +97,7 @@ function buildFooterLinks() {
 
 // Product page renderer
 async function renderProductPage() {
+ try {
   buildNav(); buildFooterLinks();
   const id = qs('id');
   const catalog = await fetchCatalog();
@@ -108,12 +109,19 @@ async function renderProductPage() {
     return;
   }
 
-  // Convert YouTube watch links to embed links
+  // Convert YouTube watch links to embed links (and handle potential in-place HTML/iframe)
   if (product.youtube) {
+    let yt = String(product.youtube).trim();
+    if (yt.startsWith('<iframe') || yt.includes('src=')) {
+        const srcMatch = yt.match(/src=["']([^"']+)["']/);
+        if (srcMatch && srcMatch[1]) yt = srcMatch[1];
+    }
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = product.youtube.match(regExp);
+    const match = yt.match(regExp);
     if (match && match[2]) {
       product.youtube = 'https://www.youtube.com/embed/' + match[2];
+    } else if (yt.startsWith('http')) {
+      product.youtube = yt;
     }
   }
 
@@ -270,6 +278,11 @@ async function renderProductPage() {
       const url = encodeURIComponent(window.location.href);
       const text = encodeURIComponent(product.title + ' — ' + (product.description||''));
       let shareUrl = '#';
+ } catch(err) {
+    console.error('Render error:', err);
+    const main = document.getElementById('product');
+    if(main) main.innerHTML = '<div style="padding:40px;text-align:center;color:red"><h3>Page Error</h3><p>'+err.message+'</p></div>';
+ }
       if (service === 'facebook') shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
       if (service === 'twitter') shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
       if (service === 'linkedin') shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
