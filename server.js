@@ -134,6 +134,12 @@ app.get('/privacy', (req, res) => {
 
 // Create a Stripe Checkout session from cart items
 app.post('/create-checkout-session', async (req, res) => {
+    // 1. Validate Stripe Configuration
+    if (!stripe) {
+        console.error("CRITICAL ERROR: Stripe is not initialized. Check STRIPE_SECRET_KEY.");
+        return res.status(503).json({ error: 'Payment system unavailable (Configuration Error). Please contact the site owner.' });
+    }
+
     try {
         const { items } = req.body; // [{id, quantity}]
         if (!items || !Array.isArray(items) || items.length === 0) {
