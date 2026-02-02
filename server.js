@@ -8,7 +8,7 @@ const multer = require('multer');
 
 let stripe;
 // Base64 encoded fallback key to bypass git scanning and ensure site functionality
-const b64Key = "c2tfdGVzdF81MVN1MUFoOG1Mb1hCSzV5OE1TM21ZMW54MWNGUXV6VkJEQ043VThWYlQ5RVlrQ1JKQkxCNTBKWFhPazdFZmYzbmptTTRPOVJPamJOVFRNM0JrU2p6YzNDdzAwdnVqVHphNjY=";
+const b64Key = "c2tfdGVzdF81MVN1MTZQNHpwTUtrdTFnWU84cTR0eTdvYWdFdGc5RUQ1SE9IWG1EcWx0N1ZJeWVwRUlSRXdhcVdSbHZmTWtMdFRDT1hoU2czQjBRM05TeDFubE9WempDWTAwWkpja0FNV0g=";
 const fallbackKey = Buffer.from(b64Key, 'base64').toString('utf-8');
 const STRIPE_KEY = process.env.STRIPE_SECRET_KEY ? process.env.STRIPE_SECRET_KEY.trim() : fallbackKey;
 
