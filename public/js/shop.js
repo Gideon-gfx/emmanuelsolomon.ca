@@ -108,6 +108,12 @@ async function renderProductPage() {
 
   // Convert YouTube watch links to embed links
   if (product.youtube) {
+    // Fix: Handle if user pasted a full iframe code instead of just a link
+    if (product.youtube.includes('<iframe')) {
+        const match = product.youtube.match(/src="([^"]+)"/);
+        if (match && match[1]) product.youtube = match[1];
+    }
+
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = product.youtube.match(regExp);
     if (match && match[2]) {
