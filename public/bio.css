@@ -393,8 +393,10 @@ html, body {
   }
   
 .red4 {
-    /* Removed custom footer styles to align with site-wide style.css */
-    /* width: 100%; margin: 0; */
+    width: 100%;
+    margin: 0;
+    left: auto;
+    right: auto;
 }
 
 .red4 .copyright {
@@ -812,14 +814,14 @@ html, body {
       margin-bottom: 0;
     }
     .red4{
-      display: block;
+      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       width: 100%;
       height: auto;
       padding: 25px 15px;
-      margin-top: 40px;
+      margin: 0;
     }
     .red4 .searchbar {
       margin-bottom: 20px;
