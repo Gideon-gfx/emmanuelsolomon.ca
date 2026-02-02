@@ -863,7 +863,9 @@ html, body {
       font-family: 'Playfair Display', serif
     }
     .middle-links3{
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       width: 100%;
       margin-left: 0;
       text-align: center;
