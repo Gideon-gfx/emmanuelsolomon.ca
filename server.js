@@ -446,7 +446,15 @@ app.get('/api/admin/data', (req, res) => {
         const downloads = fs.existsSync(downloadsPath) ? JSON.parse(fs.readFileSync(downloadsPath, 'utf8')) : [];
         const subscribers = fs.existsSync(subscribersPath) ? JSON.parse(fs.readFileSync(subscribersPath, 'utf8')) : [];
 
-        res.json({ downloads, subscribers });
+        // System Health Check
+        const status = {
+            stripeConfigured: !!process.env.STRIPE_SECRET_KEY,
+            adminPasswordConfigured: !!process.env.ADMIN_PASSWORD,
+            envFileExists: fs.existsSync(path.join(__dirname, '.env')),
+            nodeEnv: process.env.NODE_ENV
+        };
+
+        res.json({ downloads, subscribers, status });
     } catch (err) {
         console.error('Error fetching admin data:', err);
         res.status(500).json({ error: 'Failed to fetch data' });
