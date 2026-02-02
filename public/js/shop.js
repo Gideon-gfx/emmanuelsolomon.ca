@@ -255,6 +255,7 @@ async function renderProductPage() {
         buyNow.innerText = 'Buy Now';
     }
   });
+  }
 
   // NOTE: Digital download action removed from modal. Checkout page shows purchase options.
 

@@ -94,12 +94,11 @@ html, body {
     .combo .text {
         order: 1;
     }
-        gap: 0; /* eliminate gap to red demarcation */
     .combo .image {
+        order: 2;
+    }
     .red-demarcation {
         margin: 0; /* no gap between sections and the red line */
-    }
-        order: 2;
     }
     .combo2 .text2 {
         order: 1;
