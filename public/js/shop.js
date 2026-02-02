@@ -366,16 +366,25 @@ async function renderCartPage() {
 }
 
 // Auto-run depending on page
-document.addEventListener('DOMContentLoaded', () => {
+function initShop() {
+  console.log('Shop.js init');
   buildNav(); buildFooterLinks();
   updateCartCount();
-  // Robust page detection: prefer element presence and query param over pathname checks
+  // Robust page detection
   if (document.getElementById('product') && qs('id')) {
+    console.log('Detected Product Page');
     renderProductPage();
   } else if (document.getElementById('items')) {
+    console.log('Detected Cart Page');
     renderCartPage();
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initShop);
+} else {
+  initShop();
+}
 
 function updateCartCount() {
   const countEl = document.getElementById('cartCount');
