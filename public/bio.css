@@ -393,14 +393,8 @@ html, body {
   }
   
 .red4 {
-    background-color: rgb(200, 7, 7);
-    color: #e7e6e6;
-    padding: 35px;
-    font-size: 15px;
-    font-family: 'Playfair Display', serif;
-    font-weight: 100;
-    margin-left: -50px;
-    width: calc(100% + 50px);
+    /* Removed custom footer styles to align with site-wide style.css */
+    /* width: 100%; margin: 0; */
 }
 
 .red4 .copyright {
@@ -1117,8 +1111,8 @@ html, body {
         padding: 10px;
     }
     .red4 {
-        margin-left: -10px;
-        width: calc(100% + 10px);
+        margin: 0;
+        width: 100%;
         padding: 20px 15px;
     }
     .red4 .searchbar input[type="text"] {
@@ -1171,8 +1165,8 @@ html, body {
         padding: 30px;
     }
     .red4 {
-        margin-left: -80px;
-        width: calc(100% + 80px);
+        margin: 0;
+        width: 100%;
         padding: 45px 80px;
     }
     .red4 .searchbar input[type="text"] {
