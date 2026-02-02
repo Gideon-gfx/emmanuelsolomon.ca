@@ -2,8 +2,7 @@
 
 async function fetchCatalog() {
   try {
-    // Add cache buster to prevent stale data
-    const r = await fetch('/books.json?t=' + Date.now());
+    const r = await fetch('/books.json');
     if (!r.ok) return [];
     return await r.json();
   } catch (e) {
@@ -97,38 +96,28 @@ function buildFooterLinks() {
 
 // Product page renderer
 async function renderProductPage() {
- try {
   buildNav(); buildFooterLinks();
   const id = qs('id');
   const catalog = await fetchCatalog();
   const product = catalog.find(p => p.id === id);
-  console.log('Rendering product:', product); // Debug log
   const main = document.getElementById('product');
   if (!product) {
     if (main) main.innerHTML = '<p>Product not found.</p>';
     return;
   }
 
-  // Convert YouTube watch links to embed links (and handle potential in-place HTML/iframe)
+  // Convert YouTube watch links to embed links
   if (product.youtube) {
-    let yt = String(product.youtube).trim();
-    if (yt.startsWith('<iframe') || yt.includes('src=')) {
-        const srcMatch = yt.match(/src=["']([^"']+)["']/);
-        if (srcMatch && srcMatch[1]) yt = srcMatch[1];
-    }
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = yt.match(regExp);
+    const match = product.youtube.match(regExp);
     if (match && match[2]) {
       product.youtube = 'https://www.youtube.com/embed/' + match[2];
-    } else if (yt.startsWith('http')) {
-      product.youtube = yt;
     }
   }
 
   main.innerHTML = `
     <div class="product-page" style="max-width:980px;margin:0 auto;padding:20px">
       <!-- Video -->
-      ${product.video ? `<div class="video-wrapper" style="margin-bottom:16px;"><video controls src="${product.video}" style="width:100%; border-radius:8px;"></video></div>` : ''}
       ${product.youtube ? `<div class="video-wrapper" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin-bottom:16px;"><iframe src="${product.youtube}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe></div>` : ''}
       ${product.audio ? `<div style="margin-bottom:12px;"><audio controls src="${product.audio}" style="width:100%;"></audio></div>` : ''}
 
@@ -278,11 +267,6 @@ async function renderProductPage() {
       const url = encodeURIComponent(window.location.href);
       const text = encodeURIComponent(product.title + ' — ' + (product.description||''));
       let shareUrl = '#';
- } catch(err) {
-    console.error('Render error:', err);
-    const main = document.getElementById('product');
-    if(main) main.innerHTML = '<div style="padding:40px;text-align:center;color:red"><h3>Page Error</h3><p>'+err.message+'</p></div>';
- }
       if (service === 'facebook') shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
       if (service === 'twitter') shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
       if (service === 'linkedin') shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
@@ -377,8 +361,7 @@ async function renderCartPage() {
     if (data.url) {
       window.location = data.url;
     } else {
-      console.error('Checkout error detail:', data);
-      alert('Checkout failed: ' + (data.error || 'Unknown error. Check console.'));
+      alert('Checkout error');
     }
   });
 }
