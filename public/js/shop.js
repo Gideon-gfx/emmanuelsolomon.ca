@@ -105,6 +105,16 @@ async function renderProductPage() {
     if (main) main.innerHTML = '<p>Product not found.</p>';
     return;
   }
+
+  // Convert YouTube watch links to embed links
+  if (product.youtube) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = product.youtube.match(regExp);
+    if (match && match[2]) {
+      product.youtube = 'https://www.youtube.com/embed/' + match[2];
+    }
+  }
+
   main.innerHTML = `
     <div class="product-page" style="max-width:980px;margin:0 auto;padding:20px">
       <!-- Video -->

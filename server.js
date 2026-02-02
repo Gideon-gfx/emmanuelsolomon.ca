@@ -331,21 +331,39 @@ app.post('/api/admin/upload-product', upload.fields([
         // Handle Product Upload (existing logic below)
         const { title, price, description, lyrics, youtube } = req.body;
         
+        // Sanitize YouTube URL to ensure it is an embed link
+        let sanitizedYoutube = youtube || '';
+        if (sanitizedYoutube) {
+             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+             const match = sanitizedYoutube.match(regExp);
+             if (match && match[2]){
+                 sanitizedYoutube = 'https://www.youtube.com/embed/' + match[2];
+             }
+        }
+        
         if (!type || type === 'product') {
             if (!title) {
                 return res.status(400).json({ error: 'Title is required' });
             }
 
-            const id = title.replace(/[^a-zA-Z0-9]/g, '');
             const catalogPath = path.join(__dirname, 'public', 'books.json');
-            
             let catalog = [];
             if (fs.existsSync(catalogPath)) {
                 catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
             }
 
-            const existingIdx = catalog.findIndex(p => p.id === id);
+            // Improved lookup: Check by ID or Title
+            const generatedId = title.replace(/[^a-zA-Z0-9]/g, '');
+            let existingIdx = catalog.findIndex(p => p.id === generatedId);
+            
+            // Fallback: search by title (useful if ID style changed or manual IDs used)
+            if (existingIdx === -1) {
+                existingIdx = catalog.findIndex(p => p.title === title);
+            }
+
             const isNew = existingIdx === -1;
+            // Use existing ID if we found a match, otherwise use the new generated one
+            const finalId = isNew ? generatedId : catalog[existingIdx].id;
 
             if (isNew && !req.files['coverImage']) {
                return res.status(400).json({ error: 'Cover Image is required for new products' });
@@ -360,21 +378,21 @@ app.post('/api/admin/upload-product', upload.fields([
             }
 
             const newProduct = {
-                id,
+                id: finalId,
                 title,
                 price: price ? Number(price) : (isNew ? 0 : catalog[existingIdx].price),
                 description: description || (isNew ? '' : catalog[existingIdx].description),
                 lyrics: lyrics || (isNew ? '' : catalog[existingIdx].lyrics),
-                youtube: youtube || (isNew ? '' : catalog[existingIdx].youtube),
+                youtube: sanitizedYoutube || (isNew ? '' : catalog[existingIdx].youtube),
                 image: imagePath,
-                file: req.files['scorePdf'] ? '/scores/' + req.files['scorePdf'][0].filename : '',
-                audio: req.files['audioFile'] ? '/audio/' + req.files['audioFile'][0].filename : ''
+                file: req.files['scorePdf'] ? '/scores/' + req.files['scorePdf'][0].filename : (isNew ? '' : catalog[existingIdx].file),
+                audio: req.files['audioFile'] ? '/audio/' + req.files['audioFile'][0].filename : (isNew ? '' : catalog[existingIdx].audio)
             };
 
             if (!isNew) {
-                // Preserve existing files if not overwritten
-                if (!newProduct.file && catalog[existingIdx].file) newProduct.file = catalog[existingIdx].file;
-                if (!newProduct.audio && catalog[existingIdx].audio) newProduct.audio = catalog[existingIdx].audio;
+                // Ensure we don't accidentally overwrite with empty if logic above failed (redundant but safe)
+                if (!newProduct.file && catalog[existingIdx].file && !req.files['scorePdf']) newProduct.file = catalog[existingIdx].file;
+                if (!newProduct.audio && catalog[existingIdx].audio && !req.files['audioFile']) newProduct.audio = catalog[existingIdx].audio;
                 
                 catalog[existingIdx] = newProduct;
             } else {
@@ -383,7 +401,7 @@ app.post('/api/admin/upload-product', upload.fields([
 
             fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2));
 
-            return res.json({ message: 'Product saved successfully', id });
+            return res.json({ message: 'Product saved successfully', id: finalId });
         }
     } catch (err) {
         console.error('Upload Error:', err);
