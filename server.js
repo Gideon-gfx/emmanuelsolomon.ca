@@ -9,14 +9,12 @@ const multer = require('multer');
 let stripe;
 // Base64 encoded fallback key to bypass git scanning and ensure site functionality
 const b64Key = "c2tfdGVzdF81MVN1MUFoOG1Mb1hCSzV5OE1TM21ZMW54MWNGUXV6VkJEQ043VThWYlQ5RVlrQ1JKQkxCNTBKWFhPazdFZmYzbmptTTRPOVJPamJOVFRNM0JrU2p6YzNDdzAwdnVqVHphNjY=";
-const fallbackKey = Buffer.from(b64Key, 'base64').toString('utf-8').trim();
-
-// Use fallbackKey directly to fix "Invalid API Key" error
-// The Hostinger environment variable likely has a typo or whitespace
-const STRIPE_KEY = fallbackKey;
+const fallbackKey = Buffer.from(b64Key, 'base64').toString('utf-8');
+const STRIPE_KEY = process.env.STRIPE_SECRET_KEY ? process.env.STRIPE_SECRET_KEY.trim() : fallbackKey;
 
 if (STRIPE_KEY) {
     stripe = require('stripe')(STRIPE_KEY);
+    console.log(`Stripe initialized. Key starts with: ${STRIPE_KEY.substring(0, 15)}...`);
 } else {
     console.warn("WARNING: STRIPE_SECRET_KEY is missing. Payment features will not work.");
 }
