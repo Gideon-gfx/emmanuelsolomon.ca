@@ -195,8 +195,11 @@ async function renderProductPage() {
   if (getMusicBtn && bootstrapModal) {
      getMusicBtn.addEventListener('click', () => bootstrapModal.show());
   } else if (getMusicBtn) {
-     // Fallback if bootstrap missing?
-     getMusicBtn.addEventListener('click', () => alert('Error: Interface not ready. reloading...'), window.location.reload());
+     // Fallback if bootstrap missing
+     getMusicBtn.addEventListener('click', () => { 
+        alert('Error: Interface not loaded. Please reload the page.');
+        window.location.reload();
+     });
   }
 
   if (addToCartModal) {
