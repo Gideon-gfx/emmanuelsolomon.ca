@@ -182,20 +182,37 @@ async function renderProductPage() {
   const modalQty = document.getElementById('modalQty');
   const addToCartModal = document.getElementById('addToCartModal');
   const buyNow = document.getElementById('buyNow');
-  const bootstrapModal = new bootstrap.Modal(document.getElementById('getMusicModal'));
-  getMusicBtn.addEventListener('click', () => bootstrapModal.show());
 
-  addToCartModal.addEventListener('click', () => {
-    const q = Math.max(25, Number(modalQty.value || 25));
-    const cart = getCart();
-    const existing = cart.find(it => it.id === product.id);
-    if (existing) existing.quantity += q; else cart.push({ id: product.id, quantity: q });
-    saveCart(cart);
-    bootstrapModal.hide();
-    alert(`Added ${q} copies to cart`);
-  });
+  let bootstrapModal;
+  try {
+    if (typeof bootstrap !== 'undefined') {
+       bootstrapModal = new bootstrap.Modal(document.getElementById('getMusicModal'));
+    } else {
+       console.error('Bootstrap not loaded');
+    }
+  } catch(e) { console.error('Modal error', e); }
 
-  buyNow.addEventListener('click', async () => {
+  if (getMusicBtn && bootstrapModal) {
+     getMusicBtn.addEventListener('click', () => bootstrapModal.show());
+  } else if (getMusicBtn) {
+     // Fallback if bootstrap missing?
+     getMusicBtn.addEventListener('click', () => alert('Error: Interface not ready. reloading...'), window.location.reload());
+  }
+
+  if (addToCartModal) {
+      addToCartModal.addEventListener('click', () => {
+        const q = Math.max(25, Number(modalQty.value || 25));
+        const cart = getCart();
+        const existing = cart.find(it => it.id === product.id);
+        if (existing) existing.quantity += q; else cart.push({ id: product.id, quantity: q });
+        saveCart(cart);
+        bootstrapModal.hide();
+        alert(`Added ${q} copies to cart`);
+      });
+  }
+
+  if (buyNow) {
+      buyNow.addEventListener('click', async () => {
     try {
         const q = Math.max(25, Number(modalQty.value || 25));
         
