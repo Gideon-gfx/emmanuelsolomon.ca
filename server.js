@@ -353,17 +353,24 @@ app.post('/api/admin/upload-product', upload.fields([
             }
 
             // Improved lookup: Check by ID or Title
-            const generatedId = title.replace(/[^a-zA-Z0-9]/g, '');
-            let existingIdx = catalog.findIndex(p => p.id === generatedId);
+            // First try strict ID match (standard behavior)
+            let existingIdx = catalog.findIndex(p => p.id === title.replace(/[^a-zA-Z0-9]/g, ''));
             
-            // Fallback: search by title (useful if ID style changed or manual IDs used)
+            // Fallback: Fuzzy search by title to find existing products with different IDs
+            // This fixes the issue where an update creates a new entry if the ID doesn't perfectly match the generated one.
             if (existingIdx === -1) {
-                existingIdx = catalog.findIndex(p => p.title === title);
+                const searchTitle = title.toLowerCase().trim();
+                existingIdx = catalog.findIndex(p => p.title.toLowerCase().trim() === searchTitle);
+                
+                // If found by title, we MUST use the existing ID to update it, NOT generate a new one
+                if (existingIdx !== -1) {
+                    console.log(`Matched existing product by title: "${title}" (ID: ${catalog[existingIdx].id})`);
+                }
             }
-
+            
             const isNew = existingIdx === -1;
-            // Use existing ID if we found a match, otherwise use the new generated one
-            const finalId = isNew ? generatedId : catalog[existingIdx].id;
+            // CRITICAL: If updating, use the EXISTING ID. If new, generate one.
+            const finalId = isNew ? title.replace(/[^a-zA-Z0-9]/g, '') : catalog[existingIdx].id;
 
             if (isNew && !req.files['coverImage']) {
                return res.status(400).json({ error: 'Cover Image is required for new products' });
@@ -394,9 +401,20 @@ app.post('/api/admin/upload-product', upload.fields([
                 if (!newProduct.file && catalog[existingIdx].file && !req.files['scorePdf']) newProduct.file = catalog[existingIdx].file;
                 if (!newProduct.audio && catalog[existingIdx].audio && !req.files['audioFile']) newProduct.audio = catalog[existingIdx].audio;
                 
+                // Preserve description if user left new description blank
+                if (!newProduct.description && catalog[existingIdx].description) newProduct.description = catalog[existingIdx].description;
+                 // Preserve lyrics if user left new lyrics blank
+                if (!newProduct.lyrics && catalog[existingIdx].lyrics) newProduct.lyrics = catalog[existingIdx].lyrics;
+                // Preserve youtube if user left new youtube blank
+                if (!newProduct.youtube && catalog[existingIdx].youtube && !sanitizedYoutube) newProduct.youtube = catalog[existingIdx].youtube;
+                // Preserve price if user left new price (logic handled above, but double check)
+                if (newProduct.price === 0 && catalog[existingIdx].price) newProduct.price = catalog[existingIdx].price;
+
                 catalog[existingIdx] = newProduct;
+                console.log(`Updated product in catalog: ${finalId}`);
             } else {
                 catalog.push(newProduct);
+                console.log(`Added new product to catalog: ${finalId}`);
             }
 
             fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2));

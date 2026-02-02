@@ -101,10 +101,27 @@
 
         <!-- Tab 1: Scores -->
         <div class="tab-pane fade show active" id="scores" role="tabpanel">
+            <h4 class="mb-3">Existing Products</h4>
+            <div class="table-responsive mb-5" style="max-height: 300px; overflow-y: auto;">
+                <table class="table table-bordered table-striped" id="productTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Title</th>
+                            <th>PDF</th>
+                            <th>Audio</th>
+                            <th>Video</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
             <form id="uploadForm" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="product">
                 
-                <h4 class="mb-3">Upload New Score</h4>
+                <h4 class="mb-3">Upload / Update Score</h4>
                 <!-- Meta Data -->
                 <div class="row">
                     <div class="col-md-8">
@@ -230,6 +247,29 @@
     }
 
     // --- Tab 1: Products ---
+    document.addEventListener('DOMContentLoaded', loadProductList);
+
+    async function loadProductList() {
+        try {
+            const r = await fetch('/books.json');
+            if(!r.ok) return;
+            const books = await r.json();
+            const tbody = document.querySelector('#productTable tbody');
+            tbody.innerHTML = '';
+            
+            books.forEach(b => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${b.title}</td>
+                    <td>${b.file ? `<a href="${b.file}" target="_blank">View PDF</a>` : '<span class="text-muted">None</span>'}</td>
+                    <td>${b.audio ? `<a href="${b.audio}" target="_blank">Listen</a>` : '<span class="text-muted">None</span>'}</td>
+                    <td>${b.youtube ? `<a href="${b.youtube}" target="_blank">Watch</a>` : '<span class="text-muted">None</span>'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } catch(e) { console.error('Error loading product list:', e); }
+    }
+
     function previewFile() {
         const preview = document.getElementById('imgPreview');
         const file = document.getElementById('coverImage').files[0];
@@ -269,6 +309,7 @@
                 showMsg('Product Uploaded Successfully!', false);
                 this.reset();
                 document.getElementById('imgPreview').style.display = 'none';
+                loadProductList(); // Refresh list
             } else {
                 showMsg(res.error || 'Failed', true);
             }
