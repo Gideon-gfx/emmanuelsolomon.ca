@@ -196,11 +196,39 @@ async function renderProductPage() {
   });
 
   buyNow.addEventListener('click', async () => {
-    const q = Math.max(25, Number(modalQty.value || 25));
-    const payload = { items: [{ id: product.id, quantity: q }] };
-    const r = await fetch('/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    const data = await r.json();
-    if (data.url) window.location = data.url; else alert('Checkout error');
+    try {
+        const q = Math.max(25, Number(modalQty.value || 25));
+        
+        // Show loading state
+        buyNow.disabled = true;
+        buyNow.innerText = 'Processing...';
+
+        const payload = { items: [{ id: product.id, quantity: q }] };
+        const r = await fetch('/create-checkout-session', { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify(payload) 
+        });
+        
+        if (!r.ok) {
+            throw new Error(`Server returned error: ${r.statusText}`);
+        }
+
+        const data = await r.json();
+        if (data.url) {
+            window.location = data.url;
+        } else {
+            console.error('No URL in response', data);
+            alert('Checkout error: No payment URL returned.');
+            buyNow.disabled = false;
+            buyNow.innerText = 'Buy Now';
+        }
+    } catch (err) {
+        console.error('Buy Button Error:', err);
+        alert('Failed to start checkout. Please try again or contact support.\nError: ' + err.message);
+        buyNow.disabled = false;
+        buyNow.innerText = 'Buy Now';
+    }
   });
 
   // NOTE: Digital download action removed from modal. Checkout page shows purchase options.
