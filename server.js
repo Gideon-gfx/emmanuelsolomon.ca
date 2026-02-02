@@ -301,12 +301,26 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Admin Upload Route
-app.post('/api/admin/upload-product', upload.fields([
+const uploadFields = upload.fields([
     { name: 'coverImage', maxCount: 1 },
     { name: 'scorePdf', maxCount: 1 },
     { name: 'audioFile', maxCount: 1 },
     { name: 'galleryImage', maxCount: 10 }
-]), (req, res) => {
+]);
+
+app.post('/api/admin/upload-product', (req, res, next) => {
+    uploadFields(req, res, (err) => {
+        if (err) {
+            console.error("Upload Error:", err);
+            // Handle Multer errors (e.g. file too large)
+            if (err instanceof multer.MulterError) {
+                return res.status(400).json({ error: 'File Upload Error: ' + err.message });
+            }
+            return res.status(500).json({ error: 'Server Error during upload: ' + err.message });
+        }
+        next();
+    });
+}, (req, res) => {
     try {
         const { password, type } = req.body;
         
