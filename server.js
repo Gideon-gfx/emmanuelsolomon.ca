@@ -288,8 +288,15 @@ const storage = multer.diskStorage({
         if (file.fieldname === 'coverImage') folder = 'public/images';
         else if (file.fieldname === 'scorePdf') folder = 'public/scores';
         else if (file.fieldname === 'audioFile') folder = 'public/audio';
+        else if (file.fieldname === 'videoFile') folder = 'public/bikks-images'; // Reusing bikkurim folder or create 'public/video'? Let's use 'public/images' or 'public/video'
         else if (file.fieldname === 'galleryImage') folder = 'public/gallery-images';
         
+        // Let's create a dedicated folder for product videos if needed, or put them in images to keep it simple?
+        // Actually, let's use public/video if possible, or just public/images for simplicity if I don't want to make new dir.
+        // User has 'bikks-images' which has .mov files.
+        // Let's just use 'public/videos' and ensure it exists.
+        if (file.fieldname === 'videoFile') folder = 'public/videos';
+
         if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true });
         cb(null, folder);
     },
@@ -298,13 +305,17 @@ const storage = multer.diskStorage({
         cb(null, safeName);
     }
 });
-const upload = multer({ storage });
+const upload = multer({ 
+    storage,
+    limits: { fileSize: 50 * 1024 * 1024 } // Increase limit to 50MB for videos
+});
 
 // Admin Upload Route
 const uploadFields = upload.fields([
     { name: 'coverImage', maxCount: 1 },
     { name: 'scorePdf', maxCount: 1 },
     { name: 'audioFile', maxCount: 1 },
+    { name: 'videoFile', maxCount: 1 },
     { name: 'galleryImage', maxCount: 10 }
 ]);
 
@@ -354,6 +365,12 @@ app.post('/api/admin/upload-product', (req, res, next) => {
         // Sanitize YouTube URL to ensure it is an embed link
         let sanitizedYoutube = youtube || '';
         if (sanitizedYoutube) {
+             // Handle if user pasted full iframe code
+             if (sanitizedYoutube.includes('<iframe')) {
+                 const srcMatch = sanitizedYoutube.match(/src="([^"]+)"/);
+                 if (srcMatch && srcMatch[1]) sanitizedYoutube = srcMatch[1];
+             }
+
              const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
              const match = sanitizedYoutube.match(regExp);
              if (match && match[2]){
@@ -413,13 +430,15 @@ app.post('/api/admin/upload-product', (req, res, next) => {
                 youtube: sanitizedYoutube || (isNew ? '' : catalog[existingIdx].youtube),
                 image: imagePath,
                 file: req.files['scorePdf'] ? '/scores/' + req.files['scorePdf'][0].filename : (isNew ? '' : catalog[existingIdx].file),
-                audio: req.files['audioFile'] ? '/audio/' + req.files['audioFile'][0].filename : (isNew ? '' : catalog[existingIdx].audio)
+                audio: req.files['audioFile'] ? '/audio/' + req.files['audioFile'][0].filename : (isNew ? '' : catalog[existingIdx].audio),
+                video: req.files['videoFile'] ? '/videos/' + req.files['videoFile'][0].filename : (isNew ? '' : (catalog[existingIdx].video || ''))
             };
 
             if (!isNew) {
                 // Ensure we don't accidentally overwrite with empty if logic above failed (redundant but safe)
                 if (!newProduct.file && catalog[existingIdx].file && !req.files['scorePdf']) newProduct.file = catalog[existingIdx].file;
                 if (!newProduct.audio && catalog[existingIdx].audio && !req.files['audioFile']) newProduct.audio = catalog[existingIdx].audio;
+                if (!newProduct.video && catalog[existingIdx].video && !req.files['videoFile']) newProduct.video = catalog[existingIdx].video;
                 
                 // Preserve description if user left new description blank
                 if (!newProduct.description && catalog[existingIdx].description) newProduct.description = catalog[existingIdx].description;

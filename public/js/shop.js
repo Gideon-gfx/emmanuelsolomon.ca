@@ -2,7 +2,8 @@
 
 async function fetchCatalog() {
   try {
-    const r = await fetch('/books.json');
+    // Add cache buster to prevent stale data
+    const r = await fetch('/books.json?t=' + Date.now());
     if (!r.ok) return [];
     return await r.json();
   } catch (e) {
@@ -100,6 +101,7 @@ async function renderProductPage() {
   const id = qs('id');
   const catalog = await fetchCatalog();
   const product = catalog.find(p => p.id === id);
+  console.log('Rendering product:', product); // Debug log
   const main = document.getElementById('product');
   if (!product) {
     if (main) main.innerHTML = '<p>Product not found.</p>';
@@ -118,6 +120,7 @@ async function renderProductPage() {
   main.innerHTML = `
     <div class="product-page" style="max-width:980px;margin:0 auto;padding:20px">
       <!-- Video -->
+      ${product.video ? `<div class="video-wrapper" style="margin-bottom:16px;"><video controls src="${product.video}" style="width:100%; border-radius:8px;"></video></div>` : ''}
       ${product.youtube ? `<div class="video-wrapper" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin-bottom:16px;"><iframe src="${product.youtube}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe></div>` : ''}
       ${product.audio ? `<div style="margin-bottom:12px;"><audio controls src="${product.audio}" style="width:100%;"></audio></div>` : ''}
 
@@ -361,7 +364,8 @@ async function renderCartPage() {
     if (data.url) {
       window.location = data.url;
     } else {
-      alert('Checkout error');
+      console.error('Checkout error detail:', data);
+      alert('Checkout failed: ' + (data.error || 'Unknown error. Check console.'));
     }
   });
 }
