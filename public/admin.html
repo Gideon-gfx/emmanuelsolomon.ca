@@ -63,6 +63,24 @@
         
         <!-- Tab 4: Sales & Subscribers -->
         <div class="tab-pane fade" id="sales" role="tabpanel">
+            <h4 class="mb-3">Recent Stripe Payments</h4>
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered table-striped" id="stripePaymentsTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Payment ID</th>
+                            <th>Customer Email</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="5" class="text-center">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
             <h4 class="mb-3">Recent Sales/Downloads</h4>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="salesTable">
@@ -402,15 +420,39 @@
         const pwd = getPassword();
         if(!pwd) {
             // Warn if no password, though the API might be public currently
+            const stripeBody = document.querySelector('#stripePaymentsTable tbody');
             const salesBody = document.querySelector('#salesTable tbody');
             const subBody = document.querySelector('#subscribersTable tbody');
             const msg = '<tr><td colspan="5" class="text-danger text-center">Please enter Admin Password above to view data.</td></tr>';
+            if(stripeBody) stripeBody.innerHTML = msg;
             if(salesBody) salesBody.innerHTML = msg;
             if(subBody) subBody.innerHTML = msg;
             return;
         }
 
         try {
+            // Load Stripe Payments
+            const stripeRes = await fetch('/api/admin/stripe-payments');
+            const stripeData = await stripeRes.json();
+            const stripeBody = document.querySelector('#stripePaymentsTable tbody');
+            
+            if(stripeData.error) {
+                stripeBody.innerHTML = `<tr><td colspan="5" class="text-warning text-center">${stripeData.error}</td></tr>`;
+            } else if(!stripeData.payments || stripeData.payments.length === 0) {
+                stripeBody.innerHTML = '<tr><td colspan="5" class="text-center">No payments found yet.</td></tr>';
+            } else {
+                stripeBody.innerHTML = stripeData.payments.map(p => `
+                    <tr>
+                        <td>${p.date}</td>
+                        <td><small>${p.id}</small></td>
+                        <td>${p.customerEmail}</td>
+                        <td><strong>${p.currency} $${p.amount}</strong></td>
+                        <td>${p.description}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Load existing downloads/sales data
             const res = await fetch('/api/admin/data'); 
             const data = await res.json();
             

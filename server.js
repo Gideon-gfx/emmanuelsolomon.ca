@@ -467,6 +467,36 @@ app.get('/api/admin/data', (req, res) => {
     }
 });
 
+// New endpoint to fetch recent Stripe payments
+app.get('/api/admin/stripe-payments', async (req, res) => {
+    try {
+        if (!stripe) {
+            return res.status(503).json({ error: 'Stripe not configured' });
+        }
+
+        // Fetch last 100 payment intents (successful payments)
+        const paymentIntents = await stripe.paymentIntents.list({
+            limit: 100,
+        });
+
+        const payments = paymentIntents.data
+            .filter(pi => pi.status === 'succeeded')
+            .map(pi => ({
+                id: pi.id,
+                amount: (pi.amount / 100).toFixed(2),
+                currency: pi.currency.toUpperCase(),
+                date: new Date(pi.created * 1000).toLocaleString(),
+                customerEmail: pi.receipt_email || 'N/A',
+                description: pi.description || 'N/A'
+            }));
+
+        res.json({ payments });
+    } catch (err) {
+        console.error('Error fetching Stripe payments:', err);
+        res.status(500).json({ error: 'Failed to fetch payments: ' + err.message });
+    }
+});
+
 // 5. Subscription Endpoint
 app.post('/subscribe', (req, res) => {
     try {
