@@ -179,8 +179,8 @@ app.post('/create-checkout-session', async (req, res) => {
 
         res.json({ url: session.url, id: session.id });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
+        console.error("Stripe Session Error:", err);
+        res.status(500).json({ error: 'Server error: ' + err.message });
     }
 });
 
