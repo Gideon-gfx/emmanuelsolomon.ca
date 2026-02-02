@@ -1,5 +1,10 @@
 node_modules/
 .env
+.env.local
+.env.production
 downloads.json
 subscribers.json
 emmanuelsolomon.ca.zip
+# Stripe keys and sensitive config
+*stripe*key*
+stripe_config.json
