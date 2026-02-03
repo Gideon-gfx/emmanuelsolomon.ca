@@ -281,7 +281,8 @@
 
     async function loadProductList() {
         try {
-            const r = await fetch('/books.json');
+            // Add cache busting to ensure we get the latest data
+            const r = await fetch('/books.json?t=' + Date.now());
             if(!r.ok) return;
             const books = await r.json();
             const tbody = document.querySelector('#productTable tbody');
