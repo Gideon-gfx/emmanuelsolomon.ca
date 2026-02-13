@@ -263,6 +263,36 @@ html, body {
         padding-right: 0 !important;
         flex-wrap: wrap;
     }
+    .middle-links .dropdown-menu,
+    .middle-links3 .dropdown-menu {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        z-index: 1000;
+        display: none;
+    }
+    .nav-item.dropdown.active .dropdown-menu {
+        display: block;
+    }
+    .middle-links .dropdown-menu.show,
+    .middle-links3 .dropdown-menu.show {
+        display: block;
+    }
+    /* Small tweak: dropdown caret and toggles inherit color */
+    body:not(.home) .nav-holder .dropdown-toggle { color: #000 !important; }
+    /* Hover state: make nav links and social icons red on non-home pages */
+    body:not(.home) .nav-holder a:hover,
+    body:not(.home) .nav-holder .dropdown-toggle:hover,
+    body:not(.home) .middle-links a:hover,
+    body:not(.home) .middle-links .dropdown-item:hover,
+    body:not(.home) .middle-links3 a:hover,
+    body:not(.home) .red4 a:hover {
+        color: #9f0f12 !important;
+        text-decoration-color: #9f0f12 !important;
+    }
 }
 
 

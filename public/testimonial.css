@@ -16,21 +16,24 @@ html, body {
 .nav-holder{
     display: flex;
     margin-top: 10px;
-    margin-left: 50px;
-    margin-right: 50px;
-    gap: 5px;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 20px;
-    top: 0;
-    left: 0;
-    width: calc(100% - 100px);
-    background-color: transparent;
-    z-index: 100;
-    transition: background-color 0.3s ease;
-
-        }
-.nav-holder a{
+    .middle-links .dropdown-menu,
+    .middle-links3 .dropdown-menu {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        z-index: 1000;
+        display: none;
+    }
+    .nav-item.dropdown.active .dropdown-menu {
+        display: block;
+    }
+    .middle-links .dropdown-menu.show,
+    .middle-links3 .dropdown-menu.show {
+        display: block;
+    }
       text-decoration: none;
       color: #000;
       font-family: 'Playfair Display', serif;
