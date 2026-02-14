@@ -1,10 +1,8 @@
 node_modules/
 .env
-.env.local
-.env.production
-downloads.json
-subscribers.json
-emmanuelsolomon.ca.zip
+.DS_Store
+*.log
+npm-debug.log*
 # Stripe keys and sensitive config
 *stripe*key*
 stripe_config.json
