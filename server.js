@@ -5,9 +5,16 @@ const fs = require('fs');
 const { log } = require('console');
 const crypto = require('crypto');
 const multer = require('multer');
+const cors = require('cors');
+
+// Enable CORS for all routes
+app.use(cors());
 
 let stripe;
 // Base64 encoded fallback key to bypass git scanning and ensure site functionality
+const cors = require('cors');
+app.use(cors());
+
 const b64Key = "c2tfdGVzdF81MVN1MTZQNHpwTUtrdTFnWU84cTR0eTdvYWdFdGc5RUQ1SE9IWG1EcWx0N1ZJeWVwRUlSRXdhcVdSbHZmTWtMdFRDT1hoU2czQjBRM05TeDFubE9WempDWTAwWkpja0FNV0g=";
 const fallbackKey = Buffer.from(b64Key, 'base64').toString('utf-8');
 const STRIPE_KEY = process.env.STRIPE_SECRET_KEY ? process.env.STRIPE_SECRET_KEY.trim() : fallbackKey;
