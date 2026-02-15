@@ -11,7 +11,6 @@ const cors = require('cors');
 let stripe;
 // Base64 encoded fallback key to bypass git scanning and ensure site functionality
 
-const app = express();
 app.use(cors());
 
 const b64Key = "c2tfdGVzdF81MVN1MTZQNHpwTUtrdTFnWU84cTR0eTdvYWdFdGc5RUQ1SE9IWG1EcWx0N1ZJeWVwRUlSRXdhcVdSbHZmTWtMdFRDT1hoU2czQjBRM05TeDFubE9WempDWTAwWkpja0FNV0g=";
