@@ -8,10 +8,11 @@ const crypto = require('crypto');
 const multer = require('multer');
 const cors = require('cors');
 
+const app = express();
+app.use(cors());
+
 let stripe;
 // Base64 encoded fallback key to bypass git scanning and ensure site functionality
-
-app.use(cors());
 
 const b64Key = "c2tfdGVzdF81MVN1MTZQNHpwTUtrdTFnWU84cTR0eTdvYWdFdGc5RUQ1SE9IWG1EcWx0N1ZJeWVwRUlSRXdhcVdSbHZmTWtMdFRDT1hoU2czQjBRM05TeDFubE9WempDWTAwWkpja0FNV0g=";
 const fallbackKey = Buffer.from(b64Key, 'base64').toString('utf-8');
@@ -26,7 +27,6 @@ if (STRIPE_KEY) {
 
 console.log('ENV CHECK'), process.env.PORT;
 
-const app = express();
 const PORT = process.env.PORT || 3001;
 
 // 1. Static Middleware: Tells Express to look in /public for CSS, Images, and JS
