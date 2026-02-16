@@ -169,9 +169,13 @@ app.post('/create-checkout-session', async (req, res) => {
 
         const line_items = items.map(item => {
             const product = catalog.find(p => p.id === item.id);
-            // enforce minimum 25 copies for physical items; allow 1 for digital purchases
+            // Determine if this is a digital product (downloads)
             const isDigital = !!item.digital;
-            const qty = isDigital ? 1 : Math.max(25, Number(item.quantity || 25));
+            // Prefer product-level minQuantity if defined, otherwise fall back to 1 for digital or 25 for physical
+            const productMin = product && product.minQuantity ? Number(product.minQuantity) : null;
+            const fallbackMin = isDigital ? 1 : 25;
+            const minQ = Number.isFinite(productMin) ? productMin : fallbackMin;
+            const qty = Math.max(minQ, Number(item.quantity || minQ));
             const unit_amount = Math.round((product && product.price) ? product.price * 100 : 310);
             const name = product ? product.title : item.id;
             return {

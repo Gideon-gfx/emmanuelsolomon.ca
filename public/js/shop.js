@@ -167,10 +167,10 @@ async function renderProductPage() {
         <div class="modal-content">
           <div class="modal-header"><h5 class="modal-title">Get Music</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
           <div class="modal-body">
-            <p>Choose an option below. Minimum order: 25 copies.</p>
+            <p>Choose an option below. ${product.minQuantity ? `Minimum order: ${product.minQuantity} copies.` : ''}</p>
             <div style="display:flex;gap:10px;align-items:center;">
               <label for="modalQty">Quantity</label>
-              <input id="modalQty" type="number" min="25" value="25" style="width:100px;margin-left:8px;">
+              <input id="modalQty" type="number" min="${product.minQuantity || 1}" value="${product.minQuantity || 1}" style="width:100px;margin-left:8px;">
             </div>
             <div style="margin-top:12px">Price per copy: $${product.price.toFixed(2)} CAD</div>
           </div>
@@ -210,7 +210,8 @@ async function renderProductPage() {
 
   if (addToCartModal) {
       addToCartModal.addEventListener('click', () => {
-        const q = Math.max(25, Number(modalQty.value || 25));
+        const minQ = Number(product.minQuantity || 1);
+        const q = Math.max(minQ, Number(modalQty.value || minQ));
         const cart = getCart();
         const existing = cart.find(it => it.id === product.id);
         if (existing) existing.quantity += q; else cart.push({ id: product.id, quantity: q });
@@ -223,7 +224,8 @@ async function renderProductPage() {
   if (buyNow) {
       buyNow.addEventListener('click', async () => {
     try {
-        const q = Math.max(25, Number(modalQty.value || 25));
+        const minQ = Number(product.minQuantity || 1);
+        const q = Math.max(minQ, Number(modalQty.value || minQ));
         
         // Show loading state
         buyNow.disabled = true;
@@ -302,6 +304,15 @@ async function renderCartPage() {
   if (cart.length === 0) { itemsEl.innerHTML = '<p>Your cart is empty.</p>'; return; }
   itemsEl.innerHTML = '';
   let total = 0;
+  // Ensure cart respects product minimum quantities
+  let cartChanged = false;
+  for (const itm of cart) {
+    const pcheck = catalog.find(p => p.id === itm.id) || { minQuantity: 1 };
+    const minQ = Number(pcheck.minQuantity || 1);
+    if ((Number(itm.quantity) || 0) < minQ) { itm.quantity = minQ; cartChanged = true; }
+  }
+  if (cartChanged) saveCart(cart);
+
   for (const it of cart) {
     const prod = catalog.find(p => p.id === it.id) || { title: it.id, price: 3.10 };
     const subtotal = prod.price * it.quantity;
@@ -331,7 +342,8 @@ async function renderCartPage() {
       const cartNow = getCart();
       const item = cartNow.find(x => x.id === it.id);
       if (!item) return;
-      item.quantity = Math.max(1, item.quantity - 1);
+      const minQ = Number(prod.minQuantity || 1);
+      item.quantity = Math.max(minQ, item.quantity - 1);
       saveCart(cartNow);
       qtySpan.textContent = item.quantity;
       document.getElementById('total').textContent = `$${cartNow.reduce((s,i)=>{ const p=catalog.find(c=>c.id===i.id)||{price:3.10}; return s + p.price*i.quantity },0).toFixed(2)}`;

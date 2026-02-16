@@ -2,7 +2,8 @@
   {
     "id": "PianoQuartet",
     "title": "Piano Quartet in E Minor",
-    "price": 3.1,
+    "price": 75,
+    "minQuantity": 5,
     "description": "A reflective arrangement of the traditional farewell song.",
     "lyrics": "[Lyrics to be added by composer]",
     "youtube": "https://www.youtube.com/embed/29j2b2LSLeY",
@@ -13,7 +14,8 @@
   {
     "id": "AmazingGrace",
     "title": "Amazing Grace (Full Score)",
-    "price": 3.1,
+    "price": 100,
+    "minQuantity": 2,
     "description": "An extended chamber work for piano and strings.",
     "lyrics": "Amazing Grace\r\nShould auld acquaintance be forgot\r\nAnd never brought to mind?\r\nShould auld acquaintance be forgot\r\nFor auld lang syne?\r\n\r\nAmazing grace, how sweet the sound\r\nThat saved a wretch like me\r\nI once was lost, but now I'm found\r\nWas blind, but now I see\r\n\r\n'Twas grace that taught my heart to fear\r\nAnd grace, my fears relieved\r\nHow precious did that grace appear\r\nThe hour I first believed\r\n\r\nAhumawe, ahumawe!\r\nAhumawe, ahumawe! (repeatedly)\r\nUloyiko lwam luphelile\r\nAhumawe, ahumawe!\r\nAhumawe, ahumawe! (repeatedly)\r\nBambelela, alebamba!\r\n\r\nThrough many dangers, toils and snares\r\nWe have already come\r\n'Twas grace that brought us safe thus far\r\nAnd grace will lead us home\r\n\r\nUbabalo lwakho, ubabalo lwakho\r\nLundifumene, lwandisindisa!\r\nUbabalo lwakho, ubabalo lwakho\r\nNgoku ndivuma lwakho, eh!\r\nNgoba ndikhokhelwa lwakho\r\nLuzandifikisa, luzandifikisa\r\nHmm! Ekhaya!\r\n\r\nFor auld lang syne, my dear\r\nFor auld lang syne \r\nWe’ll take a cup of kindness yet\r\nFor auld lang syne\r\n\r\nWhen we've been there ten thousand years\r\nBright shining as the sun\r\nWe've no less days to sing God's praise\r\nThan when we first begun\r\nThan when we first begun\r\n\r\nHum: (Ooo   Loo)\r\n\r\nAlleluia, alleluia, amen! (repeatedly)\r\nI once was lost but am found, amen\r\nAlleluia, alleluia, amen! (repeatedly)\r\n",
     "youtube": "https://www.youtube.com/embed/MflPrNJS7i0",
@@ -35,7 +37,8 @@
   {
     "id": "PythagorasattheBlacksmithsshop",
     "title": "Pythagoras at the Blacksmith's shop!",
-    "price": 3.1,
+    "price": 50,
+    "minQuantity": 1,
     "description": "",
     "lyrics": "",
     "youtube": "https://www.youtube.com/embed/LCWsWZJm7Ng",
@@ -46,10 +49,11 @@
   {
     "id": "AmazingGraceChoralScore",
     "title": "Amazing Grace (Choral Score)",
-    "price": 71,
+    "price": 3,
+    "minQuantity": 25,
     "description": "",
     "lyrics": "Amazing Grace\r\nShould auld acquaintance be forgot\r\nAnd never brought to mind?\r\nShould auld acquaintance be forgot\r\nFor auld lang syne?\r\n\r\nAmazing grace, how sweet the sound\r\nThat saved a wretch like me\r\nI once was lost, but now I'm found\r\nWas blind, but now I see\r\n\r\n'Twas grace that taught my heart to fear\r\nAnd grace, my fears relieved\r\nHow precious did that grace appear\r\nThe hour I first believed\r\n\r\nAhumawe, ahumawe!\r\nAhumawe, ahumawe! (repeatedly)\r\nUloyiko lwam luphelile\r\nAhumawe, ahumawe!\r\nAhumawe, ahumawe! (repeatedly)\r\nBambelela, alebamba!\r\n\r\nThrough many dangers, toils and snares\r\nWe have already come\r\n'Twas grace that brought us safe thus far\r\nAnd grace will lead us home\r\n\r\nUbabalo lwakho, ubabalo lwakho\r\nLundifumene, lwandisindisa!\r\nUbabalo lwakho, ubabalo lwakho\r\nNgoku ndivuma lwakho, eh!\r\nNgoba ndikhokhelwa lwakho\r\nLuzandifikisa, luzandifikisa\r\nHmm! Ekhaya!\r\n\r\nFor auld lang syne, my dear\r\nFor auld lang syne \r\nWe’ll take a cup of kindness yet\r\nFor auld lang syne\r\n\r\nWhen we've been there ten thousand years\r\nBright shining as the sun\r\nWe've no less days to sing God's praise\r\nThan when we first begun\r\nThan when we first begun\r\n\r\nHum: (Ooo   Loo)\r\n\r\nAlleluia, alleluia, amen! (repeatedly)\r\nI once was lost but am found, amen\r\nAlleluia, alleluia, amen! (repeatedly)\r\n",
-    "youtube": "",
+    "youtube": "https://www.youtube.com/embed/MflPrNJS7i0",
     "image": "/images/WhatsApp_Image_2026-02-16_at_2.45.20_AM__1_.jpeg",
     "file": "",
     "audio": ""
