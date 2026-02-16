@@ -38,6 +38,12 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Global error handler (catches multer and other middleware errors)
+app.use((err, req, res, next) => {
+    console.error('Unhandled server error:', err && err.stack ? err.stack : err);
+    if (!res.headersSent) res.status(500).json({ error: 'Internal server error' });
+});
+
 app.get('/biography', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'biography.html'));
 });
@@ -319,6 +325,9 @@ app.post('/api/admin/upload-product', upload.fields([
     { name: 'galleryImage', maxCount: 10 }
 ]), (req, res) => {
     try {
+        console.log('Upload handler invoked');
+        console.log('Body keys:', Object.keys(req.body || {}));
+        console.log('Files keys:', Object.keys(req.files || {}));
         const { password, type } = req.body;
         
         // Simple auth check
@@ -497,6 +506,9 @@ app.get('/api/admin/stripe-payments', async (req, res) => {
 
         res.json({ payments });
     } catch (err) {
+            // Ensure preflight requests are handled
+            app.options('*', cors());
+
         console.error('Error fetching Stripe payments:', err);
         res.status(500).json({ error: 'Failed to fetch payments: ' + err.message });
     }
