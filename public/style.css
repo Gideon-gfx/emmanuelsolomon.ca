@@ -1483,4 +1483,114 @@ body:not(.home) .hamburger span {
 /* Minor: darken inline red demarcation fallback */
 .red-demarcation { background: var(--primary-red) !important; }
 
+/* Styles for Resonance Page */
+.resonance-main {
+    padding: 40px 16px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.res-header {
+    background: #0b2f2a;
+    color: #fff;
+    padding: 48px 18px;
+    border-radius: 6px;
+}
+
+.res-header-content {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.res-header-image {
+    width: 180px;
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.res-header-title {
+    margin: 0 0 6px 0;
+}
+
+.res-header-subtitle {
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.res-header-date {
+    font-size: 0.95em;
+}
+
+.res-header-button {
+    margin-top: 12px;
+}
+
+.resonance-button {
+    padding: 10px 16px;
+    background: #b38a2b;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.res-content {
+    max-width: 1100px;
+    margin: 18px auto;
+    padding: 8px;
+}
+
+.res-details {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.res-details-main {
+    flex: 2;
+}
+
+.res-details-title {
+    margin-top: 18px;
+}
+
+.res-aside {
+    flex: 1;
+}
+
+.res-aside-box {
+    border: 1px solid #eee;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.res-aside-title {
+    margin-top: 0;
+}
+
+.res-aside-list {
+    line-height: 1.8;
+}
+
+.res-aside-image {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.res-aside-image img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+.res-footer {
+    margin-top: 26px;
+}
+
+.res-back-home {
+    margin-top: 34px;
+}
+
 

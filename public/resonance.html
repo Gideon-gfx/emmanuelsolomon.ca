@@ -10,82 +10,263 @@
     <meta name="description" content="Resonance — concerts, tickets, podcasts and links">
 </head>
 <body>
-    <div class="nav-holder">
-        <div class="Owner"><a href="/" title="Emmanuel O. Solomon - Home">Emmanuel O. Solomon</a></div>
-        <button title="hamburger" class="hamburger" id="hamburgerBtn" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </button>
-        <div class="middle-links" id="navLinks">
-            <div class="nav-item dropdown">
-                <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" aria-haspopup="true" href="#">Music</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/scores" title="Scores">Scores</a>
-                    <a class="dropdown-item" href="/recordings" title="Recordings">Recordings</a>
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-                <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" aria-haspopup="true" href="#">Initiatives</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/bikkurimstudios">Bikkurimstudios</a>
-                    <a class="dropdown-item" href="/bivo">BiVo</a>
-                    <a class="dropdown-item" href="/lagossistema">Lagossistema</a>
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-                <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" aria-haspopup="true" href="#">About</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/biography">Biography</a>
-                    <a class="dropdown-item" href="/research">Research & Publications</a>
-                </div>
-            </div>
-            <a href="/contact" class="nav-link">Contact</a>
-        </div>
+    <header class="res-header">
+        <img src="images/ticket poster.jpeg" alt="Roots & Resonance">
+        <h1>Roots & Resonance</h1>
+        <div>The Homecoming of Voice & Vision — DKO Recital Hall</div>
+        <div class="event-details">March 15 — Two shows: 2:00 PM & 3:30 PM</div>
+    </header>
+
+    <section id="payment">
+        <h2>Roots & Resonance - Ticket Information</h2>
+
+        <h3>1st Show: May 15, 2 PM</h3>
+        <p>Purchase tickets online:</p>
+        <a href="https://buy.stripe.com/eVq6oJ0Kxbwx7xW86KdZ600" target="_blank" rel="noopener">Buy Tickets for 1st Show</a>
+
+        <h3>2nd Show: [Date and Time]</h3>
+        <p>Purchase tickets online:</p>
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <stripe-buy-button
+            buy-button-id="buy_btn_1T5j5FRx215vjQoWBKeGvoba"
+            publishable-key="pk_live_51T5h7LRx215vjQoWGh5K1gyu1kw1RgjZncf1Ttz48lAtAaNacDQE7csanFOgPAcV3PXkYduekRXaN3yfPPKRh2RK00EhD4aKhs">
+        </stripe-buy-button>
+
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <stripe-buy-button
+            buy-button-id="buy_btn_1T5iaKRx215vjQoWIvxOs6Yi"
+            publishable-key="pk_live_51T5h7LRx215vjQoWGh5K1gyu1kw1RgjZncf1Ttz48lAtAaNacDQE7csanFOgPAcV3PXkYduekRXaN3yfPPKRh2RK00EhD4aKhs">
+        </stripe-buy-button>
+
+        <h3>Other Payment Options</h3>
+        <p>Payments can also be made in cash at the door or via bank transfer to:</p>
+        <p><strong>Name:</strong> Emmanuel Solomon</p>
+        <p><strong>Bank:</strong> Fidelity Bank</p>
+        <p><strong>Account Number:</strong> 5010555682</p>
+
+        <p>We look forward to welcoming you at Roots & Resonance!</p>
+    </section>
+
+    <div class="ticket-card" id="ticket-card">
+        <h3>Your Ticket</h3>
+        <p>Event: Roots & Resonance</p>
+        <p>Date: March 15</p>
+        <p>Show Time: 2:00 PM</p>
+        <p>Venue: DKO Recital Hall</p>
+        <button onclick="downloadTicket()">Download Ticket</button>
     </div>
 
-    <main style="padding:40px 16px; max-width:1100px; margin:auto;">
-        <h1 class="bio">Resonance Information</h1>
-        <p style="font-size:1.05em; margin-top:8px;">Welcome — this page gathers information about upcoming concerts, ticket purchasing, podcasts and professional links.</p>
-
-        <section style="margin-top:30px;">
-            <h2>Upcoming Concerts</h2>
-            <hr>
-            <ul style="line-height:1.8; font-size:1.05em;">
-                <li>
-                    <strong>March 15, 2026</strong> — Roots and Resonance — <em></em>
-                    <div style="margin-top:6px;"><a href="#" class="btn-link" title="Buy tickets for May 15"><button>Purchase Tickets</button></a></div>
-                </li>
-                <!-- <li>
-                    <strong>June 4, 2026</strong> — National Arts Centre, Ottawa — <em>Guest Tenor</em>
-                    <div style="margin-top:6px;"><a href="#" class="btn-link" title="Buy tickets for June 4"><button>Purchase Tickets</button></a></div>
-                </li> -->
-            </ul>
-            <p style="font-size:0.95em; color:#666; margin-top:10px;">If you'd like to add or update events, email <a href="mailto:info@emmanuelsolomon.com">info@emmanuelsolomon.com</a> or update this page content.</p>
-        </section>
-
-        <section style="margin-top:30px;">
-            <h2>Podcasts & Listening</h2>
-            <hr>
-            <p style="line-height:1.8;">Listen to conversations and features:</p>
-            <ul style="line-height:1.8;">
-                <li><a href="#" target="_blank" rel="noopener">Latest Podcast Episode — Spotify</a></li>
-                <li><a href="#" target="_blank" rel="noopener">Interview — YouTube</a></li>
-            </ul>
-        </section>
-
-        <section style="margin-top:30px;">
-            <h2>Connect on LinkedIn</h2>
-            <hr>
-            <p>Professional profile and contact: <a href="https://www.linkedin.com/in/emmanuel-solomontenore" target="_blank" rel="noopener">Emmanuel Solomon on LinkedIn</a></p>
-        </section>
-
-        <p style="margin-top:34px;"><a href="/" title="Back to home">← Back to Home</a></p>
-    </main>
-
-    <div class="red4">
-        <div class="copyright">© 2026 Emmanuel O. Solomon. All rights reserved.</div>
-        <div class="location">Ottawa, Canada</div>
+    <div class="back-home">
+        <a href="/" title="Back to home">← Back to Home</a>
     </div>
 
-    <script src="index.js"></script>
+    <!-- Modern Styling -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #f9f9f9, #eaeaea);
+            color: #333;
+        }
+
+        .res-header {
+            background: #0b2f2a;
+            color: #fff;
+            padding: 48px 18px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .res-header img {
+            width: 180px;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 16px;
+        }
+
+        .res-header h1 {
+            margin: 0 0 6px 0;
+            font-size: 2.8em;
+            letter-spacing: 1px;
+        }
+
+        .res-header div {
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .res-header .event-details {
+            font-size: 1.2em;
+            margin-top: 12px;
+        }
+
+        #payment {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #payment h2 {
+            text-align: center;
+            color: #0b2f2a;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        #payment h3 {
+            color: #b38a2b;
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+
+        #payment p {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        #payment a {
+            color: #fff;
+            background: #b38a2b;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 1.1em;
+            transition: background 0.3s;
+        }
+
+        #payment a:hover {
+            background: #926f22;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-home a {
+            color: #0b2f2a;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .back-home a:hover {
+            text-decoration: underline;
+        }
+
+        .ticket-card {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none; /* Initially hidden */
+        }
+
+        .ticket-card h3 {
+            color: #0b2f2a;
+            margin-bottom: 10px;
+        }
+
+        .ticket-card p {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .ticket-card button {
+            color: #fff;
+            background: #b38a2b;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background 0.3s;
+        }
+
+        .ticket-card button:hover {
+            background: #926f22;
+        }
+
+        .top-nav {
+            background: #0b2f2a;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+
+        .top-nav a:hover {
+            color: #b38a2b;
+        }
+
+        .top-nav .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    </style>
+
+    <script>
+        function showTicketCard() {
+            document.getElementById('ticket-card').style.display = 'block';
+        }
+
+        function downloadTicket() {
+            const ticketContent = `Roots & Resonance\nEvent: Roots & Resonance\nDate: March 15\nShow Time: 2:00 PM\nVenue: DKO Recital Hall`;
+            const blob = new Blob([ticketContent], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Roots_Resonance_Ticket.txt';
+            link.click();
+        }
+    </script>
+
+    <!-- Content Below Navigation
+    <header class="res-header">
+        <img src="images/ticket poster.jpeg" alt="Roots & Resonance">
+        <h1>Roots & Resonance</h1>
+        <div>The Homecoming of Voice & Vision — DKO Recital Hall</div>
+        <div class="event-details">March 15 — Two shows: 2:00 PM & 3:30 PM</div>
+    </header> -->
+
+    <div class="back-home">
+        <a href="/" title="Back to home">← Back to Home</a>
+    </div>
+
+    <script>
+        function showTicketCard() {
+            document.getElementById('ticket-card').style.display = 'block';
+        }
+
+        function downloadTicket() {
+            const ticketContent = `Roots & Resonance\nEvent: Roots & Resonance\nDate: March 15\nShow Time: 2:00 PM\nVenue: DKO Recital Hall`;
+            const blob = new Blob([ticketContent], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Roots_Resonance_Ticket.txt';
+            link.click();
+        }
+    </script>
 </body>
 </html>

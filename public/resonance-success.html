@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resonance - Ticket Success</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div style="max-width:720px;margin:40px auto;padding:20px;">
+    <h1>Thank you — Payment received</h1>
+    <p id="status">We are finalizing your ticket. This may take a moment.</p>
+    <div id="ticketCard" style="display:none;border:1px solid #ddd;padding:18px;border-radius:8px;margin-top:16px;">
+      <h2 id="ticketCode">RES-XXXX</h2>
+      <p id="ticketEmail"></p>
+      <p style="color:#555">Please present this code at the event entrance.</p>
+      <p><a href="/">Back to home</a></p>
+    </div>
+  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    if (!sessionId) {
+      document.getElementById('status').textContent = 'Missing session id.';
+    } else {
+      fetch('/claim-ticket?session_id=' + encodeURIComponent(sessionId)).then(r => r.json()).then(data => {
+        if (data && data.code) {
+          document.getElementById('status').style.display = 'none';
+          document.getElementById('ticketCard').style.display = 'block';
+          document.getElementById('ticketCode').textContent = data.code;
+          document.getElementById('ticketEmail').textContent = data.email ? ('Issued to: ' + data.email) : '';
+        } else {
+          document.getElementById('status').textContent = 'Unable to claim ticket. ' + (data && data.error ? data.error : '');
+        }
+      }).catch(err => { document.getElementById('status').textContent = 'Error claiming ticket.'; console.error(err); });
+    }
+  </script>
+</body>
+</html>

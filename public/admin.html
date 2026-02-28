@@ -58,6 +58,9 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab" onclick="loadSalesData()">Sales & Subscribers</button>
         </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets" type="button" role="tab">Upload New Tickets</button>
+        </li>
     </ul>
 
     <div class="tab-content" id="adminTabsContent">
@@ -240,6 +243,33 @@
                     </ul>
                 </div>
              </div>
+        </div>
+
+        <!-- Tab 6: Tickets -->
+        <div class="tab-pane fade" id="tickets" role="tabpanel" aria-labelledby="tickets-tab">
+            <h3 class="mb-4">Upload New Tickets</h3>
+            <form id="ticketUploadForm">
+                <div class="mb-3">
+                    <label for="ticketTitle" class="form-label">Ticket Title</label>
+                    <input type="text" class="form-control" id="ticketTitle" placeholder="Enter ticket title">
+                </div>
+                <div class="mb-3">
+                    <label for="ticketDate" class="form-label">Event Date</label>
+                    <input type="date" class="form-control" id="ticketDate">
+                </div>
+                <div class="mb-3">
+                    <label for="ticketTime" class="form-label">Event Time</label>
+                    <input type="time" class="form-control" id="ticketTime">
+                </div>
+                <div class="mb-3">
+                    <label for="ticketLink" class="form-label">Purchase Link</label>
+                    <input type="url" class="form-control" id="ticketLink" placeholder="Enter purchase link">
+                </div>
+                <button type="submit" class="btn btn-success">Upload Ticket</button>
+            </form>
+            <ul id="ticketList" class="mt-4 list-group">
+                <!-- Uploaded tickets will appear here -->
+            </ul>
         </div>
 
     </div>
@@ -516,7 +546,29 @@
         }
     }
 
-</script>
+    // --- Tab 6: Tickets ---
+    document.getElementById('ticketUploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
+        const title = document.getElementById('ticketTitle').value;
+        const date = document.getElementById('ticketDate').value;
+        const time = document.getElementById('ticketTime').value;
+        const link = document.getElementById('ticketLink').value;
+
+        if (!title || !date || !time || !link) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        const ticketList = document.getElementById('ticketList');
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.innerHTML = `<strong>${title}</strong> - ${date} at ${time} <a href="${link}" target="_blank" class="btn btn-link">Buy</a>`;
+        ticketList.appendChild(listItem);
+
+        document.getElementById('ticketUploadForm').reset();
+        alert('Ticket uploaded successfully!');
+    });
+</script>
 </body>
 </html>

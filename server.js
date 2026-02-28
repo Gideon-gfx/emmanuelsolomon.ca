@@ -205,6 +205,77 @@ app.post('/create-checkout-session', async (req, res) => {
     }
 });
 
+// Create a Stripe Checkout session specifically for the Resonance ticket
+app.post('/create-resonance-session', async (req, res) => {
+    if (!stripe) return res.status(503).json({ error: 'Payment system unavailable' });
+    try {
+        // Load ticket details from content.json
+        const contentPath = path.join(__dirname, 'public', 'content.json');
+        const content = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
+        const ticket = content && content.resonance_ticket;
+        if (!ticket || !ticket.enabled) return res.status(400).json({ error: 'Tickets are not available' });
+
+        const unit_amount = Math.round((Number(ticket.price_naira) || 0) * 100);
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [{
+                price_data: {
+                    currency: 'ngn',
+                    unit_amount,
+                    product_data: { name: ticket.title || 'Resonance Ticket' }
+                },
+                quantity: 1
+            }],
+            mode: 'payment',
+            // Collect customer's email at checkout
+            customer_email: undefined,
+            success_url: `${req.protocol}://${req.get('host')}/resonance-success.html?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${req.protocol}://${req.get('host')}/resonance`
+        });
+
+        res.json({ url: session.url, id: session.id });
+    } catch (err) {
+        console.error('create-resonance-session error', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// After successful checkout, claim or return a ticket code for a paid session
+app.get('/claim-ticket', async (req, res) => {
+    try {
+        const sessionId = req.query.session_id;
+        if (!sessionId) return res.status(400).json({ error: 'Missing session_id' });
+        if (!stripe) return res.status(503).json({ error: 'Payment system unavailable' });
+
+        // Check for existing ticket
+        const ticketsPath = path.join(__dirname, 'tickets.json');
+        let tickets = [];
+        if (fs.existsSync(ticketsPath)) tickets = JSON.parse(fs.readFileSync(ticketsPath, 'utf8')) || [];
+        const existing = tickets.find(t => t.sessionId === sessionId);
+        if (existing) return res.json({ code: existing.code, email: existing.email });
+
+        // Retrieve session from Stripe
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+        if (!session || session.payment_status !== 'paid') {
+            return res.status(402).json({ error: 'Payment not completed' });
+        }
+
+        const email = session.customer_details && session.customer_details.email ? session.customer_details.email : (session.customer_email || '');
+        // Generate a ticket code
+        const code = 'RES-' + crypto.randomBytes(4).toString('hex').toUpperCase();
+
+        const ticketEntry = { code, sessionId, email, createdAt: Date.now() };
+        tickets.push(ticketEntry);
+        fs.writeFileSync(ticketsPath, JSON.stringify(tickets, null, 2));
+
+        res.json({ code, email });
+    } catch (err) {
+        console.error('claim-ticket error', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // After return from Stripe, generate one-time download tokens if payment verified
 app.get('/generate-download', async (req, res) => {
     try {
