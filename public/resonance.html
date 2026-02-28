@@ -17,34 +17,24 @@
         <div class="event-details">March 15 — Two shows: 2:00 PM & 3:30 PM</div>
     </header>
 
-    <section id="payment">
-        <h2>Roots & Resonance - Ticket Information</h2>
+    <section id="shows">
+        <h2>Upcoming Shows</h2>
 
-        <h3>1st Show: May 15, 2 PM</h3>
-        <p>Purchase tickets online:</p>
-        <a href="https://buy.stripe.com/eVq6oJ0Kxbwx7xW86KdZ600" target="_blank" rel="noopener">Buy Tickets for 1st Show</a>
+        <div class="show">
+            <h3>First Show</h3>
+            <p><strong>Date:</strong> March 15</p>
+            <p><strong>Time:</strong> 2:00 PM</p>
+            <p><strong>Venue:</strong> DKO Recital Hall</p>
+            <a href="https://buy.stripe.com/eVq6oJ0Kxbwx7xW86KdZ600" target="_blank" rel="noopener">Purchase Ticket</a>
+        </div>
 
-        <h3>2nd Show: [Date and Time]</h3>
-        <p>Purchase tickets online:</p>
-        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-        <stripe-buy-button
-            buy-button-id="buy_btn_1T5j5FRx215vjQoWBKeGvoba"
-            publishable-key="pk_live_51T5h7LRx215vjQoWGh5K1gyu1kw1RgjZncf1Ttz48lAtAaNacDQE7csanFOgPAcV3PXkYduekRXaN3yfPPKRh2RK00EhD4aKhs">
-        </stripe-buy-button>
-
-        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-        <stripe-buy-button
-            buy-button-id="buy_btn_1T5iaKRx215vjQoWIvxOs6Yi"
-            publishable-key="pk_live_51T5h7LRx215vjQoWGh5K1gyu1kw1RgjZncf1Ttz48lAtAaNacDQE7csanFOgPAcV3PXkYduekRXaN3yfPPKRh2RK00EhD4aKhs">
-        </stripe-buy-button>
-
-        <h3>Other Payment Options</h3>
-        <p>Payments can also be made in cash at the door or via bank transfer to:</p>
-        <p><strong>Name:</strong> Emmanuel Solomon</p>
-        <p><strong>Bank:</strong> Fidelity Bank</p>
-        <p><strong>Account Number:</strong> 5010555682</p>
-
-        <p>We look forward to welcoming you at Roots & Resonance!</p>
+        <div class="show">
+            <h3>Second Show</h3>
+            <p><strong>Date:</strong> March 15</p>
+            <p><strong>Time:</strong> 3:30 PM</p>
+            <p><strong>Venue:</strong> DKO Recital Hall</p>
+            <a href="https://buy.stripe.com/dRm00lfFrcABg4s72GdZ602" target="_blank" rel="noopener">Purchase Ticket</a>
+        </div>
     </section>
 
     <div class="ticket-card" id="ticket-card">
@@ -104,7 +94,7 @@
             margin-top: 12px;
         }
 
-        #payment {
+        #shows {
             max-width: 800px;
             margin: 40px auto;
             padding: 20px;
@@ -113,54 +103,45 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
-        #payment h2 {
+        #shows h2 {
             text-align: center;
             color: #0b2f2a;
             font-size: 2em;
             margin-bottom: 20px;
         }
 
-        #payment h3 {
+        .show {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fdfdfd;
+        }
+
+        .show h3 {
             color: #b38a2b;
-            margin-top: 20px;
+            margin-bottom: 10px;
             font-size: 1.5em;
         }
 
-        #payment p {
+        .show p {
             margin: 10px 0;
             font-size: 1.1em;
         }
 
-        #payment a {
+        .show a {
             color: #fff;
             background: #b38a2b;
             padding: 12px 20px;
             text-decoration: none;
             border-radius: 6px;
             display: inline-block;
-            margin-top: 10px;
             font-size: 1.1em;
             transition: background 0.3s;
         }
 
-        #payment a:hover {
+        .show a:hover {
             background: #926f22;
-        }
-
-        .back-home {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .back-home a {
-            color: #0b2f2a;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .back-home a:hover {
-            text-decoration: underline;
         }
 
         .ticket-card {
@@ -197,6 +178,22 @@
 
         .ticket-card button:hover {
             background: #926f22;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-home a {
+            color: #0b2f2a;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .back-home a:hover {
+            text-decoration: underline;
         }
 
         .top-nav {
@@ -248,11 +245,11 @@
         <h1>Roots & Resonance</h1>
         <div>The Homecoming of Voice & Vision — DKO Recital Hall</div>
         <div class="event-details">March 15 — Two shows: 2:00 PM & 3:30 PM</div>
-    </header> -->
+    </header>
 
     <div class="back-home">
         <a href="/" title="Back to home">← Back to Home</a>
-    </div>
+    </div> -->
 
     <script>
         function showTicketCard() {
