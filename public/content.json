@@ -1,11 +1,24 @@
 {
     "biography": "<p>With a career that bridges North America, Europe, Asia and West Africa, he currently serves as the Executive Director of Bikkurim Studios Inc., a performing arts organization that fosters the appreciation of arts education and performance in Ottawa Ontario Canada.</p>\n<h3 class=\"text-danger\">Performance Highlights</h3>\n<p>A captivating performer, Emmanuel’s recent highlights include his debut at the National Arts Centre (NAC) in Ottawa for the Black History Month Opening Ceremony, Sound of Spring Easter concert with Dominion-Chalmers, and the Moonment to Remember Symphonic Concert with the China Conservatory of Music Orchestra.</p>\n<p>He has appeared as a soloist and lead role in oratorios and operas such as Handel’s Messiah, Bach’s Magnificat, Strauss’ Die Fledermaus, Purcell’s Dido and Aeneas, Charbrier’s L’étoile, Mozart’s Cosi Fan Tutte, Donizetti’s L’elisir d’amore, Rossini’s La Cenerentola, Sullivan’s Patience, Beethoven’s 9th (Choral)Symphony, and the Brookes Diamond’s production of Resounding: A Celebration of the Arts featuring famous artists including Hollywood actor, Keifer Sutherland, and Polaris Music Prize winner, Jeremy Dutcher.</p>\n<p>Emmanuel has collaborated and shared the performance stage with notable musicians including Met Opera and Grammy Awards star American coloratura soprano, Harolyn Blackwell; Canadian bass, Matthew Li; Cree-Métis baritone, Jonathon Adams; Canadian baritone, Dr. Michael Donovan; British tenor, Charles Daniels; Canadian soprano, Deanna Singh; Chinese baritone, Gao Peng; and credible music directors and organists, Lynette Wahlstrom, Andrew Killawee, Nick Veltmeyer and Matthew Larkin.</p>\n<p>He has also featured in masterclasses conducted under tutelages of award-winning Polaris Music Prize and Grammy Awards soprano and conductor, Barbara Hannigan; award-winning opera director and operatic acting coach, Tom Diamond; Canadian operatic soprano Jane Archibald; and the revered German-Canadian operatic tenor, Michael Schade.</p>\n<p>Emmanuel has also given several recitals including the provincial Evenings @ the Government House, guest soloist appearances with St. Cecilia’s Concert Series, the SNS, NSYO, OrKidstra and the NAC orchestras. His performance repertoire spans opera, oratorio, art song, gospels & CCMs, often featuring intercultural collaborations like the Afro-Lieder Intercultural Concert.</p>",
-    "home_welcome": "<h1>Welcome</h1><p>Welcome to the official website of Emmanuel O. Solomon.</p>"
+    "home_welcome": "<h1>Welcome</h1><p>Welcome to the official website of Emmanuel O. Solomon.</p>",
     "resonance_ticket": {
         "title": "Roots & Resonance — Solo Recital",
         "date": "2026-03-15T14:00:00",
-        "price_naira": 5000,
+        "price_naira": 25000,
         "purchase_link": "",
-        "enabled": true
+        "enabled": false
+    },
+    "resonance_tickets": {
+        "alliance_francaise": {
+            "venue": "Alliance Française Easter Friday",
+            "regular": {
+                "title": "Regular Ticket",
+                "price": 25000
+            },
+            "vip": {
+                "title": "VIP Ticket",
+                "price": 40000
+            }
+        }
     }
 }

@@ -241,6 +241,47 @@ app.post('/create-resonance-session', async (req, res) => {
     }
 });
 
+// Create Stripe Checkout session for Alliance Française tickets with dynamic pricing
+app.post('/create-resonance-ticket-session', async (req, res) => {
+    if (!stripe) return res.status(503).json({ error: 'Payment system unavailable' });
+    try {
+        const { ticketType } = req.body; // 'regular' or 'vip'
+        if (!ticketType || !['regular', 'vip'].includes(ticketType)) {
+            return res.status(400).json({ error: 'Invalid ticket type' });
+        }
+
+        // Load ticket details from content.json
+        const contentPath = path.join(__dirname, 'public', 'content.json');
+        const content = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
+        const ticketData = content && content.resonance_tickets && content.resonance_tickets.alliance_francaise && content.resonance_tickets.alliance_francaise[ticketType];
+        
+        if (!ticketData) return res.status(400).json({ error: 'Ticket not available' });
+
+        const unit_amount = Math.round((Number(ticketData.price) || 0) * 100);
+        const title = ticketData.title || `Resonance ${ticketType} Ticket`;
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [{
+                price_data: {
+                    currency: 'ngn',
+                    unit_amount,
+                    product_data: { name: title }
+                },
+                quantity: 1
+            }],
+            mode: 'payment',
+            success_url: `${req.protocol}://${req.get('host')}/resonance-success.html?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${req.protocol}://${req.get('host')}/resonance`
+        });
+
+        res.json({ url: session.url, id: session.id });
+    } catch (err) {
+        console.error('create-resonance-ticket-session error', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // After successful checkout, claim or return a ticket code for a paid session
 app.get('/claim-ticket', async (req, res) => {
     try {
