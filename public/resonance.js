@@ -1,5 +1,37 @@
 // resonance.js — handles homepage popup and ticket logic using /content.json
 document.addEventListener('DOMContentLoaded', () => {
+  // Always update event dates based on data-event-date attributes
+  const updateBuyLinks = () => {
+    const links = document.querySelectorAll('a.resonance-buy');
+    links.forEach(a => {
+      const eventDateStr = a.getAttribute('data-event-date');
+      if (!eventDateStr) return;
+      
+      const eventDate = new Date(eventDateStr);
+      const now = new Date();
+      const isPassed = now > eventDate;
+      
+      const btn = a.querySelector('button') || a;
+      if (isPassed) {
+        a.href = '#';
+        a.disabled = true;
+        a.style.pointerEvents = 'none';
+        a.style.opacity = '0.6';
+        if (btn) { 
+          btn.textContent = 'Event Has Passed'; 
+          btn.disabled = true;
+        }
+      } else {
+        if (btn) { 
+          btn.disabled = false; 
+        }
+      }
+    });
+  };
+
+  updateBuyLinks();
+
+  // Handle popup and homepage features from content.json
   fetch('/content.json').then(r => r.json()).then(data => {
     const ticket = data && data.resonance_ticket;
     if (!ticket || !ticket.enabled) return;
@@ -72,31 +104,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.body && document.body.classList && document.body.classList.contains('home')) {
       document.body.appendChild(popup);
     }
-
-    // Update any purchase buttons/links with class `resonance-buy` across the site
-    const updateBuyLinks = () => {
-      const links = document.querySelectorAll('a.resonance-buy');
-      links.forEach(a => {
-        const btn = a.querySelector('button') || a;
-        if (isExpired) {
-          a.href = '#';
-          if (btn) { btn.textContent = 'Event Ended'; btn.disabled = true; }
-        } else {
-          a.href = ticket.purchase_link || '#';
-          if (btn) { btn.textContent = 'Purchase in ₦ ' + (ticket.price_naira != null ? Number(ticket.price_naira).toLocaleString() : '0'); btn.disabled = false; }
-        }
-      });
-    };
-
-    updateBuyLinks();
   }).catch(err => console.error('resonance.js load error', err));
 });
 
-// Attach click handlers to resonance-buy links to start Stripe Checkout
+// Attach click handlers to resonance-buy links to show "Event Passed" message or start Stripe Checkout
 document.addEventListener('click', (e) => {
   const a = e.target.closest && e.target.closest('a.resonance-buy');
   if (!a) return;
   e.preventDefault();
+  
+  // Check if event has passed
+  const eventDateStr = a.getAttribute('data-event-date');
+  if (eventDateStr) {
+    const eventDate = new Date(eventDateStr);
+    const now = new Date();
+    if (now > eventDate) {
+      alert('This event has passed.');
+      return;
+    }
+  }
+  
   // Start checkout on the server
   fetch('/create-resonance-session', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
     .then(r => r.json())
