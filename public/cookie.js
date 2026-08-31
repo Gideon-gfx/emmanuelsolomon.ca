@@ -1,11 +1,20 @@
 // Cookie Management Functions
+if (!document.getElementById('sharedNavigationStyles')) {
+    const navigationStyles = document.createElement('link');
+    navigationStyles.id = 'sharedNavigationStyles';
+    navigationStyles.rel = 'stylesheet';
+    navigationStyles.href = '/navigation.css';
+    document.head.appendChild(navigationStyles);
+}
+
 const CookieManager = {
     // Set a cookie
     set: function(name, value, days = 365) {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         const expires = "expires=" + date.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Strict;Secure";
+        const secure = window.location.protocol === 'https:' ? ';Secure' : '';
+        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Strict" + secure;
     },
 
     // Get a cookie value
@@ -116,5 +125,17 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('click', function(e){
     if(e.target && e.target.classList && e.target.classList.contains('cookie-close')){
         CookieManager.declineCookies();
+    }
+});
+
+// Shared mobile navigation behavior for every page that includes the cookie script.
+document.addEventListener('click', function(e) {
+    const nav = document.getElementById('navLinks');
+    const btn = document.getElementById('hamburgerBtn');
+    const holder = document.querySelector('.nav-holder');
+    if (nav && btn && holder && nav.classList.contains('active') && !holder.contains(e.target)) {
+        nav.classList.remove('active');
+        btn.classList.remove('active');
+        document.body.classList.remove('menu-open');
     }
 });

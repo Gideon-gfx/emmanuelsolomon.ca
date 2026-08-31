@@ -1,3 +1,11 @@
+if (!document.getElementById('sharedNavigationStyles')) {
+    const navigationStyles = document.createElement('link');
+    navigationStyles.id = 'sharedNavigationStyles';
+    navigationStyles.rel = 'stylesheet';
+    navigationStyles.href = '/navigation.css';
+    document.head.appendChild(navigationStyles);
+}
+
 function toggleMenu() {
     const nav = document.getElementById("navLinks");
     const btn = document.getElementById('hamburgerBtn');
@@ -67,4 +75,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Fold the mobile menu when the visitor taps anywhere outside the navigation.
+    document.addEventListener('click', function(e) {
+        const nav = document.getElementById('navLinks');
+        const btn = document.getElementById('hamburgerBtn');
+        const holder = document.querySelector('.nav-holder');
+        if (nav && btn && holder && nav.classList.contains('active') && !holder.contains(e.target)) {
+            nav.classList.remove('active');
+            btn.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+    });
 });
