@@ -7,25 +7,10 @@
     	<link rel="icon" type="image/x-icon" href="images/IMG_0106.jpeg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
-    <style>
-        body { padding: 50px; background-color: #f8f9fa; }
-        .container { max-width: 800px; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .form-label { font-weight: bold; }
-        .preview-image { max-width: 200px; margin-top: 10px; display: none; border: 1px solid #ddd; }
-        /* Hide main content initially */
-        #adminContent { display: none; }
-        #loginOverlay {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.85); z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .login-box {
-            background: white; padding: 40px; border-radius: 10px;
-            width: 100%; max-width: 400px; text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/navigation.css" id="sharedNavigationStyles">
+    <link rel="stylesheet" href="/admin.css">
 </head>
-<body>
+<body class="admin-page">
 
 <!-- Login Overlay -->
 <div id="loginOverlay">
@@ -41,8 +26,69 @@
     </div>
 </div>
 
-<div class="container" id="adminContent">
-    <h2 class="mb-4 text-center">Website Admin Dashboard</h2>
+<div class="body">
+    <header class="nav-holder">
+        <div class="Owner"><a href="/" title="Emmanuel O. Solomon - Home">Emmanuel O. Solomon</a></div>
+        <button title="Open navigation menu" class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="middle-links" id="navLinks" aria-label="Main navigation">
+            <div class="nav-item dropdown">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" href="#">Music</a>
+                <div class="dropdown-menu">
+                    <hr><a class="dropdown-item" href="/scores" title="Scores">Scores</a>
+                    <hr><a class="dropdown-item" href="/recordings" title="Repertoire">Repertoire</a>
+                </div>
+            </div>
+            <hr>
+            <div class="nav-item dropdown">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" href="#">Initiatives</a>
+                <div class="dropdown-menu">
+                    <hr><a class="dropdown-item" href="/bikkurimstudios" title="Bikkurimstudios">Bikkurimstudios</a>
+                    <hr><a class="dropdown-item" href="/bivo" title="BiVo">BiVo</a>
+                    <hr><a class="dropdown-item" href="/genesys" title="GeneSYS Software Tech">GeneSYS Software Tech</a>
+                    <hr><a class="dropdown-item" href="https://lagossistema.com" title="Lagossistema">Lagossistema</a>
+                    <hr><a class="dropdown-item" href="/resonance" title="Resonance">Resonance</a>
+                </div>
+            </div>
+            <hr>
+            <div class="nav-item dropdown">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" href="#">About</a>
+                <div class="dropdown-menu">
+                    <hr><a class="dropdown-item" href="/biography">Biography</a>
+                    <hr><a class="dropdown-item" href="/gallery" title="Gallery">Gallery</a>
+                    <hr><a class="dropdown-item" href="https://docs.google.com/document/d/1dZllbQm6qUkkoXehd7VWwD_ieXnemLTwSVKd7aCLndM/edit?tab=t.0" target="_blank" rel="noopener" title="Press Kits">Press Kits</a>
+                    <hr><a class="dropdown-item" href="/research">Research &amp; Publications</a>
+                </div>
+            </div>
+            <hr>
+            <div class="nav-item dropdown">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" href="#">Contact</a>
+                <div class="dropdown-menu">
+                    <hr><a class="dropdown-item" href="/contact">Contact Form</a>
+                    <hr><a class="dropdown-item" href="/collaborate">Collaborate</a>
+                </div>
+            </div>
+            <hr>
+            <a href="/mailing" title="Mailing Lists">Mailing Lists</a><hr>
+        </nav>
+        <div class="social-links" aria-label="Social media">
+            <a title="Facebook" aria-label="Facebook" rel="noopener" href="https://www.facebook.com/share/17pbyZngMH/" target="_blank"><span aria-hidden="true">f</span></a>
+            <a title="Instagram" aria-label="Instagram" rel="noopener" href="https://www.instagram.com/emmanuelsolomontenore?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank"><span aria-hidden="true">◎</span></a>
+            <a title="Spotify" aria-label="Spotify" rel="noopener" href="#" target="_blank"><span aria-hidden="true">♫</span></a>
+            <a title="YouTube" aria-label="YouTube" rel="noopener" href="https://youtube.com/@emmanuelsolomonsings?si=j6HPSaDFVXFGTBEN" target="_blank"><span aria-hidden="true">▶</span></a>
+        </div>
+    </header>
+</div>
+
+<main class="admin-shell" id="adminContent">
+    <header class="admin-heading">
+        <p class="admin-eyebrow">SITE MANAGEMENT</p>
+        <h1>Website Admin Dashboard</h1>
+        <p>Manage your music, content, gallery, and site activity from one place.</p>
+    </header>
     
     <div id="alertBox" class="alert d-none"></div>
 
@@ -239,13 +285,33 @@
 
         <div class="tab-pane fade" id="genesys" role="tabpanel">
             <h4 class="mb-3">GeneSYS Projects</h4>
-            <p class="text-muted">Add project titles, descriptions, and either a YouTube/Vimeo link or a video file.</p>
+            <p class="text-muted">Add project details and choose one media type to show on the GeneSYS page. <a href="/genesys" target="_blank" rel="noopener">View the GeneSYS page</a></p>
             <form id="genesysProjectForm">
                 <input type="hidden" id="genesysProjectId" name="id">
                 <div class="mb-3"><label class="form-label" for="genesysTitle">Project title</label><input class="form-control" id="genesysTitle" name="title" required></div>
                 <div class="mb-3"><label class="form-label" for="genesysDescription">Project text</label><textarea class="form-control" id="genesysDescription" name="description" rows="5"></textarea></div>
-                <div class="mb-3"><label class="form-label" for="genesysVideoUrl">Video link</label><input class="form-control" id="genesysVideoUrl" name="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=..."></div>
-                <div class="mb-3"><label class="form-label" for="genesysVideoFile">Or upload a video file</label><input class="form-control" id="genesysVideoFile" name="videoFile" type="file" accept="video/*"><div class="form-text">A newly uploaded file replaces the current video file.</div></div>
+                <div class="mb-3">
+                    <label class="form-label" for="genesysMediaType">Project media</label>
+                    <select class="form-select" id="genesysMediaType" name="mediaType">
+                        <option value="url">URL</option>
+                        <option value="file">File</option>
+                        <option value="photo">Photo</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="genesysUrlField">
+                    <label class="form-label" for="genesysVideoUrl">Video URL</label>
+                    <input class="form-control" id="genesysVideoUrl" name="videoUrl" type="url" placeholder="YouTube, Vimeo, or direct video URL">
+                </div>
+                <div class="mb-3 d-none" id="genesysFileField">
+                    <label class="form-label" for="genesysVideoFile">Video file</label>
+                    <input class="form-control" id="genesysVideoFile" name="videoFile" type="file" accept="video/*">
+                    <div class="form-text">Leave empty to keep the existing video when editing.</div>
+                </div>
+                <div class="mb-3 d-none" id="genesysPhotoField">
+                    <label class="form-label" for="genesysPhotoFile">Project photo</label>
+                    <input class="form-control" id="genesysPhotoFile" name="photoFile" type="file" accept="image/*">
+                    <div class="form-text">Leave empty to keep the existing photo when editing.</div>
+                </div>
                 <div class="d-flex gap-2"><button class="btn btn-primary" type="submit">Save Project</button><button class="btn btn-outline-secondary" type="button" onclick="resetGenesysProjectForm()">Clear</button></div>
             </form>
             <hr class="my-4">
@@ -293,12 +359,64 @@
 
     </div>
     
-    <div class="mt-4 text-center">
-        <a href="/">Back to Home</a>
+
+</main>
+
+<footer class="red4">
+    <div class="searchbar">
+        <form action="/search.html" method="get">
+            <input type="text" placeholder="Search..." name="search" aria-label="Search the website">
+            <button type="submit">Go</button>
+        </form>
     </div>
-</div>
+    <nav class="middle-links3" aria-label="Footer navigation">
+        <div class="nav-item dropdown">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" href="#" title="Music">Music</a>
+            <div class="dropdown-menu">
+                <hr><a class="dropdown-item" href="/scores" title="Scores">Scores</a>
+                <hr><a class="dropdown-item" href="/recordings" title="Recordings">Recordings</a>
+            </div>
+        </div>
+        <hr>
+        <div class="nav-item dropdown">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" href="#" title="About">About</a>
+            <div class="dropdown-menu">
+                <hr><a class="dropdown-item" href="/biography" title="Biography">Biography</a>
+                <hr><a class="dropdown-item" href="/research" title="Research &amp; Publications">Research &amp; Publications</a>
+            </div>
+        </div>
+        <hr>
+        <div class="nav-item dropdown">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" href="#" title="Contact">Contact</a>
+            <div class="dropdown-menu">
+                <hr><a class="dropdown-item" href="/contact" title="Contact Form">Contact Form</a>
+                <hr><a class="dropdown-item" href="/collaborate" title="Collaborate">Collaborate</a>
+            </div>
+        </div>
+        <hr>
+        <a href="/mailing" title="Mailing Lists">Mailing Lists</a><hr>
+    </nav>
+    <p class="copyright">© 2026 Emmanuel O. Solomon. All rights reserved.</p>
+    <div class="location">150 Queen Elizabeth Driveway, Ottawa, ON K2P 1E7, Canada</div>
+    <div class="policies">
+        <a href="/terms" title="Terms of Use">Terms of Use</a>
+        <hr>
+        <a href="/privacy" title="Privacy Policy">Privacy Policy</a>
+    </div>
+    <div class="social-links footer-social" aria-label="Social media">
+        <a title="Facebook" aria-label="Facebook" rel="noopener" href="https://www.facebook.com/share/17pbyZngMH/" target="_blank">f</a>
+        <a title="Instagram" aria-label="Instagram" rel="noopener" href="https://www.instagram.com/emmanuelsolomontenore?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank">◎</a>
+        <a title="Twitter" aria-label="X" rel="noopener" href="https://x.com/emmanue30108277?s=11&amp;t=myU-BaBZIzLiDKCtyzK8hQ" target="_blank">𝕏</a>
+        <a title="LinkedIn" aria-label="LinkedIn" rel="noopener" href="https://www.linkedin.com/in/emmanuel-solomontenore?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=ios_app" target="_blank">in</a>
+        <a title="Spotify" aria-label="Spotify" rel="noopener" href="#" target="_blank">♫</a>
+        <a title="YouTube" aria-label="YouTube" rel="noopener" href="https://youtube.com/@emmanuelsolomonsings?si=j6HPSaDFVXFGTBEN" target="_blank">▶</a>
+        <a title="TikTok" aria-label="TikTok" rel="noopener" href="https://www.tiktok.com/@emmanueltenore?_r=1&amp;_t=ZS-93SstKaxgur" target="_blank">♪</a>
+    </div>
+    <p class="designer">Designed by <a title="Designer" rel="noopener" href="https://gideon-dev-two.vercel.app">GIDEON</a></p>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/index.js"></script>
 <script>
     // Login Overlay Logic
     let sessionPassword = '';
@@ -630,6 +748,31 @@
     function resetGenesysProjectForm() {
         document.getElementById('genesysProjectForm').reset();
         document.getElementById('genesysProjectId').value = '';
+        updateGenesysMediaFields();
+    }
+
+    function updateGenesysMediaFields() {
+        const mediaType = document.getElementById('genesysMediaType').value;
+        const projectId = document.getElementById('genesysProjectId').value;
+        const editingProject = (window.genesysProjects || []).find(project => project.id === projectId);
+        const fields = {
+            url: document.getElementById('genesysUrlField'),
+            file: document.getElementById('genesysFileField'),
+            photo: document.getElementById('genesysPhotoField')
+        };
+
+        Object.entries(fields).forEach(([type, field]) => {
+            const selected = type === mediaType;
+            const existingMedia = type === 'url'
+                ? editingProject && editingProject.videoUrl
+                : type === 'file'
+                    ? editingProject && editingProject.videoFile && (editingProject.mediaType === 'file' || !editingProject.mediaType)
+                    : editingProject && editingProject.photoFile && editingProject.mediaType === 'photo';
+            field.classList.toggle('d-none', !selected);
+            const input = field.querySelector('input');
+            input.disabled = !selected;
+            input.required = selected && !existingMedia;
+        });
     }
 
     function editGenesysProject(id) {
@@ -639,6 +782,8 @@
         document.getElementById('genesysTitle').value = project.title || '';
         document.getElementById('genesysDescription').value = project.description || '';
         document.getElementById('genesysVideoUrl').value = project.videoUrl || '';
+        document.getElementById('genesysMediaType').value = project.mediaType || (project.photoFile ? 'photo' : project.videoFile ? 'file' : 'url');
+        updateGenesysMediaFields();
         document.getElementById('genesysTitle').focus();
     }
 
@@ -648,7 +793,11 @@
         formData.append('password', getPassword());
         formData.append('action', 'delete');
         formData.append('id', id);
-        const response = await fetch('/api/admin/genesys-projects', { method: 'POST', body: formData });
+        const response = await fetch('/api/admin/genesys-projects', {
+            method: 'POST',
+            headers: { 'X-Admin-Password': getPassword() },
+            body: formData
+        });
         if (response.ok) { showMsg('Project deleted.', false); loadGenesysProjects(); }
         else showMsg('Unable to delete project.', true);
     }
@@ -659,11 +808,25 @@
         if (!password) return showMsg('Please log in before saving a project.', true);
         const formData = new FormData(this);
         formData.append('password', password);
-        const response = await fetch('/api/admin/genesys-projects', { method: 'POST', body: formData });
-        const result = await response.json().catch(() => ({}));
-        if (response.ok) { showMsg(result.message || 'Project saved.', false); resetGenesysProjectForm(); loadGenesysProjects(); }
-        else showMsg(result.error || 'Unable to save project.', true);
+        try {
+            const response = await fetch('/api/admin/genesys-projects', {
+                method: 'POST',
+                headers: { 'X-Admin-Password': password },
+                body: formData
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) return showMsg(result.error || 'Unable to save project.', true);
+            showMsg(result.message || 'Project saved.', false);
+            resetGenesysProjectForm();
+            loadGenesysProjects();
+        } catch (error) {
+            console.error('GeneSYS project save error:', error);
+            showMsg('Unable to reach the server. The project was not saved.', true);
+        }
     });
+
+    document.getElementById('genesysMediaType').addEventListener('change', updateGenesysMediaFields);
+    updateGenesysMediaFields();
 
     // --- Tab 6: Tickets ---
     document.getElementById('ticketUploadForm').addEventListener('submit', function(event) {

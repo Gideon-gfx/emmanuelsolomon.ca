@@ -70,21 +70,33 @@
         const videoEmbedUrl = url => {
             try {
                 const parsed = new URL(url);
-                if (parsed.hostname.includes('youtu.be')) return 'https://www.youtube.com/embed/' + parsed.pathname.slice(1);
-                if (parsed.hostname.includes('youtube.com')) return 'https://www.youtube.com/embed/' + parsed.searchParams.get('v');
-                if (parsed.hostname.includes('vimeo.com')) return 'https://player.vimeo.com/video/' + parsed.pathname.split('/').filter(Boolean).pop();
+                if (!['http:', 'https:'].includes(parsed.protocol)) return '';
+                if (parsed.hostname === 'youtu.be' && parsed.pathname.slice(1)) return 'https://www.youtube.com/embed/' + encodeURIComponent(parsed.pathname.slice(1));
+                if (['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(parsed.hostname) && parsed.searchParams.get('v')) return 'https://www.youtube.com/embed/' + encodeURIComponent(parsed.searchParams.get('v'));
+                if (['vimeo.com', 'www.vimeo.com'].includes(parsed.hostname) && parsed.pathname.split('/').filter(Boolean).length) return 'https://player.vimeo.com/video/' + encodeURIComponent(parsed.pathname.split('/').filter(Boolean).pop());
             } catch (_) {}
             return '';
         };
-        fetch('/genesys-projects.json?t=' + Date.now()).then(response => response.ok ? response.json() : []).then(projects => {
+        function renderGenesysProjects(projects) {
             const container = document.getElementById('genesysProjects');
             if (!projects.length) return;
             container.innerHTML = projects.map(project => {
+                const mediaType = project.mediaType || (project.photoFile ? 'photo' : project.videoFile ? 'file' : 'url');
                 const embed = videoEmbedUrl(project.videoUrl);
-                const media = project.videoFile ? `<video controls preload="metadata" src="${escapeHtml(project.videoFile)}"></video>` : embed ? `<iframe src="${escapeHtml(embed)}" title="${escapeHtml(project.title)}" loading="lazy" allowfullscreen></iframe>` : '';
-                return `<article class="genesys-project">${media ? `<div class="genesys-video">${media}</div>` : ''}<h2>${escapeHtml(project.title)}</h2>${project.description ? `<p>${escapeHtml(project.description)}</p>` : ''}</article>`;
+                let media = '';
+                if (mediaType === 'photo' && project.photoFile) {
+                    media = `<img src="${escapeHtml(project.photoFile)}" alt="${escapeHtml(project.title)}" loading="lazy">`;
+                } else if (mediaType === 'file' && project.videoFile) {
+                    media = `<video controls preload="metadata" src="${escapeHtml(project.videoFile)}"></video>`;
+                } else if (mediaType === 'url' && embed) {
+                    media = `<iframe src="${escapeHtml(embed)}" title="${escapeHtml(project.title)}" loading="lazy" allowfullscreen></iframe>`;
+                } else if (mediaType === 'url' && project.videoUrl) {
+                    media = `<video controls preload="metadata" src="${escapeHtml(project.videoUrl)}"></video>`;
+                }
+                return `<article class="genesys-project">${media ? `<div class="genesys-media">${media}</div>` : ''}<h2>${escapeHtml(project.title)}</h2>${project.description ? `<p>${escapeHtml(project.description)}</p>` : ''}</article>`;
             }).join('');
-        }).catch(() => {});
+        }
+        fetch('/genesys-projects.json?t=' + Date.now()).then(response => response.ok ? response.json() : []).then(renderGenesysProjects).catch(() => {});
     </script>
 </body>
 </html>

@@ -426,12 +426,16 @@ const storage = multer.diskStorage({
         else if (file.fieldname === 'scorePdf') folder = 'public/scores';
         else if (file.fieldname === 'audioFile') folder = 'public/audio';
         else if (file.fieldname === 'galleryImage') folder = 'public/gallery-images';
-        else if (file.fieldname === 'videoFile') folder = 'public/uploads/genesys';
+        else if (file.fieldname === 'videoFile' || file.fieldname === 'photoFile') folder = 'public/uploads/genesys';
         
         if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true });
         cb(null, folder);
     },
     filename: (req, file, cb) => {
+        if (file.fieldname === 'videoFile' || file.fieldname === 'photoFile') {
+            const extension = path.extname(file.originalname).replace(/[^a-zA-Z0-9.]/g, '').toLowerCase();
+            return cb(null, crypto.randomBytes(8).toString('hex') + extension);
+        }
         const safeName = file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_');
         cb(null, safeName);
     }
@@ -449,6 +453,13 @@ function isAdminPassword(password) {
     return password === 'EmmanuelMusic2024!' || password === process.env.ADMIN_PASSWORD;
 }
 
+function requireAdminPassword(req, res, next) {
+    if (!isAdminPassword(req.get('X-Admin-Password'))) {
+        return res.status(403).json({ error: 'Invalid admin password' });
+    }
+    next();
+}
+
 app.post('/api/admin/auth', (req, res) => {
     if (!isAdminPassword(req.body && req.body.password)) {
         return res.status(403).json({ error: 'Invalid admin password' });
@@ -456,7 +467,10 @@ app.post('/api/admin/auth', (req, res) => {
     res.json({ authenticated: true });
 });
 
-app.post('/api/admin/genesys-projects', upload.single('videoFile'), (req, res) => {
+app.post('/api/admin/genesys-projects', requireAdminPassword, upload.fields([
+    { name: 'videoFile', maxCount: 1 },
+    { name: 'photoFile', maxCount: 1 }
+]), (req, res) => {
     try {
         if (!isAdminPassword(req.body.password)) return res.status(403).json({ error: 'Invalid admin password' });
 
@@ -472,12 +486,48 @@ app.post('/api/admin/genesys-projects', upload.single('videoFile'), (req, res) =
 
         const existingIndex = projects.findIndex(project => project.id === req.body.id);
         const existing = existingIndex >= 0 ? projects[existingIndex] : null;
+        const mediaType = (req.body.mediaType || (req.body.videoUrl ? 'url' : req.files.videoFile ? 'file' : 'url')).trim();
+        if (!['url', 'file', 'photo'].includes(mediaType)) {
+            return res.status(400).json({ error: 'Choose URL, video file, or photo media.' });
+        }
+
+        let videoUrl = '';
+        let videoFile = '';
+        let photoFile = '';
+
+        if (mediaType === 'url') {
+            videoUrl = (req.body.videoUrl || '').trim();
+            let parsedUrl;
+            try {
+                parsedUrl = new URL(videoUrl);
+            } catch (_) {
+                return res.status(400).json({ error: 'Enter a valid video URL.' });
+            }
+            if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+                return res.status(400).json({ error: 'Video URL must use HTTP or HTTPS.' });
+            }
+        } else if (mediaType === 'file') {
+            const uploadedFile = req.files.videoFile && req.files.videoFile[0];
+            videoFile = uploadedFile
+                ? '/uploads/genesys/' + uploadedFile.filename
+                : (existing && (existing.mediaType === 'file' || (!existing.mediaType && !existing.videoUrl)) ? existing.videoFile || '' : '');
+            if (!videoFile) return res.status(400).json({ error: 'Choose a video file to upload.' });
+        } else {
+            const uploadedPhoto = req.files.photoFile && req.files.photoFile[0];
+            photoFile = uploadedPhoto
+                ? '/uploads/genesys/' + uploadedPhoto.filename
+                : (existing && existing.mediaType === 'photo' ? existing.photoFile || '' : '');
+            if (!photoFile) return res.status(400).json({ error: 'Choose a photo to upload.' });
+        }
+
         const project = {
             id: existing ? existing.id : crypto.randomBytes(8).toString('hex'),
             title,
             description: (req.body.description || '').trim(),
-            videoUrl: (req.body.videoUrl || '').trim(),
-            videoFile: req.file ? '/uploads/genesys/' + req.file.filename : (existing ? existing.videoFile || '' : ''),
+            mediaType,
+            videoUrl,
+            videoFile,
+            photoFile,
             updatedAt: new Date().toISOString()
         };
 

@@ -1,0 +1,357 @@
+.admin-page {
+    --admin-ink: #242326;
+    --admin-muted: #77747a;
+    --admin-line: #e9e5e2;
+    --admin-red: #9f0f12;
+    min-height: 100vh;
+    padding: 0;
+    background: #f5f3f0;
+    color: var(--admin-ink);
+    font-family: Arial, sans-serif;
+}
+
+.admin-page .body {
+    margin: 0;
+    padding: 22px 0 12px;
+    background: #fff;
+    border-bottom: 1px solid var(--admin-line);
+}
+
+.admin-page .nav-holder {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 42px;
+}
+
+.admin-page .nav-holder .social-links a {
+    color: #171717;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.admin-page .nav-holder .dropdown-menu {
+    z-index: 1200;
+    min-width: 230px;
+    max-width: calc(100vw - 24px);
+    padding: 6px 0;
+    border: 1px solid #e8e3df;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(35, 25, 25, 0.16);
+}
+
+.admin-page .nav-holder .dropdown-menu .dropdown-item {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 18px;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .admin-shell {
+    display: none;
+    width: min(1440px, 100%);
+    margin: 0 auto;
+    padding: 48px 42px 72px;
+}
+
+.admin-heading {
+    margin-bottom: 30px;
+    padding: 32px 38px;
+    border-radius: 14px;
+    background: linear-gradient(115deg, #2c2424 0%, #4b2727 58%, #8b1619 100%);
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(49, 27, 27, 0.12);
+}
+
+.admin-eyebrow {
+    margin: 0 0 10px;
+    color: #f0c8c8;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+.admin-heading h1 {
+    margin: 0;
+    color: #fff;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(30px, 4vw, 42px);
+    font-weight: 500;
+}
+
+.admin-heading > p:last-child {
+    margin: 10px 0 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 15px;
+}
+
+#alertBox {
+    margin-bottom: 20px;
+}
+
+#adminTabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin: 0 !important;
+    padding: 0 0 14px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--admin-line);
+    scrollbar-width: thin;
+}
+
+#adminTabs .nav-item {
+    flex: 0 0 auto;
+}
+
+#adminTabs .nav-link {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 11px 15px;
+    color: #5d5858;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#adminTabs .nav-link:hover {
+    border-color: #eee5e2;
+    color: var(--admin-red);
+}
+
+#adminTabs .nav-link.active {
+    border-color: #f1dada;
+    background: #fff5f4;
+    color: var(--admin-red);
+}
+
+#adminTabsContent {
+    padding-top: 24px;
+}
+
+#adminTabsContent .tab-pane > h3,
+#adminTabsContent .tab-pane > h4,
+#uploadForm > h4,
+#genesysProjectForm > h4 {
+    color: var(--admin-ink);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+}
+
+#adminTabsContent .table-responsive {
+    margin-bottom: 28px !important;
+    padding: 4px 18px 16px;
+    overflow: auto;
+    border: 1px solid var(--admin-line);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(37, 27, 24, 0.035);
+}
+
+#adminTabsContent table {
+    margin: 12px 0 0;
+    font-size: 14px;
+}
+
+#adminTabsContent .table > :not(caption) > * > * {
+    padding: 12px 14px;
+    vertical-align: middle;
+}
+
+#adminTabsContent .table thead th {
+    background-color: #342b2b;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 0.035em;
+    white-space: nowrap;
+}
+
+#adminTabsContent .table a {
+    color: var(--admin-red);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#adminTabsContent .table a:hover {
+    text-decoration: underline;
+}
+
+#uploadForm,
+#contentForm,
+#galleryForm,
+#genesysProjectForm,
+#ticketUploadForm,
+#adminTabsContent .tab-pane > .card {
+    margin-top: 26px;
+    padding: 28px;
+    border: 1px solid var(--admin-line);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(37, 27, 24, 0.035);
+}
+
+#uploadForm > h4,
+#genesysProjectForm > h4 {
+    margin-bottom: 24px !important;
+}
+
+.admin-page .form-label {
+    margin-bottom: 8px;
+    color: #383436;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.admin-page .form-control,
+.admin-page .form-select {
+    min-height: 44px;
+    border-color: #ded9d5;
+    border-radius: 7px;
+    background-color: #fff;
+    color: var(--admin-ink);
+    font-size: 14px;
+}
+
+.admin-page textarea.form-control {
+    min-height: 110px;
+}
+
+.admin-page .form-control:focus,
+.admin-page .form-select:focus {
+    border-color: #c77d7e;
+    box-shadow: 0 0 0 3px rgba(159, 15, 18, 0.1);
+}
+
+.admin-page .btn-primary,
+.admin-page .btn-success {
+    border-color: var(--admin-red);
+    border-radius: 7px;
+    background-color: var(--admin-red);
+    padding: 10px 18px;
+    font-weight: 600;
+}
+
+.admin-page .btn-primary:hover,
+.admin-page .btn-success:hover {
+    border-color: #7f0b0e;
+    background-color: #7f0b0e;
+}
+
+.preview-image {
+    display: none;
+    max-width: 200px;
+    margin-top: 10px;
+    border: 1px solid var(--admin-line);
+    border-radius: 6px;
+}
+
+#loginOverlay {
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(27, 22, 22, 0.82);
+    backdrop-filter: blur(5px);
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    padding: 38px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    text-align: center;
+}
+
+.login-box h3 {
+    color: var(--admin-ink);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+}
+
+.login-box .btn-primary {
+    width: 100%;
+}
+
+.admin-page .red4 {
+    margin-top: 0;
+}
+
+.admin-page .red4 .social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    min-height: 28px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (max-width: 996px) {
+    .admin-page .body {
+        padding: 16px 20px 10px;
+    }
+
+    .admin-page .nav-holder {
+        padding: 0;
+    }
+
+    .admin-page .nav-holder .social-links {
+        margin-left: auto;
+    }
+
+    .admin-page .nav-holder .social-links a {
+        margin: 0 7px;
+    }
+}
+
+@media (max-width: 700px) {
+    .admin-page .admin-shell {
+        padding: 28px 16px 48px;
+    }
+
+    .admin-heading {
+        margin-bottom: 22px;
+        padding: 25px 22px;
+        border-radius: 10px;
+    }
+
+    #adminTabs {
+        margin-right: -16px !important;
+        padding-right: 16px;
+    }
+
+    #adminTabsContent {
+        padding-top: 18px;
+    }
+
+    #uploadForm,
+    #contentForm,
+    #galleryForm,
+    #genesysProjectForm,
+    #ticketUploadForm,
+    #adminTabsContent .tab-pane > .card {
+        padding: 20px 16px;
+    }
+
+    #adminTabsContent .table-responsive {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .login-box {
+        padding: 30px 22px;
+    }
+}
