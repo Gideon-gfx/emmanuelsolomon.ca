@@ -61,6 +61,10 @@ app.get('/lagossistema', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'lagossistema.html'));
 });
 
+app.get('/genesys', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'genesys.html'));
+});
+
 
 app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'contact.html'));

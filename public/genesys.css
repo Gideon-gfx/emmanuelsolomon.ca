@@ -1,0 +1,11 @@
+.genesys-page { min-height: 68vh; background: #fff; }
+.genesys .nav-holder { padding-top: 18px; }
+.genesys .nav-holder a { color: #111; }
+.genesys .hamburger span { background-color: #111 !important; }
+.genesys-social { gap: 12px; font-size: 12px; }
+.genesys-social a { margin: 0 !important; }
+.genesys-main { max-width: 1120px; margin: 0 auto; padding: 130px 30px 150px; text-align: center; font-family: 'Playfair Display', serif; }
+.genesys-eyebrow { margin: 0 0 12px; color: #9f0f12; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+.genesys-main h1 { margin: 0; font-size: clamp(42px, 7vw, 82px); font-weight: 400; color: #1b1b1b; }
+.genesys-placeholder { margin: 24px 0 0; font-size: 20px; color: #555; }
+@media (max-width: 996px) { .genesys .nav-holder { padding-top: 8px; } .genesys-social { display: none; } .genesys-main { padding: 80px 20px 100px; } }
