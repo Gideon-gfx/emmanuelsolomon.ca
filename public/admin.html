@@ -32,8 +32,9 @@
     <div class="login-box">
         <h3 class="mb-4">Admin Login</h3>
         <p class="text-muted mb-3">Please enter the admin password</p>
-        <div class="mb-3">
-            <input type="password" id="loginPassword" class="form-control" placeholder="Password" onkeyup="if(event.key==='Enter') attemptLogin()">
+        <div class="mb-3 input-group">
+            <input type="password" id="loginPassword" class="form-control" placeholder="Password" autocomplete="current-password" onkeyup="if(event.key==='Enter') attemptLogin()">
+            <button class="btn btn-outline-secondary" type="button" id="passwordToggle" aria-label="Show password" aria-pressed="false" onclick="togglePasswordVisibility()">👁</button>
         </div>
         <button class="btn btn-primary w-100" onclick="attemptLogin()">Login</button>
         <p id="loginError" class="text-danger mt-3" style="display:none;">Incorrect Password</p>
@@ -54,6 +55,9 @@
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab">Update Gallery</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="genesys-tab" data-bs-toggle="tab" data-bs-target="#genesys" type="button" role="tab" onclick="loadGenesysProjects()">GeneSYS Projects</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab" onclick="loadSalesData()">Sales & Subscribers</button>
@@ -233,6 +237,21 @@
             </div>
         </div>
 
+        <div class="tab-pane fade" id="genesys" role="tabpanel">
+            <h4 class="mb-3">GeneSYS Projects</h4>
+            <p class="text-muted">Add project titles, descriptions, and either a YouTube/Vimeo link or a video file.</p>
+            <form id="genesysProjectForm">
+                <input type="hidden" id="genesysProjectId" name="id">
+                <div class="mb-3"><label class="form-label" for="genesysTitle">Project title</label><input class="form-control" id="genesysTitle" name="title" required></div>
+                <div class="mb-3"><label class="form-label" for="genesysDescription">Project text</label><textarea class="form-control" id="genesysDescription" name="description" rows="5"></textarea></div>
+                <div class="mb-3"><label class="form-label" for="genesysVideoUrl">Video link</label><input class="form-control" id="genesysVideoUrl" name="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=..."></div>
+                <div class="mb-3"><label class="form-label" for="genesysVideoFile">Or upload a video file</label><input class="form-control" id="genesysVideoFile" name="videoFile" type="file" accept="video/*"><div class="form-text">A newly uploaded file replaces the current video file.</div></div>
+                <div class="d-flex gap-2"><button class="btn btn-primary" type="submit">Save Project</button><button class="btn btn-outline-secondary" type="button" onclick="resetGenesysProjectForm()">Clear</button></div>
+            </form>
+            <hr class="my-4">
+            <div id="genesysProjectsList" class="list-group"></div>
+        </div>
+
         <!-- Tab 5: Settings / Status -->
         <div class="tab-pane fade" id="status" role="tabpanel">
              <h4 class="mb-3">System Status</h4>
@@ -284,13 +303,35 @@
     // Login Overlay Logic
     let sessionPassword = '';
 
-    function attemptLogin() {
+    function togglePasswordVisibility() {
+        const input = document.getElementById('loginPassword');
+        const toggle = document.getElementById('passwordToggle');
+        const showing = input.type === 'text';
+        input.type = showing ? 'password' : 'text';
+        toggle.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+        toggle.setAttribute('aria-pressed', String(!showing));
+        toggle.textContent = showing ? '👁' : '🙈';
+    }
+
+    async function attemptLogin() {
         const input = document.getElementById('loginPassword').value;
-        if(input.trim().length > 0) {
-            sessionPassword = input.trim();
+        const password = input.trim();
+        if (!password) {
+            document.getElementById('loginError').style.display = 'block';
+            return;
+        }
+        try {
+            const response = await fetch('/api/admin/auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+            if (!response.ok) throw new Error('Invalid password');
+            sessionPassword = password;
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('adminContent').style.display = 'block';
-        } else {
+            document.getElementById('loginError').style.display = 'none';
+        } catch (_) {
             document.getElementById('loginError').style.display = 'block';
         }
     }
@@ -557,6 +598,72 @@
             showMsg('Failed to load sales data', true);
         }
     }
+
+    // --- GeneSYS Projects ---
+    function escapeHtml(value) {
+        return String(value || '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
+    }
+
+    async function loadGenesysProjects() {
+        const list = document.getElementById('genesysProjectsList');
+        list.innerHTML = '<div class="text-muted">Loading projects...</div>';
+        try {
+            const response = await fetch('/genesys-projects.json?t=' + Date.now());
+            const projects = response.ok ? await response.json() : [];
+            if (!projects.length) {
+                list.innerHTML = '<div class="text-muted">No GeneSYS projects have been added yet.</div>';
+                return;
+            }
+            list.innerHTML = projects.map(project => `
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between gap-3 align-items-start">
+                        <div><strong>${escapeHtml(project.title)}</strong><div class="small text-muted mt-1">${escapeHtml(project.description)}</div></div>
+                        <div class="btn-group"><button class="btn btn-sm btn-outline-primary" onclick="editGenesysProject('${project.id}')">Edit</button><button class="btn btn-sm btn-outline-danger" onclick="deleteGenesysProject('${project.id}')">Delete</button></div>
+                    </div>
+                </div>`).join('');
+            window.genesysProjects = projects;
+        } catch (error) {
+            list.innerHTML = '<div class="text-danger">Unable to load GeneSYS projects.</div>';
+        }
+    }
+
+    function resetGenesysProjectForm() {
+        document.getElementById('genesysProjectForm').reset();
+        document.getElementById('genesysProjectId').value = '';
+    }
+
+    function editGenesysProject(id) {
+        const project = (window.genesysProjects || []).find(item => item.id === id);
+        if (!project) return;
+        document.getElementById('genesysProjectId').value = project.id;
+        document.getElementById('genesysTitle').value = project.title || '';
+        document.getElementById('genesysDescription').value = project.description || '';
+        document.getElementById('genesysVideoUrl').value = project.videoUrl || '';
+        document.getElementById('genesysTitle').focus();
+    }
+
+    async function deleteGenesysProject(id) {
+        if (!confirm('Delete this GeneSYS project?')) return;
+        const formData = new FormData();
+        formData.append('password', getPassword());
+        formData.append('action', 'delete');
+        formData.append('id', id);
+        const response = await fetch('/api/admin/genesys-projects', { method: 'POST', body: formData });
+        if (response.ok) { showMsg('Project deleted.', false); loadGenesysProjects(); }
+        else showMsg('Unable to delete project.', true);
+    }
+
+    document.getElementById('genesysProjectForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const password = getPassword();
+        if (!password) return showMsg('Please log in before saving a project.', true);
+        const formData = new FormData(this);
+        formData.append('password', password);
+        const response = await fetch('/api/admin/genesys-projects', { method: 'POST', body: formData });
+        const result = await response.json().catch(() => ({}));
+        if (response.ok) { showMsg(result.message || 'Project saved.', false); resetGenesysProjectForm(); loadGenesysProjects(); }
+        else showMsg(result.error || 'Unable to save project.', true);
+    });
 
     // --- Tab 6: Tickets ---
     document.getElementById('ticketUploadForm').addEventListener('submit', function(event) {

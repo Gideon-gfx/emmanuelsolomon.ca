@@ -44,7 +44,10 @@
         <main class="genesys-main">
             <p class="genesys-eyebrow">An Emmanuel O. Solomon Initiative</p>
             <h1>GeneSYS Software Tech</h1>
-            <p class="genesys-placeholder">Page content is coming next.</p>
+            <p class="genesys-placeholder">Projects, ideas, and technology in practice.</p>
+            <section class="genesys-projects" aria-label="GeneSYS projects">
+                <div id="genesysProjects" class="genesys-project-grid"></div>
+            </section>
         </main>
     </div>
 
@@ -62,5 +65,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="cookie.js"></script>
     <script src="index.js"></script>
+    <script>
+        const escapeHtml = value => String(value || '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
+        const videoEmbedUrl = url => {
+            try {
+                const parsed = new URL(url);
+                if (parsed.hostname.includes('youtu.be')) return 'https://www.youtube.com/embed/' + parsed.pathname.slice(1);
+                if (parsed.hostname.includes('youtube.com')) return 'https://www.youtube.com/embed/' + parsed.searchParams.get('v');
+                if (parsed.hostname.includes('vimeo.com')) return 'https://player.vimeo.com/video/' + parsed.pathname.split('/').filter(Boolean).pop();
+            } catch (_) {}
+            return '';
+        };
+        fetch('/genesys-projects.json?t=' + Date.now()).then(response => response.ok ? response.json() : []).then(projects => {
+            const container = document.getElementById('genesysProjects');
+            if (!projects.length) return;
+            container.innerHTML = projects.map(project => {
+                const embed = videoEmbedUrl(project.videoUrl);
+                const media = project.videoFile ? `<video controls preload="metadata" src="${escapeHtml(project.videoFile)}"></video>` : embed ? `<iframe src="${escapeHtml(embed)}" title="${escapeHtml(project.title)}" loading="lazy" allowfullscreen></iframe>` : '';
+                return `<article class="genesys-project">${media ? `<div class="genesys-video">${media}</div>` : ''}<h2>${escapeHtml(project.title)}</h2>${project.description ? `<p>${escapeHtml(project.description)}</p>` : ''}</article>`;
+            }).join('');
+        }).catch(() => {});
+    </script>
 </body>
 </html>

@@ -426,6 +426,7 @@ const storage = multer.diskStorage({
         else if (file.fieldname === 'scorePdf') folder = 'public/scores';
         else if (file.fieldname === 'audioFile') folder = 'public/audio';
         else if (file.fieldname === 'galleryImage') folder = 'public/gallery-images';
+        else if (file.fieldname === 'videoFile') folder = 'public/uploads/genesys';
         
         if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true });
         cb(null, folder);
@@ -436,6 +437,59 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage });
+
+const genesysProjectsPath = path.join(__dirname, 'public', 'genesys-projects.json');
+
+function readGenesysProjects() {
+    if (!fs.existsSync(genesysProjectsPath)) return [];
+    return JSON.parse(fs.readFileSync(genesysProjectsPath, 'utf8'));
+}
+
+function isAdminPassword(password) {
+    return password === 'EmmanuelMusic2024!' || password === process.env.ADMIN_PASSWORD;
+}
+
+app.post('/api/admin/auth', (req, res) => {
+    if (!isAdminPassword(req.body && req.body.password)) {
+        return res.status(403).json({ error: 'Invalid admin password' });
+    }
+    res.json({ authenticated: true });
+});
+
+app.post('/api/admin/genesys-projects', upload.single('videoFile'), (req, res) => {
+    try {
+        if (!isAdminPassword(req.body.password)) return res.status(403).json({ error: 'Invalid admin password' });
+
+        const projects = readGenesysProjects();
+        if (req.body.action === 'delete') {
+            const remaining = projects.filter(project => project.id !== req.body.id);
+            fs.writeFileSync(genesysProjectsPath, JSON.stringify(remaining, null, 2));
+            return res.json({ message: 'Project deleted' });
+        }
+
+        const title = (req.body.title || '').trim();
+        if (!title) return res.status(400).json({ error: 'A project title is required' });
+
+        const existingIndex = projects.findIndex(project => project.id === req.body.id);
+        const existing = existingIndex >= 0 ? projects[existingIndex] : null;
+        const project = {
+            id: existing ? existing.id : crypto.randomBytes(8).toString('hex'),
+            title,
+            description: (req.body.description || '').trim(),
+            videoUrl: (req.body.videoUrl || '').trim(),
+            videoFile: req.file ? '/uploads/genesys/' + req.file.filename : (existing ? existing.videoFile || '' : ''),
+            updatedAt: new Date().toISOString()
+        };
+
+        if (existingIndex >= 0) projects[existingIndex] = project;
+        else projects.push(project);
+        fs.writeFileSync(genesysProjectsPath, JSON.stringify(projects, null, 2));
+        res.json({ message: existing ? 'Project updated' : 'Project added', project });
+    } catch (err) {
+        console.error('GeneSYS project update error:', err);
+        res.status(500).json({ error: 'Unable to save GeneSYS project' });
+    }
+});
 
 // Admin Upload Route
 app.post('/api/admin/upload-product', upload.fields([
